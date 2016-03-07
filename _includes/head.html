@@ -1,0 +1,21 @@
+
+<title>{% if page.title %}{{ page.title }}{% else %}Home{% endif %} - {{ site.title }}</title>
+
+<!-- here are some of the most important meta elements
+  you should add more as required (look some up)  -->
+  <meta charset="utf-8">
+  <meta name="description" content="{{ site.description }}">
+  <meta name="author" content="Samuel Walladge">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="keywords" content="design,html5,responsive,education,accessibility" />
+
+  <link rel="stylesheet" href="{{ site.baseurl }}/css/main.css">
+
+  <!-- The following link is to what is called an html5 shiv: a work around file for Internet Explorer. 
+      It will help with styling some html5 elements in IE versions before and up to IE9.  
+      It should remain inside the comment tags AND DO NOT DELETE IT -->
+
+  <!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
