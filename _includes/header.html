@@ -1,9 +1,7 @@
 <header class="site-header">
 
-  <nav>
-    <ul>
-      {% for page in site.pages %}{% if page.title %}<li><a href="{{ page.url }}">{{ page.title }}</a></li>{% endif %}{% endfor %}
-    </ul>
+  <nav class="site-nav">
+      {% for p in site.pages %}{% if p.title %}<a class="nav-item {% if p.url == page.url %}highlight{% endif %}" href="{{ p.url }}">{{ p.title }}</a>{% endif %}{% endfor %}
   </nav>
   <!-- TODO: nav bar and title -->
 

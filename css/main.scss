@@ -16,3 +16,23 @@ $color: #ffffff;
 
 @import 'base';
 
+
+.site-nav {
+}
+
+.nav-item {
+  margin: 10px;
+  display: block;
+  text-decoration: none;
+}
+
+.nav-item:hover {
+  background-color: black;
+  color: white;
+}
+  
+
+.highlight {
+  background-color: black;
+  color: white;
+}
