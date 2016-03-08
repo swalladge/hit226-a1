@@ -1,0 +1,19 @@
+{
+  "name": "hit226-a1",
+  "version": "0.0.0",
+  "authors": [
+    "Samuel Walladge <samuel@swalladge.id.au>"
+  ],
+  "main": "index.html",
+  "license": "Closed",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "reset-css": "~2.0.2011012603"
+  }
+}

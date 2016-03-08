@@ -1,0 +1,18 @@
+---
+---
+
+$color: #000000;
+
+/* import the webfont */
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,400italic,500,500italic);
+
+/* reset elements to avoid cross browser weirdness */
+@import '{{ site.baseurl }}/bower_components/reset-css/reset.css';
+
+
+
+
+/* base elements and page styling (fonts, color scheme, html/body elements */
+
+@import 'base';
+
