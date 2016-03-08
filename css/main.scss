@@ -1,13 +1,13 @@
 ---
 ---
 
-$color: #000000;
+$color: #ffffff;
 
 /* import the webfont */
 @import url(https://fonts.googleapis.com/css?family=Roboto:400,400italic,500,500italic);
 
-/* reset elements to avoid cross browser weirdness */
-@import '{{ site.baseurl }}/bower_components/reset-css/reset.css';
+/* normalize elements to avoid cross browser weirdness (source: https://github.com/necolas/normalize.css) */
+@import '{{ site.baseurl }}/css/normalize.css';
 
 
 
