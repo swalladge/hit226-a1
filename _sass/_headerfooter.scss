@@ -1,0 +1,29 @@
+
+.site-nav {
+}
+
+.nav-item {
+  margin: 10px;
+  display: block;
+  text-decoration: none;
+}
+
+.nav-item:hover {
+  background-color: $color;
+  color: $background;
+}
+  
+
+footer {
+  width: 100%;
+  text-align: center;
+  clear: both;
+  box-shadow: 0 0 10px $shadow-color;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+header {
+  box-shadow: 0 0 10px $shadow-color;
+}
+

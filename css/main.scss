@@ -1,7 +1,9 @@
 ---
 ---
 
-$color: #ffffff;
+$color: #000000;
+$background: #ffffff;
+$shadow-color: #000000;
 
 /* import the webfont */
 @import url(https://fonts.googleapis.com/css?family=Roboto:400,400italic,500,500italic);
@@ -9,30 +11,14 @@ $color: #ffffff;
 /* normalize elements to avoid cross browser weirdness (source: https://github.com/necolas/normalize.css) */
 @import '{{ site.baseurl }}/css/normalize.css';
 
-
-
-
-/* base elements and page styling (fonts, color scheme, html/body elements */
-
-@import 'base';
-
-
-.site-nav {
+@font-face {
+  font-family: OpenDyslexic;
+  src: url("{{ site.baseurl }}/assets/OpenDyslexic3.ttf") format("truetype");
 }
 
-.nav-item {
-  margin: 10px;
-  display: block;
-  text-decoration: none;
-}
 
-.nav-item:hover {
-  background-color: black;
-  color: white;
-}
-  
+@import 'layout';
 
-.highlight {
-  background-color: black;
-  color: white;
-}
+@import 'headerfooter';
+
+@import 'elements';
