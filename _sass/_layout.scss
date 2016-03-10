@@ -29,6 +29,10 @@ body {
   -ms-flex: 2; /* IE 10 */ 
 }
 
+.plain-section {
+  padding: 20px;
+}
+
 .block-box {
   width: 100%;
   display: -ms-flexbox;
@@ -42,7 +46,7 @@ body {
   flex-wrap: wrap;
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
-  justify-content: flex-start;
+  justify-content: center;
   -webkit-align-content: stretch;
   -ms-flex-line-pack: stretch;
   align-content: stretch;
@@ -83,7 +87,7 @@ body {
   .block {
     display: block;
     clear: both;
-    margin: 10px auto;
+    margin: 10px;
     max-width: 700px;
     min-width: 0px;
   }
