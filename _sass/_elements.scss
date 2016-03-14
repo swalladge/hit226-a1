@@ -14,7 +14,7 @@
   font-family: OpenDyslexic, sans-serif;
 }
 
-// https://perishablepress.com/wrapping-content/
+/* to ensure long urls (as in references) get forced line breaks and don't destroy page layout (source: https://perishablepress.com/wrapping-content/) */
 a {
   white-space: pre;           /* CSS 2.0 */
   white-space: pre-wrap;      /* CSS 2.1 */

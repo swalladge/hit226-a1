@@ -1,4 +1,13 @@
 
+/* Header */
+
+header {
+  box-shadow: 0 0 10px $shadow-color;
+}
+
+
+/* Navigation bar */
+
 .site-nav {
 }
 
@@ -14,6 +23,8 @@
 }
   
 
+/* Footer */
+
 footer {
   width: 100%;
   text-align: center;
@@ -21,9 +32,5 @@ footer {
   box-shadow: 0 0 10px $shadow-color;
   padding-top: 10px;
   padding-bottom: 10px;
-}
-
-header {
-  box-shadow: 0 0 10px $shadow-color;
 }
 

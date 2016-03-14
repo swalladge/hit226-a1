@@ -11,6 +11,7 @@ $shadow-color: #000000;
 /* normalize elements to avoid cross browser weirdness (source: https://github.com/necolas/normalize.css) */
 @import '{{ site.baseurl }}/css/normalize.css';
 
+/* dyslexic font - (source: http://opendyslexic.org/) */
 @font-face {
   font-family: OpenDyslexic;
   src: url("{{ site.baseurl }}/assets/OpenDyslexic3.ttf") format("truetype");
