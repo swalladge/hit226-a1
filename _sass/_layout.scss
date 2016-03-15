@@ -31,6 +31,7 @@ html, body {
 /* page content layout */
 
 .page-content-wrapper {
+  font-size: 1.2rem;
   max-width: 1200px;
   margin: 0 auto;
   flex: 2;
@@ -87,8 +88,10 @@ html, body {
   max-width: 400px;
   min-width: 400px;
   padding: 20px;
-  box-shadow: 0 0 10px $shadow-color;
+  // box-shadow: 0 0 10px $shadow-color;
   margin: 20px;
+  color: $color-a1;
+  background-color: $color-a4;
 }
 
 
