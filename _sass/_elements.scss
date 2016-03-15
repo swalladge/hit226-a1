@@ -48,3 +48,47 @@ h3 {
   font-size: 1.4rem;
 }
 
+/* quick class to align text right */
+.right {
+  text-align: right;
+}
+
+
+/* table element styling */
+
+table {
+  width: 100%;
+  text-align: left;
+}
+
+td, th {
+  text-align: left;
+  padding: 0.3em;
+  border: 2px solid $color-a3;
+  border-collapse: collapse;
+}
+
+/* right align row headers */
+tbody th {
+  @extend .right;
+}
+
+caption {
+  padding: 0.3em;
+}
+
+/* make borders fancy! */
+tbody > tr:last-child * {
+  border-bottom: 0;
+}
+thead > tr:first-child * {
+  border-top: 0;
+}
+
+td:last-child, th:last-child {
+  border-right: 0;
+}
+td:first-child, th:first-child {
+  border-left: 0;
+}
+

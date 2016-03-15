@@ -10,7 +10,7 @@ permalink: /accessibility/
       </p>
       <nav>
         <a class="nav-item" href="#dyslexic">Dyslexic Fonts</a>
-        <a class="nav-item" href="#responsive">Fluid Layout</a>
+        <a class="nav-item" href="#responsive">Responsiveness</a>
         <a class="nav-item" href="#screen-reader">Screen Reader</a>
         <a class="nav-item" href="#mediaqueries">Media Queries</a>
         <a class="nav-item" href="#stuff">Stuff</a>
@@ -27,17 +27,44 @@ permalink: /accessibility/
     </section>
 
     <section id="responsive" class="block"> 
-      <h2> Fluid Layout </h2>
+      <h2> Responsiveness </h2>
       <p>
         This whole webpage is designed to be responsive to almost any screen size.
+      </p>
+      <p>
+        The number of columns on this page changes depending on the screen size. On a large monitor there will be three columns, while on a small device (like a phone) there will only be one column.
+      </p>
+      <p>
+        The navbar is also designed to be usable on any screen size.
       </p>
     </section>
 
     <section id="screen-reader" class="block"> 
       <h2> Screen Reader </h2>
-      <p>
-        TODO: screen reader friendly table
-      </p>
+      <table>
+        <caption>Table techniques for screen reader accessibility (<cite><a href="http://webaim.org/techniques/tables/data">WebAIM 2015</a></cite>)</caption>
+        <thead>
+          <tr>
+            <th class="right" scope="col">Technique</th>
+            <th scope="col">Result</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <th scope="row">caption element</th>
+            <td>gives a summary of what the table is about</td>
+          </tr>
+          <tr>
+            <th scope="row">clear headings</th>
+            <td>makes it clear what each cell in the table is about</td>
+          </tr>
+          <tr>
+            <th scope="row">scope attribute</th>
+            <td>tells the reader that a header is for a row or a column</td>
+          </tr>
+        </tbody>
+      </table>
     </section>
 
     <section id="mediaqueries" class="block"> 
