@@ -80,6 +80,10 @@ html, body {
   align-items: stretch;
 }
 
+/* The W3C CSS validator, when run on the section below, gives the following error: 'auto is not a flex-flow value : 0 1 auto'.
+ * This can be safely ignored, as setting `flex: 0 1 auto;` is perfectly fine according to W3C itself: https://www.w3.org/TR/css-flexbox-1/#propdef-flex
+ * Must be a bug in the validator.
+ */
 .block {
   -webkit-order: 0;
   -ms-flex-order: 0;
