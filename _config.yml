@@ -9,7 +9,7 @@
 title: Responsive and Accessible Web Design
 description: > # this means to ignore newlines until "baseurl:"
   mini-site about responsive design and web accessibility
-baseurl: "" # the subpath of your site, e.g. /blog # TODO: set this when deploying
+baseurl: "/hit226/assignment1a" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site
 
 # Build settings
