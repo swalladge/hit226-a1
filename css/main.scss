@@ -1,9 +1,32 @@
 ---
 ---
 
-$color: #000000;
-$background: #ffffff;
-$shadow-color: #000000;
+$color-a1: #825AFF;
+$color-a2: #E86952;
+$color-a3: #FFEC67;
+$color-a4: #4DE89B;
+$color-a5: #5B4DFF;
+
+$color-a1: #FF8577;
+$color-a2: #9859E8;
+$color-a3: #24D8FF;
+$color-a4: #D1E8CB;
+$color-a5: #FFEFBF;
+
+$color-a1: #536BB0;
+$color-a2: #EFF3FF;
+$color-a3: #A3BAFC;
+$color-a4: #FCD160;
+$color-a5: #FCF2D8;
+
+$color-a3: #85A9FC;
+
+$color: $color-a1;
+$background: $color-a2;
+$shadow-color: $color-a3;
+$highlight-color: $color-a4;
+$background-contrast: $color-a4;
+$color-contrast: $color-a1;
 
 /* import the webfont */
 @import url(https://fonts.googleapis.com/css?family=Roboto:400,400italic,500,500italic);
