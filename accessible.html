@@ -12,7 +12,7 @@ permalink: /accessibility/
         <a class="nav-item" href="#dyslexic">Dyslexic Fonts</a>
         <a class="nav-item" href="#responsive">Responsiveness</a>
         <a class="nav-item" href="#screen-reader">Screen Reader</a>
-        <a class="nav-item" href="#mediaqueries">Media Queries</a>
+        <a class="nav-item" href="#mediaqueries">CSS Media Queries</a>
         <a class="nav-item" href="#stuff">Stuff</a>
       </nav>
     </section>
@@ -68,10 +68,18 @@ permalink: /accessibility/
     </section>
 
     <section id="mediaqueries" class="block"> 
-      <h2> Media queries </h2>
+      <h2> CSS Media queries </h2>
       <p>
-        TODO: talk about media queries for adjusting fonts, padding, margins, etc.
+        Media queries allow certain blocks of css to only be processed if information about the user's device matches the query.
       </p>
+      <p>
+        This site's CSS includes media queries to modify the layout if the user has a large desktop screen, average laptop size screen, or small screen (as on a phone or tablet).
+      </p>
+      <p>
+        For example, the following media query and contained CSS makes the navbar change layout when screen size is small:
+      </p>
+      <code> @media (max-width: 600px) { .nav-item {display: block;} } </code>
+
     </section>
 
     <section id="stuff" class="block"> 
