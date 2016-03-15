@@ -6,7 +6,7 @@
 # 'jekyll serve'. If you change this file, please restart the server process.
 
 # Site settings
-title: Responsive and Accessible Web Design
+title: HIT226 Assignment 1A
 description: > # this means to ignore newlines until "baseurl:"
   mini-site about responsive design and web accessibility
 baseurl: "/hit226/assignment1a" # the subpath of your site, e.g. /blog
@@ -15,4 +15,4 @@ url: "" # the base hostname & protocol for your site
 # Build settings
 markdown: kramdown
 
-exclude: ['bower.json']
+exclude: ['bower.json', 'README.md']
