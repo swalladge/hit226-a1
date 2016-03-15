@@ -17,11 +17,12 @@ header {
 .nav-item {
   color: $color-a1;
   background-color: $color-a4;
-  display: inline;
+  display: inline-block;
   text-decoration: none;
   padding: 5px;
   margin-left: 5px;
   margin-right: 5px;
+  margin-bottom: 5px;
 }
 
 .nav-item:hover {

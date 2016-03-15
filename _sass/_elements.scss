@@ -6,8 +6,16 @@
   color: $background;
 }
 
+.top-link {
+  display: none;
+}
+
 .block:target {
   @extend .highlight;
+
+  .top-link {
+    display: block;
+  }
 }
 
 .dyslexic {
