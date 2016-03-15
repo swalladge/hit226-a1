@@ -104,3 +104,22 @@ td:first-child, th:first-child {
   border-left: 0;
 }
 
+.block-image {
+  width: 100%;
+  margin: 0;
+  background-color: $color-a5;
+  color: $color;
+  padding: 0;
+
+  figcaption {
+    padding: 0.3em;
+    font-style: italic;
+  }
+
+  img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+}
+

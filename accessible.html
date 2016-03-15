@@ -15,14 +15,15 @@ permalink: /accessibility/
         <a class="nav-item" href="#responsive">Responsiveness</a>
         <a class="nav-item" href="#screen-reader">Screen Reader and Tables</a>
         <a class="nav-item" href="#mediaqueries">CSS Media Queries</a>
-        <a class="nav-item" href="#stuff">Stuff</a>
+        <a class="nav-item" href="#alt">Alt Attributes</a>
+        <a class="nav-item" href="#images">Responsive Images</a>
       </nav>
     </section>
 
     <div class="block-box">
     <section id="dyslexic" class="block dyslexic"> 
       <div class="top-link right"><a href="#">Return to top</a></div>
-      <h2> Dyslexic Font </h2>
+      <h2> Dyslexic Fonts </h2>
       <p>
         The font used in this section, assuming your browser supports it, is the <cite><a href="http://opendyslexic.org/">OpenDyslexic</a></cite> font (version 3). 
         It's an open source font aimed to make it easy for people with dyslexia to read text on the computer.
@@ -88,11 +89,42 @@ permalink: /accessibility/
 
     </section>
 
-    <section id="stuff" class="block"> 
+    <section id="alt" class="block"> 
       <div class="top-link right"><a href="#">Return to top</a></div>
-      <h2> stuff </h2>
+      <h2> Alt Attributes </h2>
+
       <p>
-        TODO
-      </p>
+       Alt text set on an image via the alt attribute is used as a placeholder to explain the image if it fails to load or screen reader software is being used.
+
+      <figure class="block-image">
+        <img src="{{ site.baseurl }}/assets/alt-attribute.png" title="Oh so meta..." 
+             alt="An image explaining that an alt attribute is useful. Unfortunately, in this case it is so self-referencial that this explanation is pointless.">
+        <!-- 
+          Note: abusing title texts on images here due to humour being needed, the influence of xkcd comics, 
+                the fact that the alt attribute or a figcaption are more reliable, 
+                the fact that not all mobile browsers enable you to see title text on a touchscreen, 
+                and the myriads of articles on the internet suggesting that title text is not serious (except in some small edge cases).
+
+           Sources: https://silktide.com/i-thought-title-text-improved-accessibility-i-was-wrong/, 
+                    https://www.paciellogroup.com/blog/2013/01/using-the-html-title-attribute-updated/,
+                    http://webaim.org/articles/gonewild/#title 
+         --> 
+        <figcaption> Alt attributes are useful for when an image fails to load or the user is relying on a screen reader. </figcaption>
+      </figure>
     </section>
+
+    <section id="images" class="block"> 
+      <div class="top-link right"><a href="#">Return to top</a></div>
+      <h2> Responsive Images </h2>
+
+      <p>
+        Images also need to be responsive so that they are viewable regardless of the device used to view them.
+      </p>
+
+      <figure class="block-image">
+        <img src="{{ site.baseurl }}/assets/geometric.png" title="At least this image is interesting to look at." alt="Demo image showing perfect squares and circles.">
+        <figcaption> A responsive image that will resize to fit and keep its aspect ratio across all screen sizes. </figcaption>
+      </figure>
+    </section>
+
     </div>
