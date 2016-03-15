@@ -17,10 +17,11 @@
 a {
   color: $color-a3;
   text-decoration: none;
-
+  padding: 3px;
 }
+
 a:active, a:hover {
-  background-color: $color-a5;;
+  background-color: $color-a4;
 }
 
 /* to ensure long urls (as in references) get forced line breaks and don't destroy page layout (source: https://perishablepress.com/wrapping-content/) */

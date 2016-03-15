@@ -9,16 +9,29 @@ header {
 /* Navigation bar */
 
 .site-nav {
+  font-size: 1.3rem;
+  padding: 20px;
+  text-align: center;
 }
 
 .nav-item {
-  margin: 10px;
-  display: block;
+  color: $color-a1;
+  background-color: $color-a4;
+  display: inline;
   text-decoration: none;
+  padding: 5px;
+  margin-left: 5px;
+  margin-right: 5px;
 }
 
 .nav-item:hover {
   @extend .highlight;
+}
+
+@media (max-width: 600px) {
+  .nav-item {
+    display: block;
+  }
 }
   
 
@@ -34,10 +47,7 @@ footer {
 }
 
 footer, header {
-  background-color: $background-contrast;
+  background-color: $color-a5;
   color: $color-contrast;
 }
 
-footer a, header a {
-  color: $color-a1;
-}
