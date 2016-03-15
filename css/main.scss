@@ -25,8 +25,8 @@ $color: $color-a1;
 $background: $color-a2;
 $shadow-color: $color-a3;
 $highlight-color: $color-a4;
-$background-contrast: $color-a4;
-$color-contrast: $color-a1;
+$base-font-color: #000000;
+$white-font-color: #ffffff;
 
 /* import the webfont */
 @import url(https://fonts.googleapis.com/css?family=Roboto:400,400italic,500,500italic);

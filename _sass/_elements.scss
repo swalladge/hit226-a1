@@ -2,8 +2,8 @@
 /* various smaller elements, one-off items, highlights, etc. */
 
 .highlight {
-  background-color: $color;
-  color: $background;
+  background-color: $color-a1;
+  color: $white-font-color;
 }
 
 .top-link {
@@ -23,13 +23,21 @@
 }
 
 a {
-  color: $color-a3;
+  color: $color-a1;
   text-decoration: none;
   padding: 3px;
 }
 
+.highlight a {
+  color: $color-a4;
+}
+
 a:active, a:hover {
-  background-color: $color-a4;
+  background-color: $color-a3;
+}
+
+.highlight a:active, .highlight a:hover {
+  background-color: $color-a3;
 }
 
 /* to ensure long urls (as in references) get forced line breaks and don't destroy page layout (source: https://perishablepress.com/wrapping-content/) */

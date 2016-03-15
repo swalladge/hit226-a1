@@ -1,9 +1,13 @@
 
-/* Header */
-
-header {
+/* Header and footer base styles */
+footer, header {
   box-shadow: 0 0 10px $shadow-color;
+  width: 100%;
+  text-align: center;
+  background-color: $color-a5;
+  color: $color-a1;
 }
+
 
 
 /* Navigation bar */
@@ -15,7 +19,7 @@ header {
 }
 
 .nav-item {
-  color: $color-a1;
+  color: $base-font-color;
   background-color: $color-a4;
   display: inline-block;
   text-decoration: none;
@@ -36,19 +40,10 @@ header {
 }
   
 
-/* Footer */
+/* Footer specific */
 
 footer {
-  width: 100%;
-  text-align: center;
-  clear: both;
-  box-shadow: 0 0 10px $shadow-color;
   padding-top: 20px;
   padding-bottom: 20px;
-}
-
-footer, header {
-  background-color: $color-a5;
-  color: $color-contrast;
 }
 

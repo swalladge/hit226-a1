@@ -8,7 +8,7 @@ html {
   font-size: 16px;
   font-weight: 400;
   background-color: $background;
-  color: $color;
+  color: $base-font-color;
 }
 
 body {
@@ -86,7 +86,7 @@ html, body {
   padding: 20px;
   // box-shadow: 0 0 10px $shadow-color;
   margin: 20px;
-  color: $color-a1;
+  color: $base-font-color;
   background-color: $color-a4;
 }
 
