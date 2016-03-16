@@ -85,3 +85,11 @@ h3 {
   }
 }
 
+/* style pre blocks */
+pre {
+  display: block;
+  background-color: $background;
+  color: $base-font-color;
+  padding: 10px;
+}
+
