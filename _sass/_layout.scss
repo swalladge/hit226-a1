@@ -9,6 +9,12 @@ html {
   font-weight: 400;
   background-color: $background;
   color: $base-font-color;
+  box-sizing: border-box;
+}
+
+/* box-sizing to border-box for all! source: https://css-tricks.com/inheriting-box-sizing-probably-slightly-better-best-practice/ */
+*, *:before, *:after {
+  box-sizing: inherit;
 }
 
 body {
@@ -41,7 +47,7 @@ html, body {
 }
 
 .page-content > :not(.wide) {
-  max-width: 1200px;
+  max-width: 100%;
   margin: 0 auto;
   padding: 10px;
 }
@@ -60,9 +66,7 @@ html, body {
 
 .block-box {
   width: 100%;
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  display: flex;
+  display: block; // only display flex if large screen (mobile first)
   -webkit-flex-direction: row;
   -ms-flex-direction: row;
   flex-direction: row;
@@ -94,47 +98,40 @@ html, body {
   -webkit-align-self: auto;
   -ms-flex-item-align: auto;
   align-self: auto;
-  max-width: 400px;
-  min-width: 400px;
-  padding: 20px;
-  // box-shadow: 0 0 10px $shadow-color;
-  margin: 20px;
   color: $base-font-color;
   background-color: $color-a4;
+  width: 100%;
+  // display: block;
+  //clear: both;
+  margin: 10px auto;
+  padding: 10px;
 }
 
 
 /* responsiveness for page content */
 
-/* keep page content neat on average size screens */
-@media (max-width: 1300px) {
+
+
+@media (min-width: 600px) {
+  .block {
+    width: 550px;
+  }
+}
+
+@media (min-width: 1020px) {
   .page-content > :not(.wide) {
     max-width: 1000px;
   }
-}
-
-/* force only one row on small screens */
-@media (max-width: 1020px) {
-  .page-content > :not(.wide) {
-    max-width: 100%;
-  }
 
   .block-box {
-    display: block;
+    display: flex;
+    display: -ms-flexbox;
+    display: -webkit-flex;
   }
   .block {
-    display: block;
-    clear: both;
-    margin: 10px auto;
-    max-width: 550px;
-    min-width: 0px;
-  }
-}
-
-
-@media (max-width: 600px) {
-  .block {
-    max-width: 100%;
+    padding: 20px;
+    margin: 20px;
+    width: 400px;
   }
 }
 

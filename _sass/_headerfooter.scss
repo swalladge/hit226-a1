@@ -21,8 +21,8 @@ footer, header {
 .nav-item {
   color: $color-a1;
   background-color: $color-a4;
-  display: inline-block;
   text-decoration: none;
+  display: block;
   padding: 5px;
   margin-left: 5px;
   margin-right: 5px;
@@ -35,9 +35,9 @@ footer, header {
   border-radius: 0;
 }
 
-@media (max-width: 600px) {
+@media (min-width: 600px) {
   .nav-item {
-    display: block;
+  display: inline-block;
   }
 }
   
