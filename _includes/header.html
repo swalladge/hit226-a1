@@ -1,7 +1,7 @@
 <header class="site-header">
 
-  <nav class="site-nav">
-      {% for p in site.pages reversed %}{% if p.title %}<a class="nav-item {% if p.url == page.url %}highlight{% endif %}" href="{{ p.url | prepend: site.baseurl }}">{{ p.title }}</a>{% endif %}{% endfor %}
+  <nav class="site-nav"> {% assign pages = site.pages | sort:"z"  %}
+      {% for p in pages %}{% if p.title %}<a class="nav-item {% if p.url == page.url %}highlight{% endif %}" href="{{ p.url | prepend: site.baseurl }}">{{ p.title }}</a>{% endif %}{% endfor %}
   </nav>
   <!-- TODO: nav bar and title -->
 

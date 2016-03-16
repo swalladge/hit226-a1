@@ -18,6 +18,14 @@
   }
 }
 
+.references {
+  list-style: none;
+}
+
+.references > li:target {
+  @extend .highlight;
+}
+
 .dyslexic {
   font-family: OpenDyslexic, sans-serif;
 }
