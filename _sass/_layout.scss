@@ -40,14 +40,14 @@ footer {
 /* allow for full-width elements as well as well as standard */
 //TODO: tidy this
 .page-content > * {
-  max-width: 100%;
+  width: 100%;
   margin: 0 auto;
   padding: 10px;
 }
 
 /* specifically set wide elements here to not be overridden in media queries limited normal content width */
 .page-content > .wide {
-  max-width: 100%;
+  width: 100%;
   margin: 0 auto;
   padding: 0;
 }

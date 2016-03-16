@@ -5,7 +5,7 @@ permalink: /accessibility/
 z: 3
 ---
 
-    <h1 class="page-title"> Accessibility </h1>
+    <h1 id="top"  class="page-title"> Accessibility </h1>
     <section>
       <p>
         A few examples of how webpages and content can be made accessible to everyone, regardless of the device they use or disabilities they may have.
@@ -25,7 +25,7 @@ z: 3
 
     <div class="wide block-box">
     <section id="dyslexic" class="block dyslexic">
-      <div class="top-link right"><a href="#">Return to top</a></div>
+      <div class="top-link right"><a href="#top">Return to top</a></div>
       <h2> Dyslexic Fonts </h2>
       <p>
         The font used in this section, assuming your browser supports it, is the <cite><a href="{{ site.baseurl }}/references/#ref-dyslexic">OpenDyslexic</a></cite> font (version 3).
@@ -34,7 +34,7 @@ z: 3
     </section>
 
     <section id="responsive" class="block">
-      <div class="top-link right"><a href="#">Return to top</a></div>
+      <div class="top-link right"><a href="#top">Return to top</a></div>
       <h2> Fluid Layout </h2>
       <p>
         This whole page is designed to be fluid and fit any screen size.
@@ -48,7 +48,7 @@ z: 3
     </section>
 
     <section id="screen-reader" class="block">
-      <div class="top-link right"><a href="#">Return to top</a></div>
+      <div class="top-link right"><a href="#top">Return to top</a></div>
       <h2> Screen Reader and Tables </h2>
       <table>
         <caption>Table techniques for screen reader accessibility <cite>(<a href="{{ site.baseurl }}/references/#ref-webaim">WebAIM 2015</a>)</cite></caption>
@@ -81,11 +81,12 @@ z: 3
     </section>
 
     <section id="alt" class="block">
-      <div class="top-link right"><a href="#">Return to top</a></div>
+      <div class="top-link right"><a href="#top">Return to top</a></div>
       <h2> Alt Attributes </h2>
 
       <p>
        Alt text set on an image via the alt attribute is used as a placeholder to explain the image if it fails to load or screen reader software is being used. <cite>(<a href="{{ site.baseurl }}/references/#ref-mdnalt">Mozilla Developer Network 2016</a>)</cite>
+      </p>
 
       <figure class="block-image">
         <img src="{{ site.baseurl }}/assets/alt-attribute.png" title="Oh so meta..."
@@ -105,7 +106,7 @@ z: 3
     </section>
 
     <section id="mediaqueries" class="block">
-      <div class="top-link right"><a href="#">Return to top</a></div>
+      <div class="top-link right"><a href="#top">Return to top</a></div>
       <h2> CSS Media queries </h2>
       <p>
         Media queries are the core of responsive design. They allow certain blocks of CSS to only be processed if information about the user's device matches the query.
@@ -127,7 +128,7 @@ z: 3
     </section>
 
     <section id="images" class="block">
-      <div class="top-link right"><a href="#">Return to top</a></div>
+      <div class="top-link right"><a href="#top">Return to top</a></div>
       <h2> Responsive Images </h2>
 
       <p>
@@ -141,7 +142,7 @@ z: 3
     </section>
 
     <section id="resp-header" class="block">
-      <div class="top-link right"><a href="#">Return to top</a></div>
+      <div class="top-link right"><a href="#top">Return to top</a></div>
       <h2> Responsive Header </h2>
       <p>
         The header respond to the screen size well, changing layout or style to suit a large or small screen.
