@@ -13,9 +13,10 @@
 }
 
 @media (min-width: 1020px) {
-  //TODO: fix this
-  .page-content > * {
-    max-width: 1000px;
+
+  /* note: this doesn't override .wide being 100%, because that has higher specificity */
+  .page-content > *, .header-wrapper {
+    width: 1000px;
   }
 
   .block-box {
@@ -27,6 +28,18 @@
     padding: 20px;
     margin: 20px;
     width: 400px;
+  }
+
+  #site-title {
+    float: left;
+  }
+
+  #site-nav {
+    float: right;
+  }
+
+  #site-title, #site-nav {
+    display: inline-block;
   }
 }
 

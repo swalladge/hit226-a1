@@ -17,6 +17,13 @@ footer {
   padding-bottom: 20px;
 }
 
+/* wrapper to enable neater look (can float title left and navbar right, while keeping same width as content) */
+.header-wrapper {
+  width: 100%;
+  padding: 0px 10px;
+  margin: 0 auto;
+}
+
 
 /* page content layout */
 
@@ -38,9 +45,11 @@ footer {
   padding: 10px;
 }
 
+/* specifically set wide elements here to not be overridden in media queries limited normal content width */
 .page-content > .wide {
   max-width: 100%;
   margin: 0 auto;
+  padding: 0;
 }
 
 

@@ -1,8 +1,10 @@
 <header class="site-header">
+  <div class="header-wrapper">
 
-  <nav class="site-nav"> {% assign pages = site.pages | sort:"z"  %}
+    <h1 class="page-title" id="site-title">{{ site.title }}</h1>
+  <nav id="site-nav"> {% assign pages = site.pages | sort:"z"  %}
       {% for p in pages %}{% if p.title %}<a class="nav-item {% if p.url == page.url %}highlight{% endif %}" href="{{ p.url | prepend: site.baseurl }}">{{ p.title }}</a>{% endif %}{% endfor %}
   </nav>
-  <!-- TODO: nav bar and title -->
 
+  </div>
 </header>
