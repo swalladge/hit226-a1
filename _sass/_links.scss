@@ -33,3 +33,19 @@ a {
   word-wrap: break-word;      /* IE 5+ */
 }
 
+
+/* add this class to links that shouldn't be obvious as links
+ * - makes them look like any other normal text 
+ */
+.no-show-link {
+  color: inherit;
+  padding: 0;
+  text-decoration: none;
+}
+
+.no-show-link:active, .no-show-link:hover {
+  background-color: transparent;
+  box-shadow: none;
+}
+
+  
