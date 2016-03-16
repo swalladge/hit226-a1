@@ -1,37 +1,21 @@
-/* base layout objects */
 
-/* html/body - base styling */
 
-html {
-  height: 100%;
-  font-family: Roboto, Arial, sans-serif;
-  font-size: 16px;
-  font-weight: 400;
-  background-color: $background;
-  color: $base-font-color;
-  box-sizing: border-box;
-}
+/* core layout elements - headers, footers, page content, fancy blocks layout, etc. */
 
-/* box-sizing to border-box for all! source: https://css-tricks.com/inheriting-box-sizing-probably-slightly-better-best-practice/ */
-*, *:before, *:after {
-  box-sizing: inherit;
-}
-
-body {
-  display: flex; /* flex layout using information from the tutorial at https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Flexible_Box_Layout/Using_CSS_flexible_boxes */
-  display: -webkit-flex; /* Safari */
-  -webkit-flex-flow: column; /* Safari 6.1+ */
-  flex-flow: column;
-}
-
-html, body {
-  margin: 0;
-  padding: 0;
-  min-height: 100%;
+/* header and footer base styles */
+footer, header {
+  box-shadow: 0 0 10px $shadow-color;
   width: 100%;
-  max-width: 100%;
+  text-align: center;
+  background-color: $color-a5;
+  color: $color-a1;
 }
 
+/* footer specific */
+footer {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
 
 
 /* page content layout */
@@ -42,11 +26,13 @@ html, body {
   width: 100%;
   flex: 2;
   -webkit-flex: 2; /* Safari 6.1+ */
-  -ms-flex: 2; /* IE 10 */ 
+  -ms-flex: 2; /* IE 10 */
   padding-top: 10px;
 }
 
-.page-content > :not(.wide) {
+/* allow for full-width elements as well as well as standard */
+//TODO: tidy this
+.page-content > * {
   max-width: 100%;
   margin: 0 auto;
   padding: 10px;
@@ -56,8 +42,6 @@ html, body {
   max-width: 100%;
   margin: 0 auto;
 }
-
-
 
 
 /* blocks layout design (used on accessibility page)
@@ -107,31 +91,10 @@ html, body {
   padding: 10px;
 }
 
+.block:target {
+  @extend .highlight;
 
-/* responsiveness for page content */
-
-
-
-@media (min-width: 600px) {
-  .block {
-    width: 550px;
+  .top-link {
+    display: block;
   }
 }
-
-@media (min-width: 1020px) {
-  .page-content > :not(.wide) {
-    max-width: 1000px;
-  }
-
-  .block-box {
-    display: flex;
-    display: -ms-flexbox;
-    display: -webkit-flex;
-  }
-  .block {
-    padding: 20px;
-    margin: 20px;
-    width: 400px;
-  }
-}
-

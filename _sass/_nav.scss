@@ -1,0 +1,28 @@
+
+
+/* navigation bars */
+
+.site-nav {
+  font-size: 1.3rem;
+  padding: 20px;
+  text-align: center;
+}
+
+/* nav-item can be reused outside the site-nav for navigation style links */
+.nav-item {
+  color: $color-a1;
+  background-color: $color-a4;
+  text-decoration: none;
+  display: block;
+  padding: 5px;
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+}
+
+.nav-item:hover {
+  @extend .highlight;
+  box-shadow: none;
+  border-radius: 0;
+}
+

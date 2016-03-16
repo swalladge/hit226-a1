@@ -1,22 +1,20 @@
 
-/* various smaller elements, one-off items, highlights, etc. */
 
+/* various smaller elements, one-off items, highlights, 'classes' for reuse or @extend, etc. */
+
+/* for highlighting blocks - just changes colors */
 .highlight {
   background-color: $color-a1;
   color: $white-font-color;
 }
 
+/* hide the 'click to return to top' link unless specifically asked for */
 .top-link {
   display: none;
 }
 
-.block:target {
-  @extend .highlight;
 
-  .top-link {
-    display: block;
-  }
-}
+/* reference list */
 
 .references {
   list-style: none;
@@ -30,41 +28,19 @@
   @extend .highlight;
 }
 
+
+/* sections that need to be dyslexic-friendly */
 .dyslexic {
   font-family: OpenDyslexic, sans-serif;
 }
 
-a {
-  color: $color-a1;
-  text-decoration: none;
-  padding: 3px;
+/* add this class to whatever needs to be right-aligned */
+.right {
+  text-align: right;
 }
 
-.highlight a {
-  color: $color-a4;
-}
 
-a:active, a:hover {
-  background-color: $color-a3;
-  box-shadow: 0 0 10px $color-a3;
-  border-radius: 0.5em;
-}
-
-.highlight a:active, .highlight a:hover {
-  background-color: $color-a3;
-}
-
-/* to ensure long urls (as in references) get forced line breaks and don't destroy page layout (source: https://perishablepress.com/wrapping-content/) */
-a {
-  white-space: pre;           /* CSS 2.0 */
-  white-space: pre-wrap;      /* CSS 2.1 */
-  white-space: pre-line;      /* CSS 3.0 */
-  white-space: -pre-wrap;     /* Opera 4-6 */
-  white-space: -o-pre-wrap;   /* Opera 7 */
-  white-space: -moz-pre-wrap; /* Mozilla */
-  white-space: -hp-pre-wrap;  /* HP Printers */
-  word-wrap: break-word;      /* IE 5+ */
-}
+/* set font sizes for titles and headings */
 
 .page-title {
   font-size: 1.9rem;
@@ -82,50 +58,11 @@ h3 {
   font-size: 1.4rem;
 }
 
-/* quick class to align text right */
-.right {
-  text-align: right;
-}
 
-
-/* table element styling */
-
-table {
-  width: 100%;
-  text-align: left;
-}
-
-td, th {
-  text-align: left;
-  padding: 0.3em;
-  border: 2px solid $base-font-color;
-  border-collapse: collapse;
-}
-
-/* right align row headers */
-tbody th {
-  @extend .right;
-}
-
-caption {
-  padding: 0.3em;
-}
-
-/* make borders fancy! */
-tbody > tr:last-child * {
-  border-bottom: 0;
-}
-thead > tr:first-child * {
-  border-top: 0;
-}
-
-td:last-child, th:last-child {
-  border-right: 0;
-}
-td:first-child, th:first-child {
-  border-left: 0;
-}
-
+/* .block-image expected to be an element of type 'figure'
+ * sets a standard look for responsive size images with captions
+ * note: this is 100% width - do something else for images that need to be wrapped with text
+ */
 .block-image {
   width: 100%;
   margin: 0;

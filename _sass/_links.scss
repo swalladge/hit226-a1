@@ -1,0 +1,35 @@
+
+
+/* links */
+
+a {
+  color: $color-a1;
+  text-decoration: none;
+  padding: 3px;
+}
+
+/* change color to be visible in highlighted areas */
+.highlight a {
+  color: $color-a4;
+}
+
+a:active, a:hover {
+  background-color: $color-a3;
+  box-shadow: 0 0 10px $color-a3;
+  border-radius: 0.5em;
+}
+
+/* to ensure long urls (as in references) get forced line breaks and don't destroy page layout
+ * source: https://perishablepress.com/wrapping-content/
+ */
+a {
+  white-space: pre;           /* CSS 2.0 */
+  white-space: pre-wrap;      /* CSS 2.1 */
+  white-space: pre-line;      /* CSS 3.0 */
+  white-space: -pre-wrap;     /* Opera 4-6 */
+  white-space: -o-pre-wrap;   /* Opera 7 */
+  white-space: -moz-pre-wrap; /* Mozilla */
+  white-space: -hp-pre-wrap;  /* HP Printers */
+  word-wrap: break-word;      /* IE 5+ */
+}
+
