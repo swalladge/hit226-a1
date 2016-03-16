@@ -20,6 +20,10 @@
 
 .references {
   list-style: none;
+
+  li {
+    text-indent: 1em;
+  }
 }
 
 .references > li:target {
@@ -42,6 +46,8 @@ a {
 
 a:active, a:hover {
   background-color: $color-a3;
+  box-shadow: 0 0 10px $color-a3;
+  border-radius: 0.5em;
 }
 
 .highlight a:active, .highlight a:hover {
