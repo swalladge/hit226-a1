@@ -18,7 +18,7 @@ The full source is managed with git and available online at https://bitbucket.or
 
 This is a static site generated using [Jekyll](http://jekyllrb.com/).
 
-It uses [Liquid](http://liquidmarkup.org/) templates for templating and [Sass](http://sass-lang.com/) for pre-processing css.
+It uses [Liquid](http://liquidmarkup.org/) templates for templating, [Sass](http://sass-lang.com/) for pre-processing css, and [Bower](http://bower.io/) for managing external libraries (like stylesheets, frameworks, javascript libraries).
 
 - to build the site, run `jekyll build` from the root directory
 - the actual static site, once generated, resides in `_site/` (everything under this directory can be copied directly into the web hosting root directory or path from root as specified in `_config.yml`)
