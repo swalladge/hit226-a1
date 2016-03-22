@@ -14,7 +14,7 @@
     "tests"
   ],
   "dependencies": {
-    "normalize-css": "https://github.com/necolas/normalize.css.git#~3.0.3",
-    "reset-css": "~2.0.2011012603"
+    "jquery": "~2.2.2",
+    "normalize-css": "https://github.com/necolas/normalize.css.git#~3.0.3"
   }
 }
