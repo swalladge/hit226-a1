@@ -1,11 +1,18 @@
 
-# HIT226 Assignment 1A
+# HIT226 Assignment 1
 
 Copyright © 2016 Samuel Walladge
 
-## Urls
+## Assignment 1B Notes
+
+In the works!
+
+
+## Assignment 1A Notes
 
 The live site for my submission for assignment 1A can be found at https://uni.swalladge.id.au/hit226/assignment1a/.
+
+## Source
 
 The full source is managed with git and available online at https://bitbucket.org/swalladge/hit226-a1/src.
 

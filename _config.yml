@@ -9,7 +9,7 @@
 title: Web For All
 description: > # this means to ignore newlines until "baseurl:"
   mini-site about responsive design and web accessibility
-baseurl: "/hit226/assignment1a" # the subpath of your site, e.g. /blog
+baseurl: "/hit226/assignment1b" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site
 
 # Build settings
