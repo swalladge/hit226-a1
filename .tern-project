@@ -1,0 +1,10 @@
+{
+  "libs": [
+    "jquery"
+  ],
+  "loadEagerly": [
+  ],
+  "plugins": {
+    }
+  }
+}
