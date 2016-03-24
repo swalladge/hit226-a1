@@ -1,4 +1,5 @@
 
+//TODO: add JSDoc comments to Quiz object
 // basic constructor for the Quiz object
 // methods are added to its prototype below
 var Quiz = function() {
@@ -6,44 +7,84 @@ var Quiz = function() {
   this.ctx = null;
   this.form = null;
   this.name = null;
+  this.questions = null;
+  this.numQuestions = 0;
 };
 
 // set the canvas for the quiz to draw to
 // (to be used for displaying scores, feedback, etc.)
+// [optional]
 Quiz.prototype.setCanvas = function(canvas, ctx) {
   this.canvas = canvas;
   this.ctx = ctx;
 };
 
-// check the answers!
+// check the answers! Note: this is called when user clicks designated submit button
 // TODO: use the canvas to draw fancy ticks, crosses, visual feedback, etc.
 Quiz.prototype.checkAnswers = function() {
+  // save the answers first
+  this.saveAnswers();
+
+  // setup the canvas for displaying answers... bla blah TODO
   this.ctx.fillstyle = "#0000AA";
   this.ctx.fillRect(10, 10, 30, 40);
+
+  // loop over each question in the database and check if answer correct
+  for (var key in this.qData) {
+    var data = this.qData[key];
+    
+    if (data.type == 'text') {
+      if (data.answer && data.correctAnswer && (new RegExp(data.correctAnswer, 'i')).test(data.answer)) {
+        //TODO
+        console.log(data.answer + " is correct :)");
+      } else {
+        console.log(data.answer + " is incorrect :(");
+      }
+    } else if (data.type == 'select') {
+      if (data.answer === data.correctAnswer) { // using triple equals to avoid problems if answer is undefined
+        //TODO
+        console.log(data.answer + " is correct :)");
+      } else {
+        console.log(data.answer + " is incorrect :(");
+      }
+    } else if (data.type == 'radio') {
+      if (data.answer === data.correctAnswer) {
+        //TODO
+        console.log(data.answer + " is correct :)");
+      } else {
+        console.log(data.answer + " is incorrect :(");
+      }
+    }
+
+  }
+
+
   return false;
 };
 
 
 // save all answers to localstorage
+// autosave also uses this method
 Quiz.prototype.saveAnswers = function() {
-  console.log('saving answers');
 
-  // save to local storage
-  var questions = this.form.find('.question');
-  questions.each(function(_, q) {
+  this.questions.each(function(i, q) {
     q = $(q);
     t = q.prop('type');
-    var question = this.name + '.' + q.prop('name');
-    var value = q.val();
+    var question = q.prop('name');
+    var key = this.name + '.' + q.prop('name');
+    var value = $.trim(q.val());
     if (t == 'text') {
-      localStorage.setItem(question, value);
+      localStorage.setItem(key, value);
+      this.qData[question].answer = value;
     } else if (t == 'radio') {
       if (q.prop('checked')) {
-        localStorage.setItem(question, value);
+        localStorage.setItem(key, value);
+        this.qData[question].answer = value;
       }
     } else if (q[0].tagName == 'SELECT') {
       value = q.find('option:selected').val();
       localStorage.setItem(question, value);
+      this.qData[question].answer = value;
     }
   }.bind(this));
 
@@ -54,13 +95,13 @@ Quiz.prototype.saveAnswers = function() {
 // load all answers from localstorage, ignores if not set
 Quiz.prototype.loadAnswers = function() {
 
-  // load from local storage if available
-  var questions = this.form.find('.question');
-  questions.each(function(_, q) {
+  this.questions.each(function(i, q) {
     q = $(q);
     t = q.prop('type');
-    var question = this.name + '.' + q.prop('name');
-    var value = localStorage.getItem(question);
+    var question = q.prop('name');
+    var key = this.name + '.' + q.prop('name');
+    var value = localStorage.getItem(key);
+    this.qData[question].answer = value;
     if (value) {
       if (t == 'text') {
         q.val(value);
@@ -69,7 +110,7 @@ Quiz.prototype.loadAnswers = function() {
           q.prop('checked', true);
         }
       } else if (q[0].tagName == 'SELECT') {
-        q.find('option').each(function(_, opt) {
+        q.find('option').each(function(i, opt) {
           if (opt.value == value) {
             opt.selected = true;
           }
@@ -83,10 +124,11 @@ Quiz.prototype.loadAnswers = function() {
 
 // reset all values for the quiz (also resets localstorage)
 Quiz.prototype.reset = function() {
+  //TODO: error checking in these functions to make sure form element accessible, etc. before continuing
 
   // remove all items for this quiz from localstorage
   var questions = this.form.find('.question');
-  questions.each(function(_, q) {
+  questions.each(function(i, q) {
     q = $(q);
     var question = this.name + '.' + q.prop('name');
     localStorage.removeItem(question);
@@ -98,12 +140,19 @@ Quiz.prototype.reset = function() {
 };
 
 
-Quiz.prototype.autosave = function() {
+Quiz.prototype.autosave = function(yes) {
   if (!this.form) {
     return;
   }
-  this.form.find('.question').change(this.saveAnswers.bind(this));
-  this.form.find('.question[type=text]').on('keyup', this.saveAnswers.bind(this));
+  if (yes) {
+    // add event handlers to save answers whenever answer changed
+    this.form.find('.question').change(this.saveAnswers.bind(this));
+    this.form.find('.question[type=text]').on('keyup', this.saveAnswers.bind(this));
+  } else {
+    // remove event handlers, so will not autosave
+    this.form.find('.question').off();
+  }
+
 };
 
 
@@ -114,8 +163,12 @@ Quiz.prototype.init = function(formId) {
   this.form = $(formId);
   if (!this.form) {
     console.log("ERROR: no form element found with selector to init quiz");
-    return; // fail, no form
+    return false; // fail, no form
   }
+
+  this.questions = this.form.find('.question');
+
+  this.qData = {};
 
   // check answers on user submit
   // note - functions expected to return false to avoid actually submitting form
@@ -125,6 +178,37 @@ Quiz.prototype.init = function(formId) {
   this.form.find('.savequiz').click(this.saveAnswers.bind(this));
   this.form.find('.loadquiz').click(this.loadAnswers.bind(this));
   this.form.find('.resetquiz').click(this.reset.bind(this));
+
+  // init a dictionary of the questions and values (correct and otherwise) for ease of getting later
+  var count = 1;
+  for (var i = 0; i < this.questions.length; i++) {
+    q = $(this.questions[i]);
+    t = q.prop('type');
+    var question = q.prop('name');
+    if (t == 'text') {
+      this.qData[question] = {};
+      this.qData[question].correctAnswer = q.data('answer').toString();
+      this.qData[question].type = 'text';
+      this.qData[question].index = count++;
+    } else if (t == 'radio') {
+      if (q.data('answer') !== undefined) {
+        this.qData[question] = {};
+        this.qData[question].correctAnswer = q.data('answer').toString();
+        this.qData[question].index = count++;
+        this.qData[question].type = 'radio';
+      }
+    } else if (q[0].tagName == 'SELECT') {
+      this.qData[question] = {};
+      this.qData[question].correctAnswer = q.data('answer').toString();
+      this.qData[question].index = count++;
+      this.qData[question].type = 'select';
+    }
+
+  }
+
+  this.numQuestions = Object.keys(this.questions).length;
+
+  return true;
 };
 
 

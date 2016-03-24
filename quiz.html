@@ -19,23 +19,24 @@ z: 5
 
     <section>
       <form action="#" id="quizform" name="something">
+        <!-- TODO: create sensible full quiz -->
         <fieldset>
-        something: <input class="question" name="nothing" value="nothing" type="text"/>
+        something: <input class="question" data-answer="^something$" name="nothing" placeholder="nothing" type="text"/>
         </fieldset>
 
         <fieldset>
-        something else: <input class="question" placeholder="placeholder" name="something" type="text"/>
+        Name of the attribute you can set on images to serve as a placeholder if the image fails to load: <input class="question" placeholder="placeholder" data-answer="^alt$|^alt attribute$" name="something" type="text"/>
         </fieldset>
 
         <fieldset>
-          one <input class="question" type="radio" name="radiotest" value="one" checked><br>
-          two <input class="question" type="radio" name="radiotest" value="two"><br>
-          three <input class="question" type="radio" name="radiotest" value="three">
+          Responsive design is recommended for new websites. True or False?<br>
+          True <input class="question" data-answer="true" type="radio" name="radiotest" value="true" checked><br>
+          False <input class="question" type="radio" name="radiotest" value="false">
         </fieldset>
-        <!-- TODO -->
 
         <fieldset>
-        <select class="question" name="selecttest">
+          Number of digits in a unary counting system:
+        <select data-answer="one" class="question" name="selecttest">
           <option value="one" selected>1</option> 
           <option value="two">2</option>
           <option value="three">3</option>
