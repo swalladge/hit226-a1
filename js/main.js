@@ -29,9 +29,18 @@ Quiz.prototype.saveAnswers = function() {
   var questions = this.form.find('.question');
   questions.each(function(_, q) {
     q = $(q);
-    var value = q.val();
-    var question = this.name + '.' + q.prop('name'); // prepend with name for namespacing
-    localStorage.setItem(question, value);
+    t = q.prop('type');
+    if (t == 'text') {
+      var value = q.val();
+      var question = this.name + '.' + q.prop('name'); // prepend with name for namespacing
+      localStorage.setItem(question, value);
+    } else if (t == 'radio') {
+      if (q.prop('checked')) {
+        var question = this.name + '.' + q.prop('name');
+        var value = q.val();
+        localStorage.setItem(question, value);
+      }
+    }
   });
 
   return false;
@@ -44,10 +53,19 @@ Quiz.prototype.loadAnswers = function() {
   var questions = this.form.find('.question');
   questions.each(function(_, q) {
     q = $(q);
+    t = q.prop('type');
     var question = this.name + '.' + q.prop('name');
     var value = localStorage.getItem(question);
     if (value) {
-      q.val(value);
+      if (t == 'text') {
+        q.val(value);
+      } else if (t == 'radio') {
+        if (q.val() == value) {
+          q.prop('checked', true);
+        } else {
+          q.prop('checked', false);
+        }
+      }
     }
   });
 
