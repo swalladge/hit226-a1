@@ -30,18 +30,20 @@ Quiz.prototype.saveAnswers = function() {
   questions.each(function(_, q) {
     q = $(q);
     t = q.prop('type');
+    var question = this.name + '.' + q.prop('name');
+    var value = q.val();
     if (t == 'text') {
-      var value = q.val();
-      var question = this.name + '.' + q.prop('name'); // prepend with name for namespacing
       localStorage.setItem(question, value);
     } else if (t == 'radio') {
       if (q.prop('checked')) {
-        var question = this.name + '.' + q.prop('name');
-        var value = q.val();
         localStorage.setItem(question, value);
       }
+    } else if (q[0].tagName == 'SELECT') {
+      value = q.find('option:selected').val();
+      localStorage.setItem(question, value);
     }
-  });
+        
+  }.bind(this));
 
   return false;
 };
@@ -62,12 +64,16 @@ Quiz.prototype.loadAnswers = function() {
       } else if (t == 'radio') {
         if (q.val() == value) {
           q.prop('checked', true);
-        } else {
-          q.prop('checked', false);
         }
+      } else if (q[0].tagName == 'SELECT') {
+        q.find('option').each(function(_, opt) {
+          if (opt.value == value) {
+            opt.selected = true;
+          }
+        }.bind(this));
       }
     }
-  });
+  }.bind(this));
 
   return false;
 };
@@ -129,7 +135,6 @@ $(document).ready(function() {
 
   //TODO: auto load from localstorage on start?
   //TODO: auto save to localstorage on value change?
-  //TODO: test forms with select and radio inputs
 
 });
 
