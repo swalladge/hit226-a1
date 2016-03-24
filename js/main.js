@@ -23,8 +23,11 @@ Quiz.prototype.checkAnswers = function() {
   return false;
 };
 
+
 // save all answers to localstorage
 Quiz.prototype.saveAnswers = function() {
+  console.log('saving answers');
+
   // save to local storage
   var questions = this.form.find('.question');
   questions.each(function(_, q) {
@@ -42,7 +45,6 @@ Quiz.prototype.saveAnswers = function() {
       value = q.find('option:selected').val();
       localStorage.setItem(question, value);
     }
-        
   }.bind(this));
 
   return false;
@@ -51,6 +53,7 @@ Quiz.prototype.saveAnswers = function() {
 
 // load all answers from localstorage, ignores if not set
 Quiz.prototype.loadAnswers = function() {
+
   // load from local storage if available
   var questions = this.form.find('.question');
   questions.each(function(_, q) {
@@ -80,17 +83,27 @@ Quiz.prototype.loadAnswers = function() {
 
 // reset all values for the quiz (also resets localstorage)
 Quiz.prototype.reset = function() {
+
+  // remove all items for this quiz from localstorage
   var questions = this.form.find('.question');
   questions.each(function(_, q) {
     q = $(q);
-    // q.val('');
-    var question = this.name + '.' + q.prop('name'); // prepend with name for namespacing
+    var question = this.name + '.' + q.prop('name');
     localStorage.removeItem(question);
-  });
+  }.bind(this));
 
   this.form[0].reset();
 
   return false;
+};
+
+
+Quiz.prototype.autosave = function() {
+  if (!this.form) {
+    return;
+  }
+  this.form.find('.question').change(this.saveAnswers.bind(this));
+  this.form.find('.question[type=text]').on('keyup', this.saveAnswers.bind(this));
 };
 
 
@@ -131,10 +144,13 @@ $(document).ready(function() {
 
   // init the quiz on the element selector
   thequiz.init("#quizform");
+
+  // specify the canvas to use
   thequiz.setCanvas(canvas, ctx);
 
-  //TODO: auto load from localstorage on start?
-  //TODO: auto save to localstorage on value change?
+  // turn on autosave and load saved answers
+  thequiz.autosave(true);
+  thequiz.loadAnswers();
 
 });
 
