@@ -19,11 +19,19 @@ z: 5
 
     <section>
       <form action="#" id="quizform" name="something">
-        something: <input id="nothing" type="text"/>
+        <fieldset>
+        something: <input class="question" name="nothing" value="nothing" type="text"/>
+        </fieldset>
+
+        <fieldset>
+        something else: <input class="question" placeholder="placeholder" name="something" type="text"/>
+        </fieldset>
 
         <!-- TODO -->
 
 
         <input value="Save" class="savequiz" type="button"/>
+        <input value="Load" class="loadquiz" type="button"/>
+        <input value="Reset" class="resetquiz" type="button"/>
         <input value="Submit" class="submitquiz" type="submit"/>
       </form>
