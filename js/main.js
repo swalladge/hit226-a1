@@ -1,26 +1,60 @@
 
-//TODO: add JSDoc comments to Quiz object
-// basic constructor for the Quiz object
-// methods are added to its prototype below
-var Quiz = function() {
+/**
+ * @project HIT226 Assignment 1
+ * @author Samuel Walladge
+ */
+
+/**
+ * @class
+ * An object to control an interactive quiz. 
+ * Can be setup with a form element containing inputs/buttons/etc with appropriate class names.
+ * Note: constructor params are optional (if set, will call `init` or `setCanvas` where appropriate.
+ * @constructor
+ * @param {String|undefined} form - if defined, init the quiz on the form
+ * @param {String|undefined} canvas - if defined, set the canvas
+ */
+var Quiz = function(form, canvas) {
   this.canvas = null;
   this.ctx = null;
   this.form = null;
   this.name = null;
   this.questions = null;
   this.numQuestions = 0;
+
+  // if form and/or canvas set, init
+  if (form) {
+    this.init(form);
+  }
+  if (canvas) {
+    this.setCanvas(canvas);
+  }
 };
 
-// set the canvas for the quiz to draw to
-// (to be used for displaying scores, feedback, etc.)
-// [optional]
-Quiz.prototype.setCanvas = function(canvas, ctx) {
-  this.canvas = canvas;
-  this.ctx = ctx;
+
+/**
+ * set the canvas for the quiz to draw to
+ * (for displaying scores, etc. on checking answers
+ * @param {String} canvas - the canvas css selector (must return one canvas object)
+ */
+Quiz.prototype.setCanvas = function(canvas) {
+  var canvas = $(canvas);
+  if (canvas && canvas.length != 1) {
+    console.log("ERROR: selector returned more than one dom element");
+    return false; // fail, no canvas
+  }
+  canvas = canvas[0]; // get the raw dom object (using javascript drawing)
+  if (canvas.getContext) { // check if can use canvas element
+    this.canvas = canvas; 
+    this.ctx = canvas.getContext('2d');
+  } else {
+    console.log("ERROR: object not a canvas or canvas operations not supported");
+  }
+  return true;
 };
 
-// check the answers! Note: this is called when user clicks designated submit button
-// TODO: use the canvas to draw fancy ticks, crosses, visual feedback, etc.
+/**
+ * check answers (called on user submit quiz)
+ */
 Quiz.prototype.checkAnswers = function() {
   // save the answers first
   this.saveAnswers();
@@ -32,7 +66,7 @@ Quiz.prototype.checkAnswers = function() {
   // loop over each question in the database and check if answer correct
   for (var key in this.qData) {
     var data = this.qData[key];
-    
+
     if (data.type == 'text') {
       if (data.answer && data.correctAnswer && (new RegExp(data.correctAnswer, 'i')).test(data.answer)) {
         //TODO
@@ -58,13 +92,14 @@ Quiz.prototype.checkAnswers = function() {
 
   }
 
+  // TODO: use the canvas to draw fancy ticks, crosses, visual feedback, etc.
 
   return false;
 };
 
-
-// save all answers to localstorage
-// autosave also uses this method
+/**
+ * save all answers to localstorage. `autosave` uses this method when saving
+ */
 Quiz.prototype.saveAnswers = function() {
 
   this.questions.each(function(i, q) {
@@ -92,7 +127,9 @@ Quiz.prototype.saveAnswers = function() {
 };
 
 
-// load all answers from localstorage, ignores if not set
+/**
+ * load all answers from localstorage if saved answers available
+ */
 Quiz.prototype.loadAnswers = function() {
 
   this.questions.each(function(i, q) {
@@ -122,7 +159,9 @@ Quiz.prototype.loadAnswers = function() {
   return false;
 };
 
-// reset all values for the quiz (also resets localstorage)
+/**
+ * reset the quiz - resets form and wipes localstorage for this quiz
+ */
 Quiz.prototype.reset = function() {
   //TODO: error checking in these functions to make sure form element accessible, etc. before continuing
 
@@ -139,7 +178,11 @@ Quiz.prototype.reset = function() {
   return false;
 };
 
-
+/**
+ * whether to automatically save the quiz or not
+ * either way, can still manual save
+ * @param {boolean} yes - true turns on autosave, false switches off
+ */
 Quiz.prototype.autosave = function(yes) {
   if (!this.form) {
     return;
@@ -155,8 +198,10 @@ Quiz.prototype.autosave = function(yes) {
 
 };
 
-
-// initialize the quiz on a form element (by id)
+/**
+ * initialize the quiz on a form
+ * @param {string} formId - the css selector for the form element to use (must return one element!)
+ */
 Quiz.prototype.init = function(formId) {
 
   this.name = formId;
@@ -164,7 +209,11 @@ Quiz.prototype.init = function(formId) {
   if (!this.form) {
     console.log("ERROR: no form element found with selector to init quiz");
     return false; // fail, no form
+  } else if (this.form.length != 1) {
+    console.log("ERROR: selector returned more than one dom element");
+    return false; // fail, no form
   }
+
 
   this.questions = this.form.find('.question');
 
@@ -213,24 +262,20 @@ Quiz.prototype.init = function(formId) {
 
 
 
-// code to run when page loads
+/**
+ * code to run when page loads
+ * - sets up the quizzes and other things where needed
+ */
 $(document).ready(function() {
 
   //TODO: make this non-global when finished testing
   thequiz = new Quiz();
 
-  var canvas = document.getElementById('quizcanvas');
-  var ctx;
-  if (canvas && canvas.getContext) {
-    ctx = canvas.getContext('2d');
-    thequiz.setCanvas(canvas, ctx);
-  }
-
   // init the quiz on the element selector
   thequiz.init("#quizform");
 
   // specify the canvas to use
-  thequiz.setCanvas(canvas, ctx);
+  thequiz.setCanvas('#quizcanvas');
 
   // turn on autosave and load saved answers
   thequiz.autosave(true);
