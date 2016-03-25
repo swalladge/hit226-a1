@@ -7,6 +7,10 @@ Copyright © 2016 Samuel Walladge
 
 In the works!
 
+### JSDoc api documentation
+
+The Quiz class has [JSDoc](http://usejsdoc.org/) comments - run `jsdoc -d doc js/main.js` from project root directory to generate webpages with docs for using the Quiz class. (to view, open `doc/index.html`)
+
 
 ## Assignment 1A Notes
 
