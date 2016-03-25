@@ -42,10 +42,10 @@ Quiz.prototype.setCanvas = function(canvas) {
     console.log("ERROR: selector returned more than one dom element");
     return false; // fail, no canvas
   }
-  canvas = canvas[0]; // get the raw dom object (using javascript drawing)
-  if (canvas.getContext) { // check if can use canvas element
+  // canvas = canvas[0]; // get the raw dom object (using javascript drawing)
+  if (canvas[0].getContext) { // check if can use canvas element
     this.canvas = canvas; 
-    this.ctx = canvas.getContext('2d');
+    this.ctx = canvas[0].getContext('2d');
   } else {
     console.log("ERROR: object not a canvas or canvas operations not supported");
   }
@@ -60,30 +60,32 @@ Quiz.prototype.checkAnswers = function() {
   this.saveAnswers();
 
   // setup the canvas for displaying answers... bla blah TODO
-  this.ctx.fillstyle = "#0000AA";
-  this.ctx.fillRect(10, 10, 30, 40);
+  // this.ctx.fillstyle = "#0000AA";
+  // this.ctx.fillRect(10, 10, 30, 40);
 
   // loop over each question in the database and check if answer correct
+  var numCorrect = 0;
   for (var key in this.qData) {
     var data = this.qData[key];
 
+    //TODO: logging which answers correct/incorrect
     if (data.type == 'text') {
       if (data.answer && data.correctAnswer && (new RegExp(data.correctAnswer, 'i')).test(data.answer)) {
-        //TODO
+        numCorrect++;
         console.log(data.answer + " is correct :)");
       } else {
         console.log(data.answer + " is incorrect :(");
       }
     } else if (data.type == 'select') {
       if (data.answer === data.correctAnswer) { // using triple equals to avoid problems if answer is undefined
-        //TODO
+        numCorrect++;
         console.log(data.answer + " is correct :)");
       } else {
         console.log(data.answer + " is incorrect :(");
       }
     } else if (data.type == 'radio') {
       if (data.answer === data.correctAnswer) {
-        //TODO
+        numCorrect++;
         console.log(data.answer + " is correct :)");
       } else {
         console.log(data.answer + " is incorrect :(");
@@ -92,7 +94,35 @@ Quiz.prototype.checkAnswers = function() {
 
   }
 
-  // TODO: use the canvas to draw fancy ticks, crosses, visual feedback, etc.
+  this.canvas.click(function() {
+    var canvasStyle = {
+      display: 'none'
+    };
+    this.canvas.css(canvasStyle);
+
+  }.bind(this));
+
+  var canvasShowStyles = {
+    display: 'block',
+    position: 'fixed',
+    left: '0',
+    'top': '0',
+  }
+  this.canvas.css(canvasShowStyles);
+
+  // need to use raw dom element here, otherwise drawing dimensions get messed p
+  var width = this.canvas[0].width = window.innerWidth;
+  var height = this.canvas[0].height = window.innerHeight;
+
+  // draw an arc TODO: make this section meaningful
+  // this is beginnings of a pie chart or something to show how many quiz responses correct
+  // Inspiration and help for drawing circles/pie charts found at http://www.scriptol.com/html5/canvas/circle.php
+  this.ctx.beginPath();
+  this.ctx.lineWidth="2";
+  this.ctx.fillStyle="#5555AA";
+  this.ctx.arc(width/2, width/2, (width/2)-10, -(0.5 * Math.PI), ((numCorrect/this.numQuestions) * 2.0 * Math.PI) - (0.5 * Math.PI));
+  this.ctx.lineTo(width/2, width/2);
+  this.ctx.fill();
 
   return false;
 };
@@ -230,6 +260,7 @@ Quiz.prototype.init = function(formId) {
 
   // init a dictionary of the questions and values (correct and otherwise) for ease of getting later
   var count = 1;
+  this.numQuestions = 0;
   for (var i = 0; i < this.questions.length; i++) {
     q = $(this.questions[i]);
     t = q.prop('type');
@@ -239,23 +270,25 @@ Quiz.prototype.init = function(formId) {
       this.qData[question].correctAnswer = q.data('answer').toString();
       this.qData[question].type = 'text';
       this.qData[question].index = count++;
+      this.numQuestions++;
     } else if (t == 'radio') {
       if (q.data('answer') !== undefined) {
         this.qData[question] = {};
         this.qData[question].correctAnswer = q.data('answer').toString();
         this.qData[question].index = count++;
         this.qData[question].type = 'radio';
+        this.numQuestions++;
       }
     } else if (q[0].tagName == 'SELECT') {
       this.qData[question] = {};
       this.qData[question].correctAnswer = q.data('answer').toString();
       this.qData[question].index = count++;
       this.qData[question].type = 'select';
+      this.numQuestions++;
     }
 
   }
 
-  this.numQuestions = Object.keys(this.questions).length;
 
   return true;
 };
@@ -275,7 +308,8 @@ $(document).ready(function() {
   thequiz.init("#quizform");
 
   // specify the canvas to use
-  thequiz.setCanvas('#quizcanvas');
+  // TODO: allow Quiz to auto-get canvas from first canvas element (with quizcanvas class) in the form element
+  thequiz.setCanvas('#quizform .quizcanvas');
 
   // turn on autosave and load saved answers
   thequiz.autosave(true);

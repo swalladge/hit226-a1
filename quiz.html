@@ -12,13 +12,13 @@ z: 5
       </p>
       <noscript>Warning: it seems javascript isn't available. Javascript must be supported in your browser and enabled to take the quiz.</noscript>
 
-      <canvas id="quizcanvas" width="300px" height="100px">
-        Your browser needs support for the canvas element to see the fancy output.
-      </canvas>
     </section>
 
     <section>
       <form action="#" id="quizform" name="something">
+        <canvas class="quizcanvas">
+          Your browser needs support for the canvas element to see the fancy output.
+        </canvas>
         <!-- TODO: create sensible full quiz -->
         <fieldset>
         something: <input class="question" data-answer="^something$" name="nothing" placeholder="nothing" type="text"/>
