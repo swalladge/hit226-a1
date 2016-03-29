@@ -104,6 +104,15 @@ Quiz.prototype.checkAnswers = function() {
 };
 
 /**
+ * hides the feedback messages for each question
+ */
+Quiz.prototype.hideFeedback = function() {
+  for (var key in this.qData) {
+      this.qData[key].element.parent().find('.quiz-feedback').css('display', 'none');
+  }
+};
+
+/**
  * Display the canvas feedback chart
  * @private
  */
@@ -199,13 +208,17 @@ function wholePizza(ctx, colour, x, y, radius) {
 
 /**
  * save all answers to localstorage. `autosave` uses this method when saving
- * @param {Object|undefined} event - if defined, hides the feedback text from question that trigged the event
+ * @param {Object|undefined} event - if defined, hides the feedback text from question that trigged the event, 
+ *                                   or all feedback if trigged from something else
  */
 Quiz.prototype.saveAnswers = function(e) {
 
-  // hide the correct/wrong messages for the current question being changed (if defined)
-  if (e) {
+  // hide the correct/wrong messages for the current question being changed (if defined),
+  //  otherwise hide all
+  if (e && e.currentTarget.name in this.qData) {
     $(e.currentTarget).parent().find('.quiz-feedback').css('display', 'none');
+  } else {
+    this.hideFeedback();
   }
 
   // go through each question element, extract data, and store them
@@ -234,15 +247,14 @@ Quiz.prototype.saveAnswers = function(e) {
 };
 
 
+
 /**
  * load all answers from localstorage if saved answers available
  */
 Quiz.prototype.loadAnswers = function() {
 
   // answers possibly changed, reset the feedback messages
-  for (var key in this.qData) {
-      this.qData[key].element.parent().find('.quiz-feedback').css('display', 'none');
-  }
+  this.hideFeedback();
 
   this.questions.each(function(i, q) {
     q = $(q);
@@ -289,9 +301,7 @@ Quiz.prototype.reset = function() {
   this.form[0].reset();
 
   // hide all the correct/wrong messages
-  for (var key in this.qData) {
-    this.qData[key].element.parent().find('.quiz-feedback').css('display', 'none');
-  }
+  this.hideFeedback();
 
   return false;
 };
