@@ -97,7 +97,7 @@ pre {
   padding: 10px;
 }
 
-.quizcanvas {
+.quiz-canvas {
   display: none;
   // width: 100%;
   // height: auto;
@@ -122,3 +122,11 @@ button, input[type=button], input[type=reset], input[type=submit] {
   margin-bottom: 5px;
 }
 
+.quiz-explanation {
+  margin-top: 5px;
+  background-color: #FCF2D8;
+}
+
+noscript {
+  color: #AA1111;
+}

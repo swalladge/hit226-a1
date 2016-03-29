@@ -2,13 +2,12 @@
 /**
  * @file main.js
  * @project HIT226 Assignment 1
- * @author Samuel Walladge
  * @copyright Samuel Walladge 2016
  */
 
 /**
  * @class
- * An object to control an interactive quiz. 
+ * An object to control an interactive quiz.
  * Can be setup with a form element containing inputs/buttons/etc with appropriate class names.
  * Note: constructor params are optional (if set, will call `init` or `setCanvas` where appropriate) - can always setup later.
  * @constructor
@@ -50,8 +49,8 @@ Quiz.prototype.setCanvas = function(canvas) {
 
   // attempt to autoset the canvas if 'canvas' not defined
   if (!canvas) {
-    if (this.form && this.useCanvas) { 
-      canvas = this.form.find('canvas.quizcanvas');
+    if (this.form && this.useCanvas) {
+      canvas = this.form.find('canvas.quiz-canvas');
     } else {
       return false;
     }
@@ -66,10 +65,10 @@ Quiz.prototype.setCanvas = function(canvas) {
   }
 
   if (canvas[0].getContext) { // check if can use canvas element
-    this.canvas = canvas; 
+    this.canvas = canvas;
     this.ctx = canvas[0].getContext('2d');
   } else {
-    this.canvas = undefined; 
+    this.canvas = undefined;
     this.ctx = undefined;
     console.log("QUIZ ERROR: canvas object not a canvas or canvas operations not supported");
     return false;
@@ -122,6 +121,7 @@ Quiz.prototype.checkAnswers = function() {
       this.qData[key].iscorrect = false;
       feedbackStyle.color = "#AA3333";
       this.qData[key].element.parent().find('.quiz-feedback').css(feedbackStyle).text("✘ Wrong...");
+      this.qData[key].element.parent().find('.quiz-explanation').css('display', 'block');
     }
 
   }
@@ -138,6 +138,7 @@ Quiz.prototype.hideFeedback = function() {
   for (var key in this.qData) {
       this.qData[key].element.parent().find('.quiz-feedback').css('display', 'none');
   }
+  this.form.find('.quiz-explanation').css('display', 'none');
 };
 
 /**
@@ -212,13 +213,13 @@ Quiz.prototype.displayCanvas = function() {
   ctx.fillText(message, width/2, (height/2)+30);
 
   ctx.font = "18px Roboto, Arial, sans-serif";
-  ctx.fillText("tap to see individual results", width/2, (height/2)+90);
+  ctx.fillText("tap to return", width/2, (height/2)+90);
 
 };
 
 /**
  * save all answers to localstorage. `autosave` uses this method when saving
- * @param {Object|undefined} event - if defined, hides the feedback text from question that trigged the event, 
+ * @param {Object|undefined} event - if defined, hides the feedback text from question that trigged the event,
  *                                   or all feedback if trigged from something else
  */
 Quiz.prototype.saveAnswers = function(e) {
@@ -231,7 +232,7 @@ Quiz.prototype.saveAnswers = function(e) {
   // hide the correct/wrong messages for the current question being changed (if defined),
   //  otherwise hide all
   if (e && e.currentTarget.name in this.qData) {
-    $(e.currentTarget).parent().find('.quiz-feedback').css('display', 'none');
+    $(e.currentTarget).parent().find('.quiz-feedback, .quiz-explanation').css('display', 'none');
   } else {
     this.hideFeedback();
   }
@@ -292,7 +293,6 @@ Quiz.prototype.loadAnswers = function() {
         }
       } else if (q[0].tagName == 'SELECT') {
         q.find('option').each(function(i, opt) {
-          console.log(opt.value, value, opt.select);
           if (opt.value == value) {
             opt.selected = true;
           }
@@ -353,6 +353,7 @@ Quiz.prototype.autosave = function(yes) {
 
 };
 
+
 /**
  * initialize the quiz on a form
  * @param {String|Object} formId - the css selector (or jquery object) for the form element to use (must return one element!)
@@ -376,13 +377,15 @@ Quiz.prototype.init = function(formId, canvas) {
 
   // check answers on user submit
   // note - functions expected to return false to avoid actually submitting form
-  this.form.find('.submitquiz').click(this.checkAnswers.bind(this));
+  this.form.find('.quiz-submit').click(this.checkAnswers.bind(this));
 
 
   // save and load buttons
-  this.form.find('.savequiz').click(this.saveAnswers.bind(this));
-  this.form.find('.loadquiz').click(this.loadAnswers.bind(this));
-  this.form.find('.resetquiz').click(this.reset.bind(this));
+  this.form.find('.quiz-save').click(this.saveAnswers.bind(this));
+  this.form.find('.quiz-load').click(this.loadAnswers.bind(this));
+  this.form.find('.quiz-reset').click(this.reset.bind(this));
+
+  this.form.find('.quiz-explanation').css('display', 'none');
 
   // init a dictionary of the questions and values (correct and otherwise) for ease of getting later
   var count = 1;
@@ -396,7 +399,7 @@ Quiz.prototype.init = function(formId, canvas) {
     var feedback = $('<div class="quiz-feedback"></div>');
     feedback.css('display', 'none');
     if (q.parent().find('.quiz-feedback').length === 0) {
-      q.parent().append(feedback);
+      q.parent().prepend(feedback);
     }
 
     if (t == 'text') {
