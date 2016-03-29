@@ -121,25 +121,65 @@ Quiz.prototype.checkAnswers = function() {
   var width = this.canvas[0].width = window.innerWidth;
   var height = this.canvas[0].height = window.innerHeight;
 
-  var halfway = ((numCorrect/this.numQuestions) * 2.0 * Math.PI) - (0.5 * Math.PI);
+  var start = -(0.5 * Math.PI);
+  var radius = Math.min((Math.min(width,height)/2)-30, 350);
+  var ctx = this.ctx;
+
   // this is beginnings of a pie chart or something to show how many quiz responses correct
   // Inspiration and help for drawing circles/pie charts found at http://www.scriptol.com/html5/canvas/circle.php
-  this.ctx.beginPath();
-  this.ctx.lineWidth="2";
-  this.ctx.fillStyle="#33AA33";
-  this.ctx.arc(width/2, height/2, (Math.min(width,height)/2)-30, -(0.5 * Math.PI), halfway);
-  this.ctx.lineTo(width/2, height/2);
-  this.ctx.fill();
 
-  this.ctx.beginPath();
-  this.ctx.lineWidth="2";
-  this.ctx.fillStyle="#AA3333";
-  this.ctx.arc(width/2, height/2, (Math.min(width,height)/2)-30, halfway, -(0.5 * Math.PI));
-  this.ctx.lineTo(width/2, height/2);
-  this.ctx.fill();
+  var result, message;
+  if (numCorrect == this.numQuestions) {
+    wholePizza(ctx, "#33CC33", width/2, height/2, radius);
+    result = "100%";
+    message = "Congrats!";
+  } else if (numCorrect > 0) {
+    var halfway = ((numCorrect/this.numQuestions) * 2.0 * Math.PI) - (0.5 * Math.PI);
+    pizzaSlice(ctx, "#33CC33", width/2, height/2, radius, start, halfway);
+    pizzaSlice(ctx, "#CC3333", width/2, height/2, radius, halfway, start);
+    result = numCorrect + "/" + this.numQuestions;
+    if (numCorrect/this.numQuestions >= 0.5) {
+      message = "Good work!";
+    } else {
+      message = "Try again!";
+    }
+  } else {
+    wholePizza(ctx, "#CC3333", width/2, height/2, radius);
+    result = "0";
+    message = "Epic fail.";
+  }
+
+  ctx.lineWidth = "1";
+  ctx.font = "48px Roboto, Arial, sans-serif";
+  ctx.fillStyle = "#000000";
+  ctx.textBaseline = "middle";
+  ctx.textAlign = "center";
+
+  ctx.fillText(result, width/2, (height/2)-30);
+  ctx.fillText(message, width/2, (height/2)+30);
+
+  ctx.font = "18px Roboto, Arial, sans-serif";
+  ctx.fillText("tap to see individual results", width/2, (height/2)+90);
 
   return false;
 };
+
+function pizzaSlice(ctx, colour, x, y, radius, start, end) {
+  ctx.beginPath();
+  ctx.lineWidth = "1";
+  ctx.fillStyle = colour;
+  ctx.arc(x, y, radius, start, end);
+  ctx.lineTo(x, y);
+  ctx.fill();
+}
+
+function wholePizza(ctx, colour, x, y, radius) {
+  ctx.lineWidth = "3";
+  ctx.fillStyle = colour;
+  ctx.beginPath();
+  ctx.arc(x, y, radius, 0, 2*Math.PI);
+  ctx.fill();
+}
 
 /**
  * save all answers to localstorage. `autosave` uses this method when saving
