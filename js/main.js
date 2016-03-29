@@ -20,6 +20,7 @@ var Quiz = function(form, canvas) {
   this.name = null;
   this.questions = null;
   this.numQuestions = 0;
+  this.numCorrect = 0;
 
   // if form and/or canvas set, init
   if (form) {
@@ -59,45 +60,54 @@ Quiz.prototype.checkAnswers = function() {
   // save the answers first
   this.saveAnswers();
 
-  // setup the canvas for displaying answers... bla blah TODO
-  // this.ctx.fillstyle = "#0000AA";
-  // this.ctx.fillRect(10, 10, 30, 40);
-
   // loop over each question in the database and check if answer correct
-  var numCorrect = 0;
+  this.numCorrect = 0;
   for (var key in this.qData) {
     var data = this.qData[key];
 
+    var correct = false;
     if (data.type == 'text') {
       if (data.answer && data.correctAnswer && (new RegExp(data.correctAnswer, 'i')).test(data.answer)) {
-        numCorrect++;
-        console.log(data.answer + " is correct :)");
-        this.qData[key].iscorrect = true;
-      } else {
-        console.log(data.answer + " is incorrect :(");
-        this.qData[key].iscorrect = false;
+        correct = true;
       }
     } else if (data.type == 'select') {
       if (data.answer === data.correctAnswer) { // using triple equals to avoid problems if answer is undefined
-        numCorrect++;
-        console.log(data.answer + " is correct :)");
-        this.qData[key].iscorrect = true;
-      } else {
-        console.log(data.answer + " is incorrect :(");
-        this.qData[key].iscorrect = false;
+        correct = true;
       }
     } else if (data.type == 'radio') {
       if (data.answer === data.correctAnswer) {
-        numCorrect++;
-        console.log(data.answer + " is correct :)");
-        this.qData[key].iscorrect = true;
-      } else {
-        console.log(data.answer + " is incorrect :(");
-        this.qData[key].iscorrect = false;
+        correct = true;
       }
     }
 
+    var feedbackStyle = {
+      display: 'block',
+      'background-color': '#FCF2D8',
+      'margin-top': '5px'
+    };
+    if (correct) {
+      this.numCorrect++;
+      this.qData[key].iscorrect = true;
+      feedbackStyle.color = "#33AA33";
+      this.qData[key].element.parent().find('.quiz-feedback').css(feedbackStyle).text("✔ Correct!");
+    } else {
+      this.qData[key].iscorrect = false;
+      feedbackStyle.color = "#AA3333";
+      this.qData[key].element.parent().find('.quiz-feedback').css(feedbackStyle).text("✘ Wrong...");
+    }
+
   }
+
+  this.displayCanvas();
+
+  return false;
+};
+
+/**
+ * Display the canvas feedback chart
+ * @private
+ */
+Quiz.prototype.displayCanvas = function() {
 
   // hide canvas popup on click
   this.canvas.click(function() {
@@ -117,28 +127,27 @@ Quiz.prototype.checkAnswers = function() {
   };
   this.canvas.css(canvasShowStyles);
 
+  // setup some variables
   // need to use raw dom element here, otherwise drawing dimensions get messed up
   var width = this.canvas[0].width = window.innerWidth;
   var height = this.canvas[0].height = window.innerHeight;
-
   var start = -(0.5 * Math.PI);
   var radius = Math.min((Math.min(width,height)/2)-30, 350);
   var ctx = this.ctx;
 
-  // this is beginnings of a pie chart or something to show how many quiz responses correct
+  // this is setting up a pie chart to show how many quiz responses correct
   // Inspiration and help for drawing circles/pie charts found at http://www.scriptol.com/html5/canvas/circle.php
-
   var result, message;
-  if (numCorrect == this.numQuestions) {
+  if (this.numCorrect == this.numQuestions) {
     wholePizza(ctx, "#33CC33", width/2, height/2, radius);
     result = "100%";
     message = "Congrats!";
-  } else if (numCorrect > 0) {
-    var halfway = ((numCorrect/this.numQuestions) * 2.0 * Math.PI) - (0.5 * Math.PI);
+  } else if (this.numCorrect > 0) {
+    var halfway = ((this.numCorrect/this.numQuestions) * 2.0 * Math.PI) - (0.5 * Math.PI);
     pizzaSlice(ctx, "#33CC33", width/2, height/2, radius, start, halfway);
     pizzaSlice(ctx, "#CC3333", width/2, height/2, radius, halfway, start);
-    result = numCorrect + "/" + this.numQuestions;
-    if (numCorrect/this.numQuestions >= 0.5) {
+    result = this.numCorrect + "/" + this.numQuestions;
+    if (this.numCorrect/this.numQuestions >= 0.5) {
       message = "Good work!";
     } else {
       message = "Try again!";
@@ -149,6 +158,8 @@ Quiz.prototype.checkAnswers = function() {
     message = "Epic fail.";
   }
 
+
+  // draw on text for feedback and info
   ctx.lineWidth = "1";
   ctx.font = "48px Roboto, Arial, sans-serif";
   ctx.fillStyle = "#000000";
@@ -161,9 +172,11 @@ Quiz.prototype.checkAnswers = function() {
   ctx.font = "18px Roboto, Arial, sans-serif";
   ctx.fillText("tap to see individual results", width/2, (height/2)+90);
 
-  return false;
 };
 
+/**
+ * helper function to draw a filled arc on a canvas
+ */
 function pizzaSlice(ctx, colour, x, y, radius, start, end) {
   ctx.beginPath();
   ctx.lineWidth = "1";
@@ -173,6 +186,9 @@ function pizzaSlice(ctx, colour, x, y, radius, start, end) {
   ctx.fill();
 }
 
+/**
+ * helper function to draw a filled circle on a canvas
+ */
 function wholePizza(ctx, colour, x, y, radius) {
   ctx.lineWidth = "3";
   ctx.fillStyle = colour;
@@ -183,9 +199,16 @@ function wholePizza(ctx, colour, x, y, radius) {
 
 /**
  * save all answers to localstorage. `autosave` uses this method when saving
+ * @param {Object|undefined} event - if defined, hides the feedback text from question that trigged the event
  */
-Quiz.prototype.saveAnswers = function() {
+Quiz.prototype.saveAnswers = function(e) {
 
+  // hide the correct/wrong messages for the current question being changed (if defined)
+  if (e) {
+    $(e.currentTarget).parent().find('.quiz-feedback').css('display', 'none');
+  }
+
+  // go through each question element, extract data, and store them
   this.questions.each(function(i, q) {
     q = $(q);
     t = q.prop('type');
@@ -215,6 +238,11 @@ Quiz.prototype.saveAnswers = function() {
  * load all answers from localstorage if saved answers available
  */
 Quiz.prototype.loadAnswers = function() {
+
+  // answers possibly changed, reset the feedback messages
+  for (var key in this.qData) {
+      this.qData[key].element.parent().find('.quiz-feedback').css('display', 'none');
+  }
 
   this.questions.each(function(i, q) {
     q = $(q);
@@ -259,6 +287,11 @@ Quiz.prototype.reset = function() {
   }.bind(this));
 
   this.form[0].reset();
+
+  // hide all the correct/wrong messages
+  for (var key in this.qData) {
+    this.qData[key].element.parent().find('.quiz-feedback').css('display', 'none');
+  }
 
   return false;
 };
@@ -308,6 +341,7 @@ Quiz.prototype.init = function(formId) {
   // note - functions expected to return false to avoid actually submitting form
   this.form.find('.submitquiz').click(this.checkAnswers.bind(this));
 
+
   // save and load buttons
   this.form.find('.savequiz').click(this.saveAnswers.bind(this));
   this.form.find('.loadquiz').click(this.loadAnswers.bind(this));
@@ -320,11 +354,21 @@ Quiz.prototype.init = function(formId) {
     q = $(this.questions[i]);
     t = q.prop('type');
     var question = q.prop('name');
+
+    // create a feedback element and add it to the question section (if not one already)
+    var feedback = $('<div class="quiz-feedback"></div>');
+    feedback.css('display', 'none');
+    if (q.parent().find('.quiz-feedback').length === 0) {
+      q.parent().append(feedback);
+    }
+
     if (t == 'text') {
       this.qData[question] = {};
       this.qData[question].correctAnswer = q.data('answer').toString();
       this.qData[question].type = 'text';
       this.qData[question].index = count++;
+      this.qData[question].element = q;
+
       this.numQuestions++;
     } else if (t == 'radio') {
       if (q.data('answer') !== undefined) {
@@ -332,6 +376,7 @@ Quiz.prototype.init = function(formId) {
         this.qData[question].correctAnswer = q.data('answer').toString();
         this.qData[question].index = count++;
         this.qData[question].type = 'radio';
+        this.qData[question].element = q;
         this.numQuestions++;
       }
     } else if (q[0].tagName == 'SELECT') {
@@ -339,6 +384,7 @@ Quiz.prototype.init = function(formId) {
       this.qData[question].correctAnswer = q.data('answer').toString();
       this.qData[question].index = count++;
       this.qData[question].type = 'select';
+      this.qData[question].element = q;
       this.numQuestions++;
     }
 
