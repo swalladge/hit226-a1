@@ -94,7 +94,7 @@ z: 7
             <!-- Warning: data-answer should only be set on one radio input in the group -->
             <input class="question" data-answer="true" id="quiz-q2-1" type="radio" name="radiotest" value="true">
             <label for="quiz-q2-1">True</label>
-
+            <br>
             <input class="question" type="radio" id="quiz-q2-2" name="radiotest" value="false" checked>
             <label for="quiz-q2-2">False</label>
           <div class="quiz-explanation">Definitely recommended!</div>
@@ -109,6 +109,17 @@ z: 7
             <option value="three">3</option>
           </select>
           <div class="quiz-explanation">Only 1 digit. <em>Unary</em> is the key.</div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Question 4</legend>
+          <p>Check all numbers less than 3.</p>
+
+          <input class="question" type="checkbox" name="check[]" value="1" />One <br>
+          <input class="question" type="checkbox" name="check[]" value="2" />Two <br>
+          <input class="question" type="checkbox" name="check[]" value="3" />Three <br>
+
+          <div class="quiz-explanation">Once again, obvious answer.</div>
         </fieldset>
 
 

@@ -30,22 +30,26 @@ z: 5
         <!-- TODO: questions! -->
         <fieldset>
           <legend>Question 1</legend>
-          <label for="quiz-q1">Answer can be something or nothing: </label>
 
+          <label for="quiz-q1">Answer can be something or nothing: </label>
           <input class="question" data-answer="^something$|^nothing$" id="quiz-q1" name="nothing" placeholder="nothing" type="text"/>
 
           <div class="quiz-explanation">Well it has to be either something or nothing. Obvious! ;)</div>
         </fieldset>
 
         <fieldset>
-          <legend>Question 2</legend>
-          <p>Responsive design is recommended for new websites. True or False?</p>
+          <legend>Accessible Images</legend>
 
-            <input class="question" data-answer="true" id="quiz-q2-1" type="radio" name="radiotest" value="true">
-            <label for="quiz-q2-1">True</label>
+          <p>Which attributes setup would be most useful for an accessible image showing a star?</p>
 
-            <input class="question" type="radio" id="quiz-q2-2" name="radiotest" value="false" checked>
-            <label for="quiz-q2-2">False</label>
+            <input class="question" id="quiz-q2-1" type="radio" name="radiotest" value="one">
+            <label for="quiz-q2-1"><code>alt="there is an image here"</code></label>
+            <br>
+            <input class="question" data-answer="two" id="quiz-q2-2" type="radio" name="radiotest" value="two">
+            <label for="quiz-q2-2"><code>alt="a star"</code></label>
+            <br>
+            <input class="question" type="radio" id="quiz-q2-3" name="radiotest" value="three" checked>
+            <label for="quiz-q2-3"><code>title="a star"</code></label>
           <div class="quiz-explanation">Definitely recommended!</div>
         </fieldset>
 

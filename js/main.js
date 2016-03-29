@@ -123,8 +123,9 @@ Quiz.prototype.checkAnswers = function() {
       }
     }
 
+    // using 'display: table' to have container width same as content, and have linebreak before and after it.
     var feedbackStyle = {
-      display: 'block'
+      display: 'table'
     };
     if (correct) {
       this.numCorrect++;
@@ -135,7 +136,7 @@ Quiz.prototype.checkAnswers = function() {
       this.qData[key].iscorrect = false;
       feedbackStyle.color = "#AA3333";
       this.qData[key].element.parent().find('.quiz-feedback').css(feedbackStyle).text("✘ Wrong...");
-      this.qData[key].element.parent().find('.quiz-explanation').css('display', 'block');
+      this.qData[key].element.parent().find('.quiz-explanation').css('display', 'table');
     }
 
   }
