@@ -105,3 +105,20 @@ pre {
   padding: 0;
   background-color: transparent; //$highlight-color;
 }
+
+fieldset {
+  background-color: $color-a4;
+  margin-bottom: 10px;
+}
+
+legend {
+  @extend h3;
+}
+
+// neater margins on form buttons
+button, input[type=button], input[type=reset], input[type=submit] {
+  margin-left: 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+

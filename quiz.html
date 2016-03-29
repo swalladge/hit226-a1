@@ -15,37 +15,42 @@ z: 5
     </section>
 
     <section>
-      <form action="#" id="quizform" name="something">
+      <form action="#" id="quizform" name="testquiz">
         <canvas class="quizcanvas">
           Your browser needs support for the canvas element to see the fancy output.
         </canvas>
-        <!-- TODO: create sensible full quiz -->
         <fieldset>
-        something: <input class="question" data-answer="^something$" name="nothing" placeholder="nothing" type="text"/>
+          <legend>Question 1</legend>
+          <label for="quiz-q1">Answer can be something or nothing: </label><input class="question" data-answer="^something|nothing$" id="quiz-q1" name="nothing" placeholder="nothing" type="text"/>
         </fieldset>
 
         <fieldset>
-        Name of the attribute you can set on images to serve as a placeholder if the image fails to load: <input class="question" placeholder="placeholder" data-answer="^alt$|^alt attribute$" name="something" type="text"/>
+          <legend>Question 2</legend>
+          <p>Responsive design is recommended for new websites. True or False?</p>
+
+            <input class="question" data-answer="true" id="quiz-q2-1" type="radio" name="radiotest" value="true" checked>
+            <label for="quiz-q2-1">True</label>
+
+            <input class="question" type="radio" id="quiz-q2-2" name="radiotest" value="false">
+            <label for="quiz-q2-2">False</label>
         </fieldset>
 
         <fieldset>
-          Responsive design is recommended for new websites. True or False?<br>
-          True <input class="question" data-answer="true" type="radio" name="radiotest" value="true" checked><br>
-          False <input class="question" type="radio" name="radiotest" value="false">
+          <legend>Question 3</legend>
+          <label for="quiz-q3">Number of digits in a unary counting system:</label>
+          <select data-answer="one" id="quiz-q3" class="question" name="selecttest">
+            <option value="one" selected>1</option> 
+            <option value="two">2</option>
+            <option value="three">3</option>
+          </select>
         </fieldset>
+
 
         <fieldset>
-          Number of digits in a unary counting system:
-        <select data-answer="one" class="question" name="selecttest">
-          <option value="one" selected>1</option> 
-          <option value="two">2</option>
-          <option value="three">3</option>
-        </select>
+          <legend>Controls</legend>
+          <input value="Save" class="savequiz" type="button"/>     <!-- save current answers to localstorage manually -->
+          <input value="Load" class="loadquiz" type="button"/>     <!-- manually load answers from localstorage -->
+          <input value="Reset" class="resetquiz" type="reset"/>    <!-- reset the quiz - wiping saved data and current answers -->
+          <input value="Submit" class="submitquiz" type="submit"/> <!-- submit the quiz and check answers -->
         </fieldset>
-
-
-        <input value="Save" class="savequiz" type="button"/>
-        <input value="Load" class="loadquiz" type="button"/>
-        <input value="Reset" class="resetquiz" type="reset"/>
-        <input value="Submit" class="submitquiz" type="submit"/>
       </form>

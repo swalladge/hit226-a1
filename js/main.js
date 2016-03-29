@@ -37,7 +37,7 @@ var Quiz = function(form, canvas) {
  * @param {String} canvas - the canvas css selector (must return one canvas object)
  */
 Quiz.prototype.setCanvas = function(canvas) {
-  var canvas = $(canvas);
+  canvas = $(canvas);
   if (canvas && canvas.length != 1) {
     console.log("ERROR: selector returned more than one dom element");
     return false; // fail, no canvas
@@ -68,32 +68,38 @@ Quiz.prototype.checkAnswers = function() {
   for (var key in this.qData) {
     var data = this.qData[key];
 
-    //TODO: logging which answers correct/incorrect
     if (data.type == 'text') {
       if (data.answer && data.correctAnswer && (new RegExp(data.correctAnswer, 'i')).test(data.answer)) {
         numCorrect++;
         console.log(data.answer + " is correct :)");
+        this.qData[key].iscorrect = true;
       } else {
         console.log(data.answer + " is incorrect :(");
+        this.qData[key].iscorrect = false;
       }
     } else if (data.type == 'select') {
       if (data.answer === data.correctAnswer) { // using triple equals to avoid problems if answer is undefined
         numCorrect++;
         console.log(data.answer + " is correct :)");
+        this.qData[key].iscorrect = true;
       } else {
         console.log(data.answer + " is incorrect :(");
+        this.qData[key].iscorrect = false;
       }
     } else if (data.type == 'radio') {
       if (data.answer === data.correctAnswer) {
         numCorrect++;
         console.log(data.answer + " is correct :)");
+        this.qData[key].iscorrect = true;
       } else {
         console.log(data.answer + " is incorrect :(");
+        this.qData[key].iscorrect = false;
       }
     }
 
   }
 
+  // hide canvas popup on click
   this.canvas.click(function() {
     var canvasStyle = {
       display: 'none'
@@ -102,26 +108,34 @@ Quiz.prototype.checkAnswers = function() {
 
   }.bind(this));
 
+  // setup the styles for the canvas and display it
   var canvasShowStyles = {
     display: 'block',
     position: 'fixed',
     left: '0',
     'top': '0',
-  }
+  };
   this.canvas.css(canvasShowStyles);
 
-  // need to use raw dom element here, otherwise drawing dimensions get messed p
+  // need to use raw dom element here, otherwise drawing dimensions get messed up
   var width = this.canvas[0].width = window.innerWidth;
   var height = this.canvas[0].height = window.innerHeight;
 
-  // draw an arc TODO: make this section meaningful
+  var halfway = ((numCorrect/this.numQuestions) * 2.0 * Math.PI) - (0.5 * Math.PI);
   // this is beginnings of a pie chart or something to show how many quiz responses correct
   // Inspiration and help for drawing circles/pie charts found at http://www.scriptol.com/html5/canvas/circle.php
   this.ctx.beginPath();
   this.ctx.lineWidth="2";
-  this.ctx.fillStyle="#5555AA";
-  this.ctx.arc(width/2, width/2, (width/2)-10, -(0.5 * Math.PI), ((numCorrect/this.numQuestions) * 2.0 * Math.PI) - (0.5 * Math.PI));
-  this.ctx.lineTo(width/2, width/2);
+  this.ctx.fillStyle="#33AA33";
+  this.ctx.arc(width/2, height/2, (Math.min(width,height)/2)-30, -(0.5 * Math.PI), halfway);
+  this.ctx.lineTo(width/2, height/2);
+  this.ctx.fill();
+
+  this.ctx.beginPath();
+  this.ctx.lineWidth="2";
+  this.ctx.fillStyle="#AA3333";
+  this.ctx.arc(width/2, height/2, (Math.min(width,height)/2)-30, halfway, -(0.5 * Math.PI));
+  this.ctx.lineTo(width/2, height/2);
   this.ctx.fill();
 
   return false;
@@ -148,7 +162,7 @@ Quiz.prototype.saveAnswers = function() {
       }
     } else if (q[0].tagName == 'SELECT') {
       value = q.find('option:selected').val();
-      localStorage.setItem(question, value);
+      localStorage.setItem(key, value);
       this.qData[question].answer = value;
     }
   }.bind(this));
@@ -178,6 +192,7 @@ Quiz.prototype.loadAnswers = function() {
         }
       } else if (q[0].tagName == 'SELECT') {
         q.find('option').each(function(i, opt) {
+          console.log(opt.value, value, opt.select);
           if (opt.value == value) {
             opt.selected = true;
           }
