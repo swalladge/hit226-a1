@@ -15,7 +15,7 @@ z: 5
     </section>
 
     <section>
-      <form action="#" id="quizform" name="testquiz">
+      <form action="#" class="my-quizzes" id="quizform" name="testquiz">
         <canvas class="quizcanvas">
           Your browser needs support for the canvas element to see the fancy output.
         </canvas>
@@ -54,3 +54,47 @@ z: 5
           <input value="Submit" class="submitquiz" type="submit"/> <!-- submit the quiz and check answers -->
         </fieldset>
       </form>
+    </section>
+
+    <section>
+      <form action="#" class="my-quizzes" id="quizform2" name="testquiz">
+        <canvas class="quizcanvas">
+          Your browser needs support for the canvas element to see the fancy output.
+        </canvas>
+        <fieldset>
+          <legend>Question 1</legend>
+          <label for="quiz2-q1">Answer can be something or nothing: </label><input class="question" data-answer="^something$|^nothing$" id="quiz2-q1" name="nothing" placeholder="nothing" type="text"/>
+        </fieldset>
+
+        <fieldset>
+          <legend>Question 2</legend>
+          <p>Responsive design is recommended for new websites. True or False?</p>
+
+            <input class="question" data-answer="true" id="quiz2-q2-1" type="radio" name="radiotest" value="true">
+            <label for="quiz2-q2-1">True</label>
+
+            <input class="question" type="radio" id="quiz2-q2-2" name="radiotest" value="false" checked>
+            <label for="quiz2-q2-2">False</label>
+        </fieldset>
+
+        <fieldset>
+          <legend>Question 3</legend>
+          <label for="quiz2-q3">Number of digits in a unary counting system:</label>
+          <select data-answer="one" id="quiz2-q3" class="question" name="selecttest">
+            <option value="one" selected>1</option> 
+            <option value="two">2</option>
+            <option value="three">3</option>
+          </select>
+        </fieldset>
+
+
+        <fieldset>
+          <legend>Controls</legend>
+          <input value="Save" class="savequiz" type="button"/>     <!-- save current answers to localstorage manually -->
+          <input value="Load" class="loadquiz" type="button"/>     <!-- manually load answers from localstorage -->
+          <input value="Reset" class="resetquiz" type="reset"/>    <!-- reset the quiz - wiping saved data and current answers -->
+          <input value="Submit" class="submitquiz" type="submit"/> <!-- submit the quiz and check answers -->
+        </fieldset>
+      </form>
+    </section>
+
