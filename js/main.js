@@ -204,14 +204,16 @@ Quiz.prototype.displayCanvas = function() {
     pizzaSlice(ctx, "#33CC33", width/2, height/2, radius, start, halfway);
     pizzaSlice(ctx, "#CC3333", width/2, height/2, radius, halfway, start);
     result = this.numCorrect + "/" + this.numQuestions;
-    if (this.numCorrect/this.numQuestions >= 0.5) {
-      message = "Good work!";
+    if (this.numCorrect/this.numQuestions >= 0.7) {
+      message = "Excellent!";
+    } else if (this.numCorrect/this.numQuestions >= 0.5) {
+      message = "You passed.";
     } else {
-      message = "Try again!";
+      message = "Try again.";
     }
   } else {
     wholePizza(ctx, "#CC3333", width/2, height/2, radius);
-    result = "0";
+    result = "0%";
     message = "Epic fail.";
   }
 

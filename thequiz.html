@@ -1,0 +1,70 @@
+---
+layout: main
+title: Quiz
+permalink: /thequiz/
+z: 5
+---
+
+    <h1 class="page-title">The Web for All Quiz</h1>
+
+    <section>
+      <h2>Take the Quiz!</h2>
+      <p>
+        Test your knowledge on responsive design and web accessibility with this quiz!
+      </p>
+      <p>
+        Your answers will be automatically saved in your browser if you need to close the page before finishing. When ready, click Submit to check your answers!
+      </p>
+    </section>
+
+    <section>
+
+      <!-- Information on creating accessible forms taken from http://webaim.org/techniques/forms/ (and other pages in that article)  -->
+      <!-- View source on the 'About the Quiz' page at {{ site.baseurl }}/quiz/ for more comments and info through the quiz form -->
+      <form action="#" class="my-quizzes" name="referencequiz">
+
+        <canvas class="quiz-canvas">
+          Your browser needs support for the canvas element to see the fancy output. Upgrade please! :)
+        </canvas>
+
+        <!-- TODO: questions! -->
+        <fieldset>
+          <legend>Question 1</legend>
+          <label for="quiz-q1">Answer can be something or nothing: </label>
+
+          <input class="question" data-answer="^something$|^nothing$" id="quiz-q1" name="nothing" placeholder="nothing" type="text"/>
+
+          <div class="quiz-explanation">Well it has to be either something or nothing. Obvious! ;)</div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Question 2</legend>
+          <p>Responsive design is recommended for new websites. True or False?</p>
+
+            <input class="question" data-answer="true" id="quiz-q2-1" type="radio" name="radiotest" value="true">
+            <label for="quiz-q2-1">True</label>
+
+            <input class="question" type="radio" id="quiz-q2-2" name="radiotest" value="false" checked>
+            <label for="quiz-q2-2">False</label>
+          <div class="quiz-explanation">Definitely recommended!</div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Question 3</legend>
+          <label for="quiz-q3">Number of digits in a unary counting system:</label>
+          <select data-answer="one" id="quiz-q3" class="question" name="selecttest">
+            <option value="one" selected>1</option>
+            <option value="two">2</option>
+            <option value="three">3</option>
+          </select>
+          <div class="quiz-explanation">Only 1 digit. <em>Unary</em> is the key.</div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Controls</legend>
+          <input value="Reset" class="quiz-reset" type="reset"/>
+          <input value="Submit" class="quiz-submit" type="submit"/>
+        </fieldset>
+      </form>
+    </section>
+
