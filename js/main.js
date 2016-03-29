@@ -5,6 +5,9 @@
  * @copyright Samuel Walladge 2016
  */
 
+// help for creating classes in javascript found at https://developer.mozilla.org/en-US/docs/Web/JavaScript/Introduction_to_Object-Oriented_JavaScript
+// Note: did not use new ecmascript 6 class fanciness, since not widely supported
+
 /**
  * @class
  * An object to control an interactive quiz.
@@ -238,6 +241,7 @@ Quiz.prototype.saveAnswers = function(e) {
   }
 
   // go through each question element, extract data, and store them
+  // Help with localStorage found at https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API
   this.questions.each(function(i, q) {
     q = $(q);
     t = q.prop('type');
@@ -332,8 +336,8 @@ Quiz.prototype.reset = function() {
 };
 
 /**
- * whether to automatically save the quiz or not
- * either way, can still manual save
+ * Whether to automatically save the quiz or not.
+ * either way, can still manually save
  * @param {boolean} yes - true turns on autosave, false switches off
  */
 Quiz.prototype.autosave = function(yes) {

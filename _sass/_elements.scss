@@ -97,6 +97,10 @@ pre {
   padding: 10px;
 }
 
+
+/*
+ * various element styles in relation to the quizzes
+ */
 .quiz-canvas {
   display: none;
   // width: 100%;
@@ -130,3 +134,4 @@ button, input[type=button], input[type=reset], input[type=submit] {
 noscript {
   color: #AA1111;
 }
+
