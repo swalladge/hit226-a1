@@ -103,6 +103,11 @@ Quiz.prototype.checkAnswers = function() {
   // save the answers first
   this.saveAnswers();
 
+  // lets confirm this - avoid cases where user accidentally submits when only answered a few questions.
+  if (!confirm("Are you sure you wish to submit the quiz and check your answers?")) {
+    return false;
+  }
+
   // loop over each question in the database and check if answer correct
   this.numCorrect = 0;
   for (var key in this.qData) {
@@ -361,6 +366,11 @@ Quiz.prototype.reset = function() {
   if (!this.form) {
     console.log("QUIZ ERROR: Tried to reset, but I don't have a form element.");
     return;
+  }
+
+  // confirm a reset - users hate having to re-type a heap of answers :\
+  if (!confirm("You are about to irreversably reset the quiz. Are you sure you wish to continue?")) {
+    return false;
   }
 
   // remove all items for this quiz from localstorage

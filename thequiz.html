@@ -27,57 +27,74 @@ z: 5
           Your browser needs support for the canvas element to see the fancy output. Upgrade please! :)
         </canvas>
 
-        <!-- TODO: questions! -->
         <fieldset>
           <legend>Question 1</legend>
 
-          <label for="quiz-q1">Answer can be something or nothing: </label>
-          <input class="question" data-answer="^something$|^nothing$" id="quiz-q1" name="nothing" placeholder="nothing" type="text"/>
-
-          <div class="quiz-explanation">Well it has to be either something or nothing. Obvious! ;)</div>
-        </fieldset>
-
-        <fieldset>
-          <legend>Question 4</legend>
-          <p>something else</p>
-
-          <input id="quiz-q4-1" class="question" type="checkbox" name="check[]" data-answer="true" value="1" />
-          <label for="quiz-q4-1">One</label> 
-          <br>
-          <input id="quiz-q4-2" class="question" type="checkbox" name="check[]" data-answer="1" value="2" />
-          <label for="quiz-q4-2">Two</label> 
-          <br>
-          <input id="quiz-q4-3" class="question" type="checkbox" name="check[]" data-answer="false" value="3" />
-          <label for="quiz-q4-3">Three</label> 
-
-          <div class="quiz-explanation">Once again, obvious answer.</div>
-        </fieldset>
-
-        <fieldset>
-          <legend>Accessible Images</legend>
-
           <p>Which attributes setup would be most useful for an accessible image showing a star?</p>
 
-            <input class="question" id="quiz-q2-1" type="radio" name="radiotest" value="one">
-            <label for="quiz-q2-1"><code>alt="there is an image here"</code></label>
+            <input class="question" id="quiz-q1-1" type="radio" name="radiotest" value="one" checked>
+            <label for="quiz-q1-1"><code>alt="there is an image here"</code></label>
             <br>
-            <input class="question" data-answer="two" id="quiz-q2-2" type="radio" name="radiotest" value="two">
-            <label for="quiz-q2-2"><code>alt="a star"</code></label>
+            <input class="question" data-answer="two" id="quiz-q1-2" type="radio" name="radiotest" value="two">
+            <label for="quiz-q1-2"><code>alt="a star"</code></label>
             <br>
-            <input class="question" type="radio" id="quiz-q2-3" name="radiotest" value="three" checked>
-            <label for="quiz-q2-3"><code>title="a star"</code></label>
-          <div class="quiz-explanation">Definitely recommended!</div>
+            <input class="question" type="radio" id="quiz-q1-3" name="radiotest" value="three">
+            <label for="quiz-q1-3"><code>title="a star"</code></label>
+          <div class="quiz-explanation">The alt attribute is recommended over the title. Also the alt attribute should describe the image.</div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Question 2</legend>
+          <label for="quiz-q2">Which is not a layout that should be used for responsive websites?</label>
+          <select data-answer="fixed" id="quiz-q2" class="question" name="q2">
+            <option value="fluid" selected>Fluid</option>
+            <option value="fixed">Fixed width</option>
+            <option value="proportional">Proportional</option>
+            <option value="liquid">Multi-column Liquid</option>
+          </select>
+          <div class="quiz-explanation">Fixed width layouts are not recommended, since they cannot change width to suit the screen size.</div>
         </fieldset>
 
         <fieldset>
           <legend>Question 3</legend>
-          <label for="quiz-q3">Number of digits in a unary counting system:</label>
-          <select data-answer="one" id="quiz-q3" class="question" name="selecttest">
-            <option value="one" selected>1</option>
-            <option value="two">2</option>
-            <option value="three">3</option>
-          </select>
-          <div class="quiz-explanation">Only 1 digit. <em>Unary</em> is the key.</div>
+
+          <label for="quiz-q3">Who invented the World Wide Web?</label>
+          <input class="question" data-answer="^(sir\s+)?(tim\s+)?(berners-lee)$|^timbl$" id="quiz-q3" name="q3" placeholder="type answer..." type="text"/>
+
+          <div class="quiz-explanation">Tim Berners-Lee. Check out his <a href="https://en.wikipedia.org/wiki/Tim_Berners-Lee">Wikipedia page</a>.</div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Question 4</legend>
+
+          <p>Should javascript and css be written in the same file as the html page?</p>
+
+            <input class="question" id="quiz-q4-1" type="radio" name="q4" value="one" checked>
+            <label for="quiz-q4-1">Yes</label>
+            <br>
+            <input class="question" data-answer="two" id="quiz-q4-2" type="radio" name="q4" value="two">
+            <label for="quiz-q4-2">No</label>
+
+          <div class="quiz-explanation">Definitely not! That's what .js and .css files are for.</div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Question 5</legend>
+          <p>Check the useful tips for making webpages responsive.</p>
+
+          <input id="quiz-q5-1" class="question" type="checkbox" name="check[]" data-answer="true" value="viewport" />
+          <label for="quiz-q5-1">Set the viewport.</label> 
+          <br>
+          <input id="quiz-q5-2" class="question" type="checkbox" name="check[]" data-answer="false" value="dreaming" />
+          <label for="quiz-q5-2">Just use Dreamweaver; it's automatic.</label> 
+          <br>
+          <input id="quiz-q5-3" class="question" type="checkbox" name="check[]" data-answer="1" value="percent" />
+          <label for="quiz-q5-3">Use percentage widths.</label> 
+          <br>
+          <input id="quiz-q5-4" class="question" type="checkbox" name="check[]" data-answer="true" value="test" />
+          <label for="quiz-q5-4">Test the webpage on multiple browsers and devices.</label> 
+
+          <div class="quiz-explanation">All are useful, except Dreamweaver.</div>
         </fieldset>
 
         <fieldset>
