@@ -26,7 +26,7 @@ z: 7
         <li>Gives per-question correct/wrong feedback.</li>
         <li>Able to display explanations or answers if user enters wrong answer to question.</li>
         <li>Can save/load questions from localStorage (supports automatic and manual saving/loading).</li>
-        <li>Currently works with text input, radio input, and select form element types.</li>
+        <li>Currently works with text input, radio input, select, and checkbox input form element types.</li>
         <li>Able to reset the quiz with a button.</li>
       </ul>
     </section>
@@ -115,8 +115,8 @@ z: 7
           <legend>Question 4</legend>
           <p>Check all numbers less than 3.</p>
 
-          <input class="question" type="checkbox" name="check[]" value="1" />One <br>
-          <input class="question" type="checkbox" name="check[]" value="2" />Two <br>
+          <input class="question" type="checkbox" name="check[]" data-answer="true" value="1" />One <br>
+          <input class="question" type="checkbox" name="check[]" data-answer="true" value="2" />Two <br>
           <input class="question" type="checkbox" name="check[]" value="3" />Three <br>
 
           <div class="quiz-explanation">Once again, obvious answer.</div>

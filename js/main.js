@@ -121,6 +121,17 @@ Quiz.prototype.checkAnswers = function() {
       if (data.answer === data.correctAnswer) {
         correct = true;
       }
+    } else if (data.type == 'checkbox') {
+      var ok = true;
+      for (var k in data.correctAnswer) {
+        if (data.answer[k] != data.correctAnswer[k]) {
+          ok = false;
+          break;
+        }
+      }
+        if (ok) {
+          correct = true;
+        }
     }
 
     // using 'display: table' to have container width same as content, and have linebreak before and after it.
@@ -270,6 +281,14 @@ Quiz.prototype.saveAnswers = function(e) {
         localStorage.setItem(key, value);
         this.qData[question].answer = value;
       }
+    } else if (t == 'checkbox') {
+      if (q.prop('checked')) {
+        localStorage.setItem(key + "[" + value + "]", true);
+        this.qData[question].answer[value] = true;
+      } else {
+        localStorage.setItem(key + "[" + value + "]", false);
+        this.qData[question].answer[value] = false;
+      }
     } else if (q[0].tagName == 'SELECT') {
       value = q.find('option:selected').val();
       localStorage.setItem(key, value);
@@ -301,21 +320,32 @@ Quiz.prototype.loadAnswers = function() {
     var question = q.prop('name');
     var key = this.name + '.' + q.prop('name');
     var value = localStorage.getItem(key);
-    this.qData[question].answer = value;
-    if (value) {
-      if (t == 'text') {
-        q.val(value);
-      } else if (t == 'radio') {
-        if (q.val() == value) {
-          q.prop('checked', true);
-        }
-      } else if (q[0].tagName == 'SELECT') {
-        q.find('option').each(function(i, opt) {
-          if (opt.value == value) {
-            opt.selected = true;
-          }
-        }.bind(this));
+    if (t == 'text') {
+      this.qData[question].answer = value;
+      q.val(value);
+    } else if (t == 'radio') {
+      this.qData[question].answer = value;
+      if (q.val() == value) {
+        q.prop('checked', true);
       }
+    } else if (t == 'checkbox') {
+      if (!this.qData[question].answer) {
+        this.qData[question].answer = {};
+      }
+      checked = localStorage.getItem(key + "[" + q.val() + "]");
+      this.qData[question].answer[q.val()] = checked;
+      if (checked === 'true') {
+        q.prop('checked', true);
+      } else {
+        q.prop('checked', false);
+      }
+    } else if (q[0].tagName == 'SELECT') {
+      this.qData[question].answer = value;
+      q.find('option').each(function(i, opt) {
+        if (opt.value == value) {
+          opt.selected = true;
+        }
+      }.bind(this));
     }
   }.bind(this));
 
@@ -334,12 +364,14 @@ Quiz.prototype.reset = function() {
   }
 
   // remove all items for this quiz from localstorage
-  var questions = this.form.find('.question');
-  questions.each(function(i, q) {
-    q = $(q);
-    var question = this.name + '.' + q.prop('name');
-    localStorage.removeItem(question);
-  }.bind(this));
+  // using substr method (emulating startsWith) to remove entries for this quiz only
+  var len = this.name.length + 1;
+  var namespace = this.name + '.';
+  for (var k in localStorage) {
+    if (k.substr(0, len) == namespace) {
+      localStorage.removeItem(k);
+    }
+  }
 
   this.form[0].reset();
 
@@ -380,6 +412,7 @@ Quiz.prototype.autosave = function(yes) {
 Quiz.prototype.init = function(formId, canvas) {
 
   this.form = $(formId);
+  this.name = this.form.prop('name');
   if (!this.form) {
     console.log("QUIZ ERROR: no form element found with selector to init quiz");
     return false; // fail, no form
@@ -443,6 +476,22 @@ Quiz.prototype.init = function(formId, canvas) {
         this.qData[question].element = q;
         this.numQuestions++;
       }
+    } else if (t == 'checkbox') {
+      if (!this.qData[question]) {
+        this.qData[question] = {};
+        this.numQuestions++;
+        this.qData[question].index = count++;
+        this.qData[question].type = 'checkbox';
+        this.qData[question].element = q;
+        this.qData[question].answer = {};
+        this.qData[question].correctAnswer = {};
+      }
+      if (q.data('answer')) {
+        this.qData[question].correctAnswer[q.val().toString()] = true;
+      } else {
+        this.qData[question].correctAnswer[q.val().toString()] = false;
+      }
+      this.qData[question].element.push(q);
     } else if (q[0].tagName == 'SELECT') {
       this.qData[question] = {};
       this.qData[question].correctAnswer = q.data('answer').toString();
