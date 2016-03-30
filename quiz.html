@@ -62,10 +62,12 @@ z: 7
 
     <section>
 
-      <!-- the quiz class needs to work on a form, as below -->
-      <!-- this form has the class 'my-quizzes' which is just used by the onload script to init the quiz on it - not used by the quiz class -->
-      <!-- Information on creating accessible forms taken from http://webaim.org/techniques/forms/ (and other pages in that article)  -->
+      <!-- the quiz class needs to work on a form, as below. 
+           - the form must have a unique 'name' for loading/saving to work properly 
+           - this form has the class 'my-quizzes' which is just used by the onload script to init the quiz on it - not used by the quiz class
+      -->
       <form action="#" class="my-quizzes" name="referencequiz">
+      <!-- Information on creating accessible forms taken from http://webaim.org/techniques/forms/ (and other pages in that article)  -->
 
         <!-- By placing a canvas element with class 'quiz-canvas' inside the form somewhere, fancy canvas feedback on your quiz score will be auto setup. (unless specifically disabled) -->
         <!-- Note: gracefully won't use it if canvas not available in the browser, and just rely on the per-question feedback. -->
@@ -119,9 +121,14 @@ z: 7
                 to a truthy value on those which should be checked
                 (optionally a falsey value on those which shouldn't be checked
           -->
-          <input class="question" type="checkbox" name="check[]" data-answer="true" value="1" />One <br>
-          <input class="question" type="checkbox" name="check[]" data-answer="1" value="2" />Two <br>
-          <input class="question" type="checkbox" name="check[]" data-answer="false" value="3" />Three <br>
+          <input id="quiz-q4-1" class="question" type="checkbox" name="check[]" data-answer="true" value="1" />
+          <label for="quiz-q4-1">One</label> 
+          <br>
+          <input id="quiz-q4-2" class="question" type="checkbox" name="check[]" data-answer="1" value="2" />
+          <label for="quiz-q4-2">Two</label> 
+          <br>
+          <input id="quiz-q4-3" class="question" type="checkbox" name="check[]" data-answer="false" value="3" />
+          <label for="quiz-q4-3">Three</label> 
 
           <div class="quiz-explanation">Once again, obvious answer.</div>
         </fieldset>
