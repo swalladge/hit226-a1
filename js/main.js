@@ -83,6 +83,7 @@ Quiz.prototype.setCanvas = function(canvas) {
   if (canvas[0].getContext) { // check if can use canvas element
     this.canvas = canvas;
     this.ctx = canvas[0].getContext('2d');
+    canvas[0].tabIndex = 0; // set tabindex on canvas to make it focusable. source: http://stackoverflow.com/questions/30247762/how-to-change-focus-to-new-html5-canvas-element
   } else {
     this.canvas = undefined;
     this.ctx = undefined;
@@ -183,8 +184,8 @@ Quiz.prototype.displayCanvas = function() {
     return;
   }
 
-  // hide canvas popup on click
-  this.canvas.click(function() {
+  // hide canvas popup on click or keypress
+  this.canvas.on('keypress click', function() {
     var canvasStyle = {
       display: 'none'
     };
@@ -200,6 +201,7 @@ Quiz.prototype.displayCanvas = function() {
     'top': '0',
   };
   this.canvas.css(canvasShowStyles);
+  this.canvas.focus();
 
   // setup some variables
   // need to use raw dom element here, otherwise drawing dimensions get messed up

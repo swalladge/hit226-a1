@@ -10,7 +10,7 @@ z: 5
     <section>
       <h2>Take the Quiz!</h2>
       <p>
-        Test your knowledge on responsive design and web accessibility with this quiz!
+        Test your knowledge on responsive design, web accessibility, and web design in general with this quiz!
       </p>
       <p>
         Your answers will be automatically saved in your browser if you need to close the page before finishing. When ready, click Submit to check your answers!
@@ -164,6 +164,28 @@ z: 5
             <input class="question" type="radio" id="quiz-q9-3" name="html5" value="none">
             <label for="quiz-q9-3">doctypes are no longer needed</label>
             <div class="quiz-explanation"><code>&lt;!DOCTYPE html&gt;</code> is the standard html5 doctype that should be used. For more info, see the <a href="http://www.w3.org/wiki/Doctypes_and_markup_styles">W3C Wiki</a></div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Question 10</legend>
+          <p>Check the valid html5 snippets.</p>
+
+          <input id="quiz-q10-1" class="question" type="checkbox" name="snippets[]" data-answer="true" value="empty" />
+          <label for="quiz-q10-1">&lt;br&gt;</label>
+          <br>
+          <input id="quiz-q10-2" class="question" type="checkbox" name="snippets[]" data-answer="false" value="badend" />
+          <label for="quiz-q10-2">&lt;img src="foo"&gt;&lt;/img&gt;</label>
+          <br>
+          <input id="quiz-q10-3" class="question" type="checkbox" name="snippets[]" data-answer="false" value="missing" />
+          <label for="quiz-q10-3">&lt;div&gt;&lt;p&gt;hi there&lt;/div&gt;</label>
+          <br>
+          <input id="quiz-q10-4" class="question" type="checkbox" name="snippets[]" data-answer="false" value="failend" />
+          <label for="quiz-q10-4">&lt;p&gt;random&lt;p&gt;</label>
+          <br>
+          <input id="quiz-q10-5" class="question" type="checkbox" name="snippets[]" data-answer="true" value="nest" />
+          <label for="quiz-q10-5">&lt;div&gt;&lt;div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</label>
+
+          <div class="quiz-explanation">Empty tags don't need a closing slash, divs can be nested as much as you want. (first and fifth options are correct html5)</div>
         </fieldset>
 
         <fieldset>
