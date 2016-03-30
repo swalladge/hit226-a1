@@ -121,9 +121,7 @@ legend {
 
 // neater margins on form buttons
 button, input[type=button], input[type=reset], input[type=submit] {
-  margin-left: 5px;
-  margin-top: 5px;
-  margin-bottom: 5px;
+  margin: 5px 0 5px 5px;
 }
 
 .quiz-explanation {

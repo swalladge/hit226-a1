@@ -67,7 +67,7 @@ z: 5
         <fieldset>
           <legend>Question 4</legend>
 
-          <p>Should javascript and css be written in the same file as the html page?</p>
+          <p>Should javascript and css be written inline with the html?</p>
 
             <input class="question" id="quiz-q4-1" type="radio" name="q4" value="one" checked>
             <label for="quiz-q4-1">Yes</label>
@@ -109,6 +109,61 @@ z: 5
             <label for="quiz-q6-2">Desktop first.</label>
 
           <div class="quiz-explanation">Designing for mobile first is the most widely recommended method.</div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Question 7</legend>
+          <p>What is the current acceptable best practice for organizing html, css, and javascript?</p>
+
+            <input class="question" id="quiz-q7-1" type="radio" name="files" value="one" checked>
+            <label for="quiz-q7-1">All css and javascript embedded in the html file to increase performance</label>
+            <br>
+            <input class="question" data-answer="few" id="quiz-q7-2" type="radio" name="files" value="many">
+            <label for="quiz-q7-2">everything split into as many small files as possible for modularity and maintainability</label>
+            <br>
+            <input class="question" type="radio" id="quiz-q7-3" name="files" value="few">
+            <label for="quiz-q7-3">html, css, and javascript each in a separate file or a small number of separate files</label>
+
+          <div class="quiz-explanation">Fewer files is better for performance, while more files helps with maintainability. Better to take middle ground.</div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Question 8</legend>
+          <p>Which of these are characteristics of usable sites?</p>
+
+          <input id="quiz-q8-1" class="question" type="checkbox" name="usable[]" data-answer="false" value="alttext" />
+          <label for="quiz-q8-1">relies on icons only with no alt text for navigation buttons</label>
+          <br>
+          <input id="quiz-q8-2" class="question" type="checkbox" name="usable[]" data-answer="true" value="consistent" />
+          <label for="quiz-q8-2">consistent navigation and styles</label>
+          <br>
+          <input id="quiz-q8-3" class="question" type="checkbox" name="usable[]" data-answer="false" value="contrast" />
+          <label for="quiz-q8-3">dark grey text on black background</label>
+          <br>
+          <input id="quiz-q8-4" class="question" type="checkbox" name="usable[]" data-answer="false" value="slow" />
+          <label for="quiz-q8-4">site takes 4 seconds to load main content</label>
+          <br>
+          <input id="quiz-q8-5" class="question" type="checkbox" name="usable[]" data-answer="true" value="intuitive" />
+          <label for="quiz-q8-5">intuitive layout</label>
+
+          <div class="quiz-explanation">Consistent navigation and intuitive layout are the only two characteristics of usable sites here.</div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Question 9</legend>
+
+          <p>What doctype should be used in a standard html5 document?</p>
+
+            <input class="question" id="quiz-q9-1" type="radio" name="html5" value="long" checked>
+            <label for="quiz-q9-1"><code>&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+                "http://www.w3.org/TR/html4/strict.dtd"&gt;</code></label>
+            <br>
+            <input class="question" data-answer="html" id="quiz-q9-2" type="radio" name="html5" value="html">
+            <label for="quiz-q9-2"><code>&lt;!DOCTYPE html&gt;</code></label>
+            <br>
+            <input class="question" type="radio" id="quiz-q9-3" name="html5" value="none">
+            <label for="quiz-q9-3">doctypes are no longer needed</label>
+            <div class="quiz-explanation"><code>&lt;!DOCTYPE html&gt;</code> is the standard html5 doctype that should be used. For more info, see the <a href="http://www.w3.org/wiki/Doctypes_and_markup_styles">W3C Wiki</a></div>
         </fieldset>
 
         <fieldset>
