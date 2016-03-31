@@ -36,7 +36,7 @@ z: 5
             <label for="quiz-q1-1"><code>alt="there is an image here"</code></label>
             <br>
             <input class="question" data-answer="two" id="quiz-q1-2" type="radio" name="radiotest" value="two">
-            <label for="quiz-q1-2"><code>alt="a star"</code></label>
+            <label for="quiz-q1-2"><code>alt="an image showing a star"</code></label>
             <br>
             <input class="question" type="radio" id="quiz-q1-3" name="radiotest" value="three">
             <label for="quiz-q1-3"><code>title="a star"</code></label>
@@ -235,6 +235,123 @@ z: 5
             <label for="quiz-q14-2">No!</label>
 
           <div class="quiz-explanation">They most certainly are useful!</div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Question 15</legend>
+
+          <p>Check the recognized approaches to writing css.</p>
+
+          <input id="quiz-q15-1" class="question" type="checkbox" name="styles[]" data-answer="true" value="bem" />
+          <label for="quiz-q15-1">BEM</label>
+          <br>
+          <input id="quiz-q15-2" class="question" type="checkbox" name="styles[]" data-answer="true" value="smacss" />
+          <label for="quiz-q15-2">SMACSS</label>
+          <br>
+          <input id="quiz-q15-3" class="question" type="checkbox" name="styles[]" data-answer="true" value="oocss" />
+          <label for="quiz-q15-3">OOCSS</label>
+          <br>
+          <input id="quiz-q15-4" class="question" type="checkbox" name="styles[]" data-answer="false" value="sass" />
+          <label for="quiz-q15-4">SAS</label>
+          <br>
+          <input id="quiz-q15-5" class="question" type="checkbox" name="styles[]" data-answer="true" value="acss" />
+          <label for="quiz-q15-5">ACSS</label>
+          <br>
+          <input id="quiz-q15-6" class="question" type="checkbox" name="styles[]" data-answer="false" value="csssss" />
+          <label for="quiz-q15-6">CSSSSS</label>
+
+          <div class="quiz-explanation">All are correct apart from <a href="http://sass-lang.com/">SASS</a>, which is actually an extension language for helping to write css, and CSSSSS, which is made up.</div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Question 16</legend>
+          <pre>
+&lt;p class="paragraph" id="this-paragraph"&gt;What colour am I?&lt;/p&gt;
+&lt;style&gt;
+  #this-paragraph {
+    color: green;
+  }
+  p {
+    color: red;
+  }
+  .paragraph {
+    color: blue;
+  }
+&lt;/style&gt;
+          </pre>
+
+          <label for="quiz-q16">What color will the p element text be from the html snippet above?</label>
+          <select data-answer="green" id="quiz-q16" class="question" name="q16">
+            <option value="black" selected>black</option>
+            <option value="default">inherited</option>
+            <option value="green">green</option>
+            <option value="red">red</option>
+            <option value="blue">blue</option>
+          </select>
+          <div class="quiz-explanation">The id selector gets a specificity than element or class. Therefore, the colour will be green.</div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Question 17</legend>
+
+          <p>What css styles are inherited by default?</p>
+
+          <input id="quiz-q17-1" class="question" type="checkbox" name="inherit[]" data-answer="false" value="background" />
+          <label for="quiz-q17-1">background-color</label>
+          <br>
+          <input id="quiz-q17-2" class="question" type="checkbox" name="inherit[]" data-answer="false" value="border" />
+          <label for="quiz-q17-2">border</label>
+          <br>
+          <input id="quiz-q17-3" class="question" type="checkbox" name="inherit[]" data-answer="false" value="maxwidth" />
+          <label for="quiz-q17-3">max-width</label>
+          <br>
+          <input id="quiz-q17-4" class="question" type="checkbox" name="inherit[]" data-answer="true" value="font" />
+          <label for="quiz-q17-4">font-family</label>
+          <br>
+          <input id="quiz-q17-5" class="question" type="checkbox" name="inherit[]" data-answer="false" value="display" />
+          <label for="quiz-q17-5">display</label>
+          <br>
+          <input id="quiz-q17-6" class="question" type="checkbox" name="inherit[]" data-answer="true" value="color" />
+          <label for="quiz-q17-6">color</label>
+
+          <div class="quiz-explanation">Of these, only font-family and color are inherited by default.</div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Question 18</legend>
+
+          <label for="quiz-q18">What does CSS stand for in web development?</label>
+          <input class="question" data-answer="^cascading\s+style\s+sheet(s)?$" id="quiz-q18" name="q18" placeholder="type answer..." type="text"/>
+
+          <div class="quiz-explanation">CSS stands for cascading style sheets.</div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Question 19</legend>
+
+          <p>Which html form controls should have a label element associated for better accessibility?</p>
+
+            <input class="question" id="quiz-q19-1" type="radio" name="labels" value="none" checked>
+            <label for="quiz-q19-1">label elements aren't needed when proper css styling is used</label>
+            <br>
+            <input class="question" id="quiz-q19-2" type="radio" name="labels" value="radio">
+            <label for="quiz-q19-2">radio input types only</label>
+            <br>
+            <input class="question" type="radio" data-answer="all" id="quiz-q19-3" name="labels" value="all">
+            <label for="quiz-q19-3">All controls which allow labels.</label>
+            <div class="quiz-explanation">All form elements should have an associated label where possible! See the <a href="http://webaim.org/techniques/forms/controls">related page on WebAIM</a>.</div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Question 20</legend>
+          <label for="quiz-q20">Pick font settings to maximize accessibility:</label>
+          <select data-answer="dyslexic" id="quiz-q20" class="question" name="q20">
+            <option value="bad" selected>OpenDyslexic, size 8px</option>
+            <option value="dyslexic">OpenDyslexic, size 16px</option>
+            <option value="bad2">Arial, size 16px</option>
+            <option value="bad3">sans-serif, size 9px</option>
+          </select>
+          <div class="quiz-explanation">While Arial at 16px would be a good choice, using the OpenDyslexic font would improve accessibility by catering for dyslexic users. Don't use tiny font sizes.</div>
         </fieldset>
 
         <fieldset>
