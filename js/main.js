@@ -316,10 +316,10 @@ Quiz.prototype.saveAnswers = function(e) {
       }
     } else if (q.tagName == 'SELECT') {
       var options = q.getElementsByTagName('option');
-      var value = undefined;
-      for (var i=0; i<options.length; i++) {
-        if (options[i].selected) {
-          value = options[i].value;
+      value = undefined;
+      for (var j=0; j<options.length; j++) {
+        if (options[j].selected) {
+          value = options[j].value;
         }
       }
       localStorage.setItem(key, value);
@@ -351,6 +351,7 @@ Quiz.prototype.loadAnswers = function(e) {
 
   for (var i=0; i<this.questions.length; i++ ) {
     var q = this.questions[i];
+    console.log(q);
     var t = q.type;
     var question = q.name;
     var key = this.name + '.' + q.name;
@@ -377,8 +378,8 @@ Quiz.prototype.loadAnswers = function(e) {
     } else if (q.tagName == 'SELECT') {
       this.qData[question].answer = value;
       var options = q.getElementsByTagName('option');
-      for (var i=0; i<options.length; i++) {
-        var opt = options[i];
+      for (var j=0; j<options.length; j++) {
+        var opt = options[j];
         if (opt.value == value) {
           opt.selected = true;
         }
@@ -519,8 +520,8 @@ Quiz.prototype.init = function(form, usecanvas) {
   var count = 1;
   this.numQuestions = 0;
   for (var i = 0; i < this.questions.length; i++) {
-    q = this.questions[i];
-    t = q.type;
+    var q = this.questions[i];
+    var t = q.type;
     var question = q.name;
 
     // create a feedback element and add it to the question section (if not one already)
@@ -654,9 +655,9 @@ window.onload = function(){
 
   // I have set the follow class on all quizzes site-wide I want to use
   //  - also all should autosave and loadAnswers on start to provide a smooth experience
-  elements = document.getElementsByClassName('my-quizzes');
-  for (var i=0; i<elements.length; i++) {
-    quiz = new Quiz(elements[i]);
+  var elements = document.getElementsByClassName('my-quizzes');
+  for (var e=0; e<elements.length; e++) {
+    quiz = new Quiz(elements[e]);
     quiz.autosave(true);
     quiz.loadAnswers();
   }
