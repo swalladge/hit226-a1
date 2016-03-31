@@ -58,7 +58,7 @@ Quiz.prototype.noCanvas = function() {
 /**
  * set the canvas for the quiz to draw to
  * (for displaying scores, etc. on checking answers
- * @param {String|Object} canvas - the canvas css selector (must return one canvas object). Will also work with a dom/jquery object
+ * @param {Object|undefined} canvas - the canvas dom object to use
  * @return Returns true if a canvas has been set for the quiz (otherwise, false)
  */
 Quiz.prototype.setCanvas = function(canvas) {
@@ -66,13 +66,10 @@ Quiz.prototype.setCanvas = function(canvas) {
   // attempt to autoset the canvas if 'canvas' not defined
   if (!canvas) {
     if (this.form && this.useCanvas) {
-      canvas = this.form.find('canvas.quiz-canvas');
+      canvas = this.form.getElementsByClassName('quiz-canvas');
     } else {
       return false;
     }
-  } else {
-    // otherwise, use the 'canvas' selector
-    canvas = $(canvas);
   }
 
   if (canvas.length != 1) {
@@ -80,10 +77,10 @@ Quiz.prototype.setCanvas = function(canvas) {
     return false; // fail, no canvas
   }
 
-  if (canvas[0].getContext) { // check if can use canvas element
+  if (canvas.getContext) { // check if can use canvas element
     this.canvas = canvas;
-    this.ctx = canvas[0].getContext('2d');
-    canvas[0].tabIndex = 0; // set tabindex on canvas to make it focusable. source: http://stackoverflow.com/questions/30247762/how-to-change-focus-to-new-html5-canvas-element
+    this.ctx = canvas.getContext('2d');
+    canvas.tabIndex = 0; // set tabindex on canvas to make it focusable. source: http://stackoverflow.com/questions/30247762/how-to-change-focus-to-new-html5-canvas-element
   } else {
     this.canvas = undefined;
     this.ctx = undefined;
@@ -141,19 +138,29 @@ Quiz.prototype.checkAnswers = function() {
     }
 
     // using 'display: table' to have container width same as content, and have linebreak before and after it.
-    var feedbackStyle = {
-      display: 'table'
-    };
+    var feedbackElements;
     if (correct) {
       this.numCorrect++;
       this.qData[key].iscorrect = true;
-      feedbackStyle.color = "#33AA33";
-      this.qData[key].element.parent().find('.quiz-feedback').css(feedbackStyle).text("✔ Correct!");
+      feedbackElements = this.qData[key].element.parentNode.getElementsByClassName('quiz-feedback');
+      for (var i=0; i<feedbackElements.length; i++) {
+        feedbackElements[i].style.display = 'table';
+        feedbackElements[i].style.color = '#33AA33';
+        feedbackElements[i].innerText = '✔ Corrct';
+      }
     } else {
       this.qData[key].iscorrect = false;
       feedbackStyle.color = "#AA3333";
-      this.qData[key].element.parent().find('.quiz-feedback').css(feedbackStyle).text("✘ Wrong...");
-      this.qData[key].element.parent().find('.quiz-explanation').css('display', 'table');
+      feedbackElements = this.qData[key].element.parentNode.getElementsByClassName('quiz-feedback');
+      for (var i=0; i<feedbackElements.length; i++) {
+        feedbackElements[i].style.display = 'table';
+        feedbackElements[i].style.color = '#AA3333';
+        feedbackElements[i].innerHTML = '✘ Wrong...';
+      }
+      var explanation = this.qData[key].element.parentNode.getElementsByClassName('quiz-explanation');
+      for (var i=0; i<explanation.length; i++) {
+        explanation[i].style.display = 'table';
+      }
     }
 
   }
@@ -167,10 +174,15 @@ Quiz.prototype.checkAnswers = function() {
  * hide the feedback messages for each question
  */
 Quiz.prototype.hideFeedback = function() {
-  for (var key in this.qData) {
-      this.qData[key].element.parent().find('.quiz-feedback').css('display', 'none');
+  var feedbackElements = this.form.getElementsByClassName('quiz-feedback');
+  for (var i=0; i<feedbackElements.length; i++) {
+    feedbackElements[i].style.display = 'none';
   }
-  this.form.find('.quiz-explanation').css('display', 'none');
+
+  var explanation = this.form.getElementsByClassName('quiz-explanation');
+  for (var i=0; i<explanation.length; i++) {
+    explanation[i].style.display = 'table';
+  }
 };
 
 /**
@@ -184,29 +196,28 @@ Quiz.prototype.displayCanvas = function() {
     return;
   }
 
-  // hide canvas popup on click or keypress
-  this.canvas.on('keypress click', function() {
-    var canvasStyle = {
-      display: 'none'
-    };
-    this.canvas.css(canvasStyle);
+  var hideCanvas = function() {
+    console.log(this.canvas);
+      this.canvas.style.display = 'none';
+  }.bind(this);
 
-  }.bind(this));
+  // hide canvas popup on click or keypress
+  this.canvas.addEventListener('click', hideCanvas);
+  this.canvas.addEventListener('keypress', hideCanvas);
 
   // setup the styles for the canvas and display it
-  var canvasShowStyles = {
-    display: 'block',
-    position: 'fixed',
-    left: '0',
-    'top': '0',
-  };
-  this.canvas.css(canvasShowStyles);
+  this.canvas.style.display = 'block';
+  this.canvas.style.position = 'fixed';
+  this.canvas.style.left = '0';
+  this.canvas.style.right = '0';
+
+  // set focus
   this.canvas.focus();
 
   // setup some variables
   // need to use raw dom element here, otherwise drawing dimensions get messed up
-  var width = this.canvas[0].width = window.innerWidth;
-  var height = this.canvas[0].height = window.innerHeight;
+  var width = this.canvas.width = window.innerWidth;
+  var height = this.canvas.height = window.innerHeight;
   var start = -(0.5 * Math.PI);
   var radius = Math.min((Math.min(width,height)/2)-30, 350);
   var ctx = this.ctx;
@@ -267,41 +278,44 @@ Quiz.prototype.saveAnswers = function(e) {
   // hide the correct/wrong messages for the current question being changed (if defined),
   //  otherwise hide all
   if (e && e.currentTarget.name in this.qData) {
-    $(e.currentTarget).parent().find('.quiz-feedback, .quiz-explanation').css('display', 'none');
+    var toHide = e.currentTarget.parentNode.querySelectorAll('.quiz-feedback, .quiz-explanation');
+    for (var i=0; i<toHide.length; i++) {
+      toHide[i].style.display = 'none';
+    }
   } else {
     this.hideFeedback();
   }
 
   // go through each question element, extract data, and store them
   // Help with localStorage found at https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API
-  this.questions.each(function(i, q) {
-    q = $(q);
-    t = q.prop('type');
-    var question = q.prop('name');
-    var key = this.name + '.' + q.prop('name');
-    var value = $.trim(q.val());
+  for (var i=0; i<this.questions.length; i++ ) {
+    var q = this.questions[i];
+    var t = q.type;
+    var question = q.name;
+    var key = this.name + '.' + question;
+    var value = q.value.trim();
     if (t == 'text') {
       localStorage.setItem(key, value);
       this.qData[question].answer = value;
     } else if (t == 'radio') {
-      if (q.prop('checked')) {
+      if (q.checked) {
         localStorage.setItem(key, value);
         this.qData[question].answer = value;
       }
     } else if (t == 'checkbox') {
-      if (q.prop('checked')) {
+      if (q.checked) {
         localStorage.setItem(key + "[" + value + "]", true);
         this.qData[question].answer[value] = true;
       } else {
         localStorage.setItem(key + "[" + value + "]", false);
         this.qData[question].answer[value] = false;
       }
-    } else if (q[0].tagName == 'SELECT') {
-      value = q.find('option:selected').val();
+    } else if (q.tagName == 'SELECT') {
+      value = q.querySelector('option:selected').value;
       localStorage.setItem(key, value);
       this.qData[question].answer = value;
     }
-  }.bind(this));
+  }
 
   return true;
 };
