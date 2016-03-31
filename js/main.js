@@ -540,16 +540,16 @@ Quiz.prototype.init = function(form, usecanvas) {
 
     if (t == 'text') {
       this.qData[question] = {};
-      this.qData[question].correctAnswer = q.dataset.answer;
+      this.qData[question].correctAnswer = q.getAttribute('data-answer');
       this.qData[question].type = 'text';
       this.qData[question].index = count++;
       this.qData[question].element = q;
 
       this.numQuestions++;
     } else if (t == 'radio') {
-      if (q.dataset.answer) {
+      if (q.getAttribute('data-answer')) {
         this.qData[question] = {};
-        this.qData[question].correctAnswer = q.dataset.answer;
+        this.qData[question].correctAnswer = q.getAttribute('data-answer');
         this.qData[question].index = count++;
         this.qData[question].type = 'radio';
         this.qData[question].element = q;
@@ -565,14 +565,14 @@ Quiz.prototype.init = function(form, usecanvas) {
         this.qData[question].answer = {};
         this.qData[question].correctAnswer = {};
       }
-      if (q.dataset.answer) {
+      if (q.getAttribute('data-answer')) {
         this.qData[question].correctAnswer[q.value.toString()] = true;
       } else {
         this.qData[question].correctAnswer[q.value.toString()] = false;
       }
     } else if (q.tagName == 'SELECT') {
       this.qData[question] = {};
-      this.qData[question].correctAnswer = q.dataset.answer;
+      this.qData[question].correctAnswer = q.getAttribute('data-answer');
       this.qData[question].index = count++;
       this.qData[question].type = 'select';
       this.qData[question].element = q;
