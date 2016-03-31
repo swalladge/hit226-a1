@@ -39,6 +39,7 @@ var Quiz = function(form, usecanvas) {
   this.numQuestions = 0;
   this.numCorrect = 0;
   this.qData = {};
+  this.saveCallback = undefined;
 
   // if form and/or canvas set, init
   if (form) {
@@ -66,6 +67,9 @@ Quiz.prototype.useCanvas = function(yes) {
   if (canvas.getContext) { // check if can use canvas element
     this.canvas = canvas;
     this.canvas.style.display = 'none';
+    this.canvas.style.margin = 0;
+    this.canvas.style.padding = 0;
+    this.canvas.classList.add('quiz-canvas');
     this.form.appendChild(this.canvas);
     this.ctx = canvas.getContext('2d');
     canvas.tabIndex = 0; // set tabindex on canvas to make it focusable. source: http://stackoverflow.com/questions/30247762/how-to-change-focus-to-new-html5-canvas-element
@@ -75,6 +79,11 @@ Quiz.prototype.useCanvas = function(yes) {
     return false;
   }
 
+
+  // setup initial styles here
+  this.canvas.style.position = 'fixed';
+  this.canvas.style.left = '0';
+  this.canvas.style.top = '0';
 
   // add the event listeners for closing the canvas popup
   var hideCanvas = function() {
@@ -93,7 +102,7 @@ Quiz.prototype.useCanvas = function(yes) {
 
 /**
  * check answers (called on user submit quiz)
- * @return Returns false, thus preventing default button action from happening
+ * @return Returns true if did check answers, false if user cancelled
  */
 Quiz.prototype.checkAnswers = function(e) {
 
@@ -200,10 +209,8 @@ Quiz.prototype.displayCanvas = function() {
   }
 
   // setup the styles for the canvas and display it
-  this.canvas.style.display = 'block';
-  this.canvas.style.position = 'fixed';
-  this.canvas.style.left = '0';
-  this.canvas.style.right = '0';
+  console.log("displaying canvas now");
+  this.canvas.style.display = 'table';
   this.canvas.width = window.innerWidth;
   this.canvas.height = window.innerHeight;
 
@@ -422,30 +429,37 @@ Quiz.prototype.reset = function(e) {
 /**
  * Whether to automatically save the quiz or not.
  * either way, can still manually save
- * @param {boolean} yes - true turns on autosave, false switches off
+ * @param {boolean|undefined} yes - true turns on autosave, false switches off. Defaults to true
  */
 Quiz.prototype.autosave = function(yes) {
+
+  // default to true
+  if (yes === undefined) {
+    yes = true;
+  }
+
   if (!this.form) {
     console.log("QUIZ ERROR: Tried to toggle autosave, but I don't have a form element.");
     return;
   }
 
   if (yes) {
+    this.saveCallback = this.saveCallback || this.saveAnswers.bind(this);
     // add event handlers to save answers whenever answer changed
     for (var i = 0; i < this.questions.length; i++) {
       var q = this.questions[i];
-      q.addEventListener('change', this.saveAnswers.bind(this));
+      q.addEventListener('change', this.saveCallback);
       if (q.type == 'text') {
-        q.addEventListener('keydown', this.saveAnswers.bind(this));
+        q.addEventListener('keydown', this.saveCallback);
       }
     }
   } else {
     // remove event handlers, so will not autosave
     for (var i = 0; i < this.questions.length; i++) {
       var q = this.questions[i];
-      q.removeEventListener('change', this.saveAnswers.bind(this));
+      q.removeEventListener('change', this.saveCallback);
       if (q.type == 'text') {
-        q.removeEventListener('keydown', this.saveAnswers.bind(this));
+        q.removeEventListener('keydown', this.saveCallback);
       }
     }
 
@@ -456,8 +470,8 @@ Quiz.prototype.autosave = function(yes) {
 
 /**
  * initialize the quiz on a form
- * @param {Object} formId - the dom object for the form element to use
- * @param {String|Object|undefined} canvas - the css selector (or jquery object) for the canvas element to use
+ * @param {Object} form - the dom object for the form element to use
+ * @param {Boolean|undefined} usecanvas - whether to display scores  on a canvas element (defaults to true)
  */
 Quiz.prototype.init = function(form, usecanvas) {
 
@@ -630,8 +644,8 @@ window.onload = function(){
   // // init the quiz on the element selector
   // thequiz.init(document.getElementById("#quizform"));
   //
-  // // specify the canvas to use (or leave blank to auto use available canvas
-  // thequiz.useCanvas();
+  // // tell it to use a canvas
+  // thequiz.useCanvas(true);
   //
   // // turn on autosave and load saved answers
   // thequiz.autosave(true);
@@ -642,7 +656,7 @@ window.onload = function(){
   //  - also all should autosave and loadAnswers on start to provide a smooth experience
   elements = document.getElementsByClassName('my-quizzes');
   for (var i=0; i<elements.length; i++) {
-    var quiz = new Quiz(elements[i]);
+    quiz = new Quiz(elements[i]);
     quiz.autosave(true);
     quiz.loadAnswers();
   }
