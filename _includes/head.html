@@ -11,16 +11,17 @@
 
   <link rel="stylesheet" href="{{ site.baseurl }}/css/main.css">
 
-  <!-- The following link is to what is called an html5 shiv: a work around file for Internet Explorer. 
-      It will help with styling some html5 elements in IE versions before and up to IE9.  
-      It should remain inside the comment tags AND DO NOT DELETE IT -->
-
+  <!-- stuff to attempt to get IE 8 working
+       source for respond.js: https://github.com/scottjehl/Respond (installed with bower)
+  -->
   <!--[if lt IE 9]>
     <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <script src="{{ site.baseurl }}/bower_components/respond/dest/respond.min.js"></script>
+    <script src="{{ site.baseurl }}/js/ie8.js"></script>
   <![endif]-->
 
   <!-- the jquery javascript library. This file sourced from: https://github.com/jquery/jquery-dist (installed with bower) -->
-  <!-- <script src="{{ site.baseurl }}/bower_components/jquery/dist/jquery.min.js"></script> -->
+  <!-- Aha! don't need jquery ;) <script src="{{ site.baseurl }}/bower_components/jquery/dist/jquery.min.js"></script> -->
 
   <script src="{{ site.baseurl }}/js/main.js"></script>
 

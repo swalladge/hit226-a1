@@ -14,6 +14,7 @@
     "tests"
   ],
   "dependencies": {
-    "normalize-css": "https://github.com/necolas/normalize.css.git#~3.0.3"
+    "normalize-css": "https://github.com/necolas/normalize.css.git#~3.0.3",
+    "respond": "https://github.com/scottjehl/Respond.git#^1.4.2"
   }
 }

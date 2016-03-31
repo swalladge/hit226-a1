@@ -18,7 +18,6 @@
  *
  */
 
-
 // help for creating classes in javascript found at https://developer.mozilla.org/en-US/docs/Web/JavaScript/Introduction_to_Object-Oriented_JavaScript
 // Note: did not use new ecmascript 6 class fanciness, since not widely supported
 /**
@@ -88,6 +87,7 @@ Quiz.prototype.useCanvas = function(yes) {
   // add the event listeners for closing the canvas popup
   var hideCanvas = function() {
     this.canvas.style.display = 'none';
+    this.form.scrollIntoView(); // scroll back to the top of the quiz so you can review your answers
   }.bind(this);
 
   // hide canvas popup on click or keypress
@@ -154,7 +154,7 @@ Quiz.prototype.checkAnswers = function(e) {
     if (correct) {
       this.numCorrect++;
       this.qData[key].iscorrect = true;
-      feedbackElements = this.qData[key].element.parentNode.getElementsByClassName('quiz-feedback');
+      feedbackElements = this.qData[key].element.parentNode.querySelectorAll('.quiz-feedback');
       for (var i=0; i<feedbackElements.length; i++) {
         feedbackElements[i].style.display = 'table';
         feedbackElements[i].style.color = '#33AA33';
@@ -162,13 +162,13 @@ Quiz.prototype.checkAnswers = function(e) {
       }
     } else {
       this.qData[key].iscorrect = false;
-      feedbackElements = this.qData[key].element.parentNode.getElementsByClassName('quiz-feedback');
+      feedbackElements = this.qData[key].element.parentNode.querySelectorAll('.quiz-feedback');
       for (var i=0; i<feedbackElements.length; i++) {
         feedbackElements[i].style.display = 'table';
         feedbackElements[i].style.color = '#AA3333';
         feedbackElements[i].innerHTML = '✘ Wrong...';
       }
-      var explanation = this.qData[key].element.parentNode.getElementsByClassName('quiz-explanation');
+      var explanation = this.qData[key].element.parentNode.querySelectorAll('.quiz-explanation');
       for (var i=0; i<explanation.length; i++) {
         explanation[i].style.display = 'table';
       }
@@ -185,12 +185,12 @@ Quiz.prototype.checkAnswers = function(e) {
  * hide the feedback messages for each question
  */
 Quiz.prototype.hideFeedback = function() {
-  var feedbackElements = this.form.getElementsByClassName('quiz-feedback');
+  var feedbackElements = this.form.querySelectorAll('.quiz-feedback');
   for (var i=0; i<feedbackElements.length; i++) {
     feedbackElements[i].style.display = 'none';
   }
 
-  var explanation = this.form.getElementsByClassName('quiz-explanation');
+  var explanation = this.form.querySelectorAll('.quiz-explanation');
   for (var i=0; i<explanation.length; i++) {
     explanation[i].style.display = 'none';
   }
@@ -480,31 +480,31 @@ Quiz.prototype.init = function(form, usecanvas) {
     return false; // fail, no form
   }
 
-  this.questions = this.form.getElementsByClassName('question');
+  this.questions = this.form.querySelectorAll('.question');
 
   this.qData = {};
 
   // check answers on user submit
   // note - functions expected to e.preventDefault to avoid actually submitting form, etc.
-  var submits = this.form.getElementsByClassName('quiz-submit');
+  var submits = this.form.querySelectorAll('.quiz-submit');
   for (var i = 0; i < submits.length; i++) {
     submits[i].addEventListener('click', this.checkAnswers.bind(this));
   }
 
   // save buttons
-  var saves = this.form.getElementsByClassName('quiz-save');
+  var saves = this.form.querySelectorAll('.quiz-save');
   for (var i = 0; i < saves.length; i++) {
     saves[i].addEventListener('click', this.saveAnswers.bind(this));
   }
 
   // load buttons
-  var loads = this.form.getElementsByClassName('quiz-load');
+  var loads = this.form.querySelectorAll('.quiz-load');
   for (var i = 0; i < loads.length; i++) {
     loads[i].addEventListener('click', this.loadAnswers.bind(this));
   }
 
   // reset buttons
-  var resets = this.form.getElementsByClassName('quiz-reset');
+  var resets = this.form.querySelectorAll('.quiz-reset');
   for (var i = 0; i < resets.length; i++) {
     resets[i].addEventListener('click', this.reset.bind(this));
   }
@@ -525,7 +525,7 @@ Quiz.prototype.init = function(form, usecanvas) {
     var feedback = document.createElement('div');
     feedback.className += 'quiz-feedback';
     feedback.style.display = 'none';
-    if (q.parentNode.getElementsByClassName('quiz-feedback').length === 0) {
+    if (q.parentNode.querySelectorAll('.quiz-feedback').length === 0) {
       // must insert after the legend in a fieldset to appease internet explorer...
       var first = q.parentNode.firstChild;
       if (first.nodeName == "#text") {
@@ -655,7 +655,7 @@ window.onload = function(){
 
   // I have set the follow class on all quizzes site-wide I want to use
   //  - also all should autosave and loadAnswers on start to provide a smooth experience
-  var elements = document.getElementsByClassName('my-quizzes');
+  var elements = document.querySelectorAll('.my-quizzes');
   for (var e=0; e<elements.length; e++) {
     quiz = new Quiz(elements[e]);
     quiz.autosave(true);
