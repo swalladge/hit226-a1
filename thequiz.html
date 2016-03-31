@@ -156,7 +156,7 @@ z: 5
 
             <input class="question" id="quiz-q9-1" type="radio" name="html5" value="long" checked>
             <label for="quiz-q9-1"><code>&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-                "http://www.w3.org/TR/html4/strict.dtd"&gt;</code></label>
+                "http://&#8203;www.w3.org/&#8203;TR/&#8203;html4/&#8203;strict.dtd"&gt;</code></label>
             <br>
             <input class="question" data-answer="html" id="quiz-q9-2" type="radio" name="html5" value="html">
             <label for="quiz-q9-2"><code>&lt;!DOCTYPE html&gt;</code></label>
@@ -266,15 +266,17 @@ z: 5
         <fieldset>
           <legend>Question 16</legend>
           <pre>
-&lt;p class="paragraph" id="this-paragraph"&gt;What colour am I?&lt;/p&gt;
+&lt;p class="a" id="b"&gt;
+  Hi!
+&lt;/p&gt;
 &lt;style&gt;
-  #this-paragraph {
+  #b {
     color: green;
   }
   p {
     color: red;
   }
-  .paragraph {
+  .a {
     color: blue;
   }
 &lt;/style&gt;
