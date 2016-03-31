@@ -111,17 +111,16 @@ z: 7
           <legend>Question 4</legend>
           <p>Check all numbers less than 3.</p>
 
-          <!-- the procedure of marking answers on checkboxes is to set 'data-answer' 
-                to a truthy value on those which should be checked
-                (optionally a falsey value on those which shouldn't be checked
+          <!-- the procedure of marking answers on checkboxes is to set 'data-answer' to whatever
+                only on those checkboxes which should be checked
           -->
           <input id="quiz-q4-1" class="question" type="checkbox" name="check[]" data-answer="true" value="1" />
           <label for="quiz-q4-1">One</label> 
           <br>
-          <input id="quiz-q4-2" class="question" type="checkbox" name="check[]" data-answer="1" value="2" />
+          <input id="quiz-q4-2" class="question" type="checkbox" name="check[]" data-answer="this" value="2" />
           <label for="quiz-q4-2">Two</label> 
           <br>
-          <input id="quiz-q4-3" class="question" type="checkbox" name="check[]" data-answer="false" value="3" />
+          <input id="quiz-q4-3" class="question" type="checkbox" name="check[]" value="3" />
           <label for="quiz-q4-3">Three</label> 
 
           <div class="quiz-explanation">Once again, obvious answer.</div>

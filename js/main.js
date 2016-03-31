@@ -87,8 +87,7 @@ Quiz.prototype.useCanvas = function(yes) {
 
   // add the event listeners for closing the canvas popup
   var hideCanvas = function() {
-    console.log(this.canvas);
-      this.canvas.style.display = 'none';
+    this.canvas.style.display = 'none';
   }.bind(this);
 
   // hide canvas popup on click or keypress
@@ -209,7 +208,6 @@ Quiz.prototype.displayCanvas = function() {
   }
 
   // setup the styles for the canvas and display it
-  console.log("displaying canvas now");
   this.canvas.style.display = 'table';
   this.canvas.width = window.innerWidth;
   this.canvas.height = window.innerHeight;
@@ -351,7 +349,6 @@ Quiz.prototype.loadAnswers = function(e) {
 
   for (var i=0; i<this.questions.length; i++ ) {
     var q = this.questions[i];
-    console.log(q);
     var t = q.type;
     var question = q.name;
     var key = this.name + '.' + q.name;
@@ -531,6 +528,9 @@ Quiz.prototype.init = function(form, usecanvas) {
     if (q.parentNode.getElementsByClassName('quiz-feedback').length === 0) {
       // must insert after the legend in a fieldset to appease internet explorer...
       var first = q.parentNode.firstChild;
+      if (first.nodeName == "#text") {
+        first = first.nextSibling;
+      }
       if (first && first.tagName == "LEGEND") {
         q.parentNode.insertBefore(feedback, first.nextSibling);
       } else {
