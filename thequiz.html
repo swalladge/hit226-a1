@@ -189,6 +189,55 @@ z: 5
         </fieldset>
 
         <fieldset>
+          <legend>Question 11</legend>
+
+          <label for="quiz-q11">What does DOM stand for in web development?</label>
+          <input class="question" data-answer="^document\s+object\s+model$" id="quiz-q11" name="q11" placeholder="type answer..." type="text"/>
+
+          <div class="quiz-explanation">DOM stands for Document Object Model.</div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Question 12</legend>
+          <label for="quiz-q12">Which attribute should be unique in a html page?</label>
+          <select data-answer="id" id="quiz-q12" class="question" name="q12">
+            <option value="id" selected>id</option>
+            <option value="name">name</option>
+            <option value="data">data-foo</option>
+            <option value="title">title</option>
+          </select>
+          <div class="quiz-explanation">The id attribute should be unique.</div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Question 13</legend>
+
+          <p>When should you use a polyfill?</p>
+
+            <input class="question" id="quiz-q13-1" type="radio" name="q13" value="support" checked>
+            <label for="quiz-q13-1">When you want to support older, non-compliant browsers.</label>
+            <br>
+            <input class="question" data-answer="support" id="quiz-q13-2" type="radio" name="q13" value="speed">
+            <label for="quiz-q13-2">When you want your site to run faster.</label>
+
+          <div class="quiz-explanation">Polyfills are usually only for supporting newer functions in older browsers, and should not be used otherwise.</div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Question 14</legend>
+
+          <p>Are css media queries useful for responsive design?</p>
+
+            <input class="question" id="quiz-q14-1" data-answer="yes" type="radio" name="q14" value="yes" checked>
+            <label for="quiz-q14-1">Yes!</label>
+            <br>
+            <input class="question" id="quiz-q14-2" type="radio" name="q14" value="no">
+            <label for="quiz-q14-2">No!</label>
+
+          <div class="quiz-explanation">They most certainly are useful!</div>
+        </fieldset>
+
+        <fieldset>
           <legend>Controls</legend>
           <input value="Reset" class="quiz-reset" type="reset"/>
           <input value="Submit" class="quiz-submit" type="submit"/>
