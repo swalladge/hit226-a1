@@ -177,10 +177,11 @@ Quiz.prototype.checkAnswers = function(e) {
         feedbackElements[i].style.color = '#AA3333';
         feedbackElements[i].innerHTML = '✘ Wrong...';
       }
-      var explanation = this.qData[key].element.parentNode.querySelectorAll('.quiz-explanation');
-      for (var i=0; i<explanation.length; i++) {
-        explanation[i].style.display = 'table';
-      }
+    }
+    // display any explanations for the quiz question (even if answer correct)
+    var explanation = this.qData[key].element.parentNode.querySelectorAll('.quiz-explanation');
+    for (var i=0; i<explanation.length; i++) {
+      explanation[i].style.display = 'table';
     }
 
   }

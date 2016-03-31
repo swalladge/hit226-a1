@@ -26,7 +26,7 @@ z: 5
         <fieldset>
           <legend>Question 1</legend>
 
-          <p>Which attributes setup would be most useful for an accessible image showing a star?</p>
+          <p>Which attribute would be most useful for an accessible image showing a star?</p>
 
             <input class="question" id="quiz-q1-1" type="radio" name="radiotest" value="one" checked>
             <label for="quiz-q1-1"><code>alt="there is an image here"</code></label>
@@ -41,7 +41,7 @@ z: 5
 
         <fieldset>
           <legend>Question 2</legend>
-          <label for="quiz-q2">Which is not a layout that should be used for responsive websites?</label>
+          <label for="quiz-q2">Which is <em>not</em> a layout that should be used for responsive websites?</label>
           <select data-answer="fixed" id="quiz-q2" class="question" name="q2">
             <option value="fluid" selected>Fluid</option>
             <option value="fixed">Fixed width</option>
@@ -82,7 +82,7 @@ z: 5
           <label for="quiz-q5-1">Set the viewport.</label>
           <br>
           <input id="quiz-q5-2" class="question" type="checkbox" name="check[]" value="dreaming" />
-          <label for="quiz-q5-2">Just use Dreamweaver; it's automatic.</label>
+          <label for="quiz-q5-2">Just use a <a href="https://en.wikipedia.org/wiki/WYSIWYG" >WYSIWYG</a> editor; it's automatic then.</label>
           <br>
           <input id="quiz-q5-3" class="question" type="checkbox" name="check[]" data-answer="true" value="percent" />
           <label for="quiz-q5-3">Use percentage widths.</label>
@@ -90,7 +90,7 @@ z: 5
           <input id="quiz-q5-4" class="question" type="checkbox" name="check[]" data-answer="true" value="test" />
           <label for="quiz-q5-4">Test the webpage on multiple browsers and devices.</label>
 
-          <div class="quiz-explanation">All are useful, except Dreamweaver.</div>
+          <div class="quiz-explanation">All are useful, except WYSIWYG editors.</div>
         </fieldset>
 
         <fieldset>
@@ -112,15 +112,15 @@ z: 5
           <p>What is the current acceptable best practice for organizing html, css, and javascript?</p>
 
             <input class="question" id="quiz-q7-1" type="radio" name="files" value="one" checked>
-            <label for="quiz-q7-1">All css and javascript embedded in the html file to increase performance</label>
+            <label for="quiz-q7-1">all css and javascript embedded in the html file to increase performance</label>
             <br>
             <input class="question" data-answer="few" id="quiz-q7-2" type="radio" name="files" value="many">
             <label for="quiz-q7-2">everything split into as many small files as possible for modularity and maintainability</label>
             <br>
             <input class="question" type="radio" id="quiz-q7-3" name="files" value="few">
-            <label for="quiz-q7-3">html, css, and javascript each in a separate file or a small number of separate files</label>
+            <label for="quiz-q7-3">html in one file; css and javascript each in a separate file or a small number of separate files</label>
 
-          <div class="quiz-explanation">Fewer files is better for performance, while more files helps with maintainability. Better to take middle ground.</div>
+          <div class="quiz-explanation">Fewer files is better for performance, while more files helps with maintainability. Better to take middle ground. If you want to split into lots of files for developing, use a preprocessor.</div>
         </fieldset>
 
         <fieldset>
@@ -286,7 +286,7 @@ z: 5
             <option value="red">red</option>
             <option value="blue">blue</option>
           </select>
-          <div class="quiz-explanation">The id selector gets a specificity than element or class. Therefore, the colour will be green.</div>
+          <div class="quiz-explanation">The id selector gets a higher specificity than element or class. Therefore, the colour will be green.</div>
         </fieldset>
 
         <fieldset>
