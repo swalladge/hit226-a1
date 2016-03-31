@@ -22,7 +22,7 @@ The full source is managed with git and available online at https://bitbucket.or
 
 - The W3C CSS validator throws some errors (`auto is not a flex-flow value : 0 1 auto`) - this can be ignored, since those values in my CSS are valid (source: http://www.w3.org/TR/css-flexbox-1/#valdef-flex-basis-auto).
 - Please don't use Internet Explorer (any versions) to view the website, as it doesn't support flexible boxes layouts properly at all (source: http://caniuse.com/#feat=flexbox).
-- Tested javascript stuff with IE 11 and Edge. Actually works ok! :) (Forget IE 8 though... jQuery 2 doesn't support it, and even if so, half the quiz wouldn't work anyway...)
+- Tested javascript stuff with IE 11 and Edge. Actually works ok! :) (Forget IE 8 or below though... )
 
 
 ## JSDoc api documentation

@@ -170,16 +170,16 @@ z: 5
           <label for="quiz-q10-1">&lt;br&gt;</label>
           <br>
           <input id="quiz-q10-2" class="question" type="checkbox" name="snippets[]" value="badend" />
-          <label for="quiz-q10-2">&lt;img src="foo"&gt;&lt;/img&gt;</label>
+          <label for="quiz-q10-2">&lt;img src="foo"&gt;&#8203;&lt;/img&gt;</label>
           <br>
           <input id="quiz-q10-3" class="question" type="checkbox" name="snippets[]" value="missing" />
-          <label for="quiz-q10-3">&lt;div&gt;&lt;p&gt;hi there&lt;/div&gt;</label>
+          <label for="quiz-q10-3">&lt;div&gt;&lt;p&gt;&#8203;hi there&#8203;&lt;/div&gt;</label>
           <br>
           <input id="quiz-q10-4" class="question" type="checkbox" name="snippets[]" value="failend" />
-          <label for="quiz-q10-4">&lt;p&gt;random&lt;p&gt;</label>
+          <label for="quiz-q10-4">&lt;p&gt;&#8203;random&#8203;&lt;p&gt;</label>
           <br>
           <input id="quiz-q10-5" class="question" type="checkbox" name="snippets[]" data-answer="true" value="nest" />
-          <label for="quiz-q10-5">&lt;div&gt;&lt;div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</label>
+          <label for="quiz-q10-5">&lt;div&gt;&#8203;&lt;div&gt;&#8203;&lt;div&gt;&#8203;&lt;/div&gt;&#8203;&lt;/div&gt;&#8203;&lt;/div&gt;</label>
 
           <div class="quiz-explanation">Empty tags don't need a closing slash, divs can be nested as much as you want. (first and fifth options are correct html5)</div>
         </fieldset>
@@ -236,7 +236,7 @@ z: 5
         <fieldset>
           <legend>Question 15</legend>
 
-          <p>Check the recognized approaches to writing css.</p>
+          <p>Check the recognized styles of writing css.</p>
 
           <input id="quiz-q15-1" class="question" type="checkbox" name="styles[]" data-answer="true" value="bem" />
           <label for="quiz-q15-1">BEM</label>
@@ -248,7 +248,7 @@ z: 5
           <label for="quiz-q15-3">OOCSS</label>
           <br>
           <input id="quiz-q15-4" class="question" type="checkbox" name="styles[]" value="sass" />
-          <label for="quiz-q15-4">SAS</label>
+          <label for="quiz-q15-4">SASS</label>
           <br>
           <input id="quiz-q15-5" class="question" type="checkbox" name="styles[]" data-answer="true" value="acss" />
           <label for="quiz-q15-5">ACSS</label>
