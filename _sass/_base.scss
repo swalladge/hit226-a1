@@ -4,7 +4,7 @@
 
 html {
   height: 100%;
-  font-family: Roboto, Arial, sans-serif;
+  font-family: Roboto, Arial Unicode MS, Arial, sans-serif;
   font-size: 16px;
   font-weight: 400;
   background-color: $background;
@@ -22,7 +22,7 @@ html {
  *
  * Unfortunately, Internet Explorer is a basket case when it comes to flexboxes - however was able to test on IE11 and IE8:
  * IE11 - all looks okay apart from the footer isn't pushed to the bottom. (see this bug: https://connect.microsoft.com/IE/feedback/details/802625/min-height-and-flexbox-flex-direction-column-dont-work-together-in-ie-10-11-preview)
- * IE8 - usable, but you only get the mobile look (due to it not supporting media queries), and many other visual bugs
+ * IE8 - works ok (but still very buggy - multicolumn layout doesn't work among others), with the respond.js polyfill
  */
 body {
   display: -ms-flexbox;

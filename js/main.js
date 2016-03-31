@@ -26,7 +26,7 @@
  * Can be setup with a form element containing inputs/buttons/etc with appropriate class names.
  * Note: constructor params are optional (if set, will call `init` or `setCanvas` where appropriate) - can always setup later.
  * @constructor
- * @param {String|undefined} form - if defined, init the quiz on the form
+ * @param {Object|undefined} form - if defined, init the quiz on the form dom object
  * @param {Boolean|undefined} usecanvas - if defined, use a canvas for displaying scores (if defined, form must be defined also)
  */
 var Quiz = function(form, usecanvas) {
@@ -51,7 +51,7 @@ var Quiz = function(form, usecanvas) {
  * set the canvas for the quiz to draw to
  * (for displaying scores, etc. on checking answers
  * @param {Boolean|undefined} yes - whether to use a canvas or not. defaults to true
- * @return Returns true if a canvas has been set for the quiz (otherwise, false)
+ * @return Returns true if a canvas (or fallback display) has been set for the quiz (otherwise, false)
  */
 Quiz.prototype.useCanvas = function(yes) {
 
@@ -62,27 +62,37 @@ Quiz.prototype.useCanvas = function(yes) {
   }
 
 
+  // check if already have canvas
+  if (this.canvas) {
+    return true;
+  }
+
+  // create the canvas element and insert into dom
+  //  note: if canvas not supported, can be used to display scores via innerHTML as a fallback.
   var canvas = document.createElement('canvas');
-  if (canvas.getContext) { // check if can use canvas element
+
+  // check whether we can use canvas as a canvas
+  if (canvas.getContext) {
+    // only set these styles if to be used as a proper canvas
     this.canvas = canvas;
-    this.canvas.style.display = 'none';
+    this.canvas.className += ' quiz-canvas';
     this.canvas.style.margin = 0;
     this.canvas.style.padding = 0;
-    this.canvas.className += ' quiz-canvas';
-    this.form.appendChild(this.canvas);
+    this.canvas.style.position = 'fixed';
+    this.canvas.style.left = '0';
+    this.canvas.style.top = '0';
     this.ctx = canvas.getContext('2d');
     canvas.tabIndex = 0; // set tabindex on canvas to make it focusable. source: http://stackoverflow.com/questions/30247762/how-to-change-focus-to-new-html5-canvas-element
   } else {
-    this.canvas = undefined;
+    canvas = document.createElement('div');
+    this.canvas = canvas;
+    this.canvas.className += ' highlight';
+    this.canvas.style.fontSize = '2em';
     this.ctx = undefined;
-    return false;
   }
 
-
-  // setup initial styles here
-  this.canvas.style.position = 'fixed';
-  this.canvas.style.left = '0';
-  this.canvas.style.top = '0';
+  this.canvas.style.display = 'none';
+  this.form.insertBefore(this.canvas, this.form.firstChild);
 
   // add the event listeners for closing the canvas popup
   var hideCanvas = function() {
@@ -95,7 +105,6 @@ Quiz.prototype.useCanvas = function(yes) {
   this.canvas.addEventListener('keypress', hideCanvas);
 
   // finally, it worked!
-  this.useCanvas = true;
   return true;
 };
 
@@ -207,33 +216,47 @@ Quiz.prototype.displayCanvas = function() {
     return;
   }
 
+
   // setup the styles for the canvas and display it
   this.canvas.style.display = 'table';
-  this.canvas.width = window.innerWidth;
-  this.canvas.height = window.innerHeight;
 
-  // set focus
-  this.canvas.focus();
 
-  // setup some variables
-  // need to use raw dom element here, otherwise drawing dimensions get messed up
-  var width = this.canvas.width;
-  var height = this.canvas.height;
-  var start = -(0.5 * Math.PI);
-  var radius = Math.min((Math.min(width,height)/2)-30, 350);
+  // ok so now we have to still go through with getting result and message to display,
+  // but with checks for ctx to see if we should be drawing on the canvas
+  // (otherwise fallback to setting canvas innerHTML, which will be displayed in browsers not supporting canvas)
   var ctx = this.ctx;
+  var width;
+  var height;
+  var start;
+  var radius;
+  if (ctx) {
+    this.canvas.width = window.innerWidth;
+    this.canvas.height = window.innerHeight;
+
+    // set focus
+    this.canvas.focus();
+
+    // setup some variables
+    // need to use raw dom element here, otherwise drawing dimensions get messed up
+    width = this.canvas.width;
+    height = this.canvas.height;
+    start = -(0.5 * Math.PI);
+    radius = Math.min((Math.min(width,height)/2)-30, 350);
+  }
 
   // this is setting up a pie chart to show how many quiz responses correct
   // Inspiration and help for drawing circles/pie charts found at http://www.scriptol.com/html5/canvas/circle.php
   var result, message;
   if (this.numCorrect == this.numQuestions) {
-    wholePizza(ctx, "#33CC33", width/2, height/2, radius);
+    if (ctx) {wholePizza(ctx, "#33CC33", width/2, height/2, radius);}
     result = "100%";
     message = "Congrats!";
   } else if (this.numCorrect > 0) {
     var halfway = ((this.numCorrect/this.numQuestions) * 2.0 * Math.PI) - (0.5 * Math.PI);
-    pizzaSlice(ctx, "#33CC33", width/2, height/2, radius, start, halfway);
-    pizzaSlice(ctx, "#CC3333", width/2, height/2, radius, halfway, start);
+    if (ctx) {
+      pizzaSlice(ctx, "#33CC33", width/2, height/2, radius, start, halfway);
+      pizzaSlice(ctx, "#CC3333", width/2, height/2, radius, halfway, start);
+    }
     result = this.numCorrect + "/" + this.numQuestions;
     if (this.numCorrect/this.numQuestions >= 0.7) {
       message = "Excellent!";
@@ -243,11 +266,15 @@ Quiz.prototype.displayCanvas = function() {
       message = "Try again.";
     }
   } else {
-    wholePizza(ctx, "#CC3333", width/2, height/2, radius);
+    if (ctx) {wholePizza(ctx, "#CC3333", width/2, height/2, radius);}
     result = "0%";
     message = "Epic fail.";
   }
 
+  if (!this.ctx) {
+    this.canvas.innerHTML = result + " - " + message;
+    return;
+  }
 
   // draw on text for feedback and info
   ctx.lineWidth = "1";
