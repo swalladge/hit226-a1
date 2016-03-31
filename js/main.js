@@ -28,9 +28,9 @@
  * Note: constructor params are optional (if set, will call `init` or `setCanvas` where appropriate) - can always setup later.
  * @constructor
  * @param {String|undefined} form - if defined, init the quiz on the form
- * @param {String|undefined} canvas - if defined, set the canvas
+ * @param {Boolean|undefined} usecanvas - if defined, use a canvas for displaying scores (if defined, form must be defined also)
  */
-var Quiz = function(form, canvas) {
+var Quiz = function(form, usecanvas) {
   this.canvas = undefined;
   this.ctx = undefined;
   this.form = undefined;
@@ -39,54 +39,52 @@ var Quiz = function(form, canvas) {
   this.numQuestions = 0;
   this.numCorrect = 0;
   this.qData = {};
-  this.useCanvas = true;
 
   // if form and/or canvas set, init
   if (form) {
-    this.init(form, canvas);
-  } else if (canvas) {  // only setcanvas here if no form set, but canvas set
-    this.setCanvas(canvas);
+    this.init(form, usecanvas);
   }
 };
 
-Quiz.prototype.noCanvas = function() {
-  this.canvas = undefined;
-  this.ctx = undefined;
-  this.useCanvas = false;
-};
 
 /**
  * set the canvas for the quiz to draw to
  * (for displaying scores, etc. on checking answers
- * @param {Object|undefined} canvas - the canvas dom object to use
+ * @param {Boolean|undefined} yes - whether to use a canvas or not. defaults to true
  * @return Returns true if a canvas has been set for the quiz (otherwise, false)
  */
-Quiz.prototype.setCanvas = function(canvas) {
+Quiz.prototype.useCanvas = function(yes) {
 
-  // attempt to autoset the canvas if 'canvas' not defined
-  if (!canvas) {
-    if (this.form && this.useCanvas) {
-      canvas = this.form.getElementsByClassName('quiz-canvas');
-    } else {
-      return false;
-    }
+  if (!this.form || (yes !== undefined && !yes)) {
+    this.canvas = undefined;
+    this.ctx = undefined;
+    return false;
   }
 
-  if (canvas.length != 1) {
-    console.log("QUIZ ERROR: canvas was nothing or more than one dom element");
-    return false; // fail, no canvas
-  }
 
+  var canvas = document.createElement('canvas');
   if (canvas.getContext) { // check if can use canvas element
     this.canvas = canvas;
+    this.canvas.style.display = 'none';
+    this.form.appendChild(this.canvas);
     this.ctx = canvas.getContext('2d');
     canvas.tabIndex = 0; // set tabindex on canvas to make it focusable. source: http://stackoverflow.com/questions/30247762/how-to-change-focus-to-new-html5-canvas-element
   } else {
     this.canvas = undefined;
     this.ctx = undefined;
-    console.log("QUIZ ERROR: canvas object not a canvas or canvas operations not supported");
     return false;
   }
+
+
+  // add the event listeners for closing the canvas popup
+  var hideCanvas = function() {
+    console.log(this.canvas);
+      this.canvas.style.display = 'none';
+  }.bind(this);
+
+  // hide canvas popup on click or keypress
+  this.canvas.addEventListener('click', hideCanvas);
+  this.canvas.addEventListener('keypress', hideCanvas);
 
   // finally, it worked!
   this.useCanvas = true;
@@ -97,7 +95,13 @@ Quiz.prototype.setCanvas = function(canvas) {
  * check answers (called on user submit quiz)
  * @return Returns false, thus preventing default button action from happening
  */
-Quiz.prototype.checkAnswers = function() {
+Quiz.prototype.checkAnswers = function(e) {
+
+  // prevent form actually submitting
+  if (e) {
+    e.preventDefault();
+  }
+
   // save the answers first
   this.saveAnswers();
 
@@ -146,11 +150,10 @@ Quiz.prototype.checkAnswers = function() {
       for (var i=0; i<feedbackElements.length; i++) {
         feedbackElements[i].style.display = 'table';
         feedbackElements[i].style.color = '#33AA33';
-        feedbackElements[i].innerText = '✔ Corrct';
+        feedbackElements[i].innerText = '✔ Correct';
       }
     } else {
       this.qData[key].iscorrect = false;
-      feedbackStyle.color = "#AA3333";
       feedbackElements = this.qData[key].element.parentNode.getElementsByClassName('quiz-feedback');
       for (var i=0; i<feedbackElements.length; i++) {
         feedbackElements[i].style.display = 'table';
@@ -167,7 +170,7 @@ Quiz.prototype.checkAnswers = function() {
 
   this.displayCanvas();
 
-  return false;
+  return true;
 };
 
 /**
@@ -181,7 +184,7 @@ Quiz.prototype.hideFeedback = function() {
 
   var explanation = this.form.getElementsByClassName('quiz-explanation');
   for (var i=0; i<explanation.length; i++) {
-    explanation[i].style.display = 'table';
+    explanation[i].style.display = 'none';
   }
 };
 
@@ -196,28 +199,21 @@ Quiz.prototype.displayCanvas = function() {
     return;
   }
 
-  var hideCanvas = function() {
-    console.log(this.canvas);
-      this.canvas.style.display = 'none';
-  }.bind(this);
-
-  // hide canvas popup on click or keypress
-  this.canvas.addEventListener('click', hideCanvas);
-  this.canvas.addEventListener('keypress', hideCanvas);
-
   // setup the styles for the canvas and display it
   this.canvas.style.display = 'block';
   this.canvas.style.position = 'fixed';
   this.canvas.style.left = '0';
   this.canvas.style.right = '0';
+  this.canvas.width = window.innerWidth;
+  this.canvas.height = window.innerHeight;
 
   // set focus
   this.canvas.focus();
 
   // setup some variables
   // need to use raw dom element here, otherwise drawing dimensions get messed up
-  var width = this.canvas.width = window.innerWidth;
-  var height = this.canvas.height = window.innerHeight;
+  var width = this.canvas.width;
+  var height = this.canvas.height;
   var start = -(0.5 * Math.PI);
   var radius = Math.min((Math.min(width,height)/2)-30, 350);
   var ctx = this.ctx;
@@ -267,12 +263,13 @@ Quiz.prototype.displayCanvas = function() {
  * save all answers to localstorage. `autosave` uses this method when saving
  * @param {Object|undefined} event - if defined, hides the feedback text from question that trigged the event,
  *                                   or all feedback if trigged from something else
+ * @return Returns true if able to save
  */
 Quiz.prototype.saveAnswers = function(e) {
 
   if (!this.form) {
     console.log("QUIZ ERROR: Tried to save answers, but I don't have a form element.");
-    return;
+    return false;
   }
 
   // hide the correct/wrong messages for the current question being changed (if defined),
@@ -311,7 +308,13 @@ Quiz.prototype.saveAnswers = function(e) {
         this.qData[question].answer[value] = false;
       }
     } else if (q.tagName == 'SELECT') {
-      value = q.querySelector('option:selected').value;
+      var options = q.getElementsByTagName('option');
+      var value = undefined;
+      for (var i=0; i<options.length; i++) {
+        if (options[i].selected) {
+          value = options[i].value;
+        }
+      }
       localStorage.setItem(key, value);
       this.qData[question].answer = value;
     }
@@ -325,7 +328,11 @@ Quiz.prototype.saveAnswers = function(e) {
 /**
  * load all answers from localstorage if saved answers available
  */
-Quiz.prototype.loadAnswers = function() {
+Quiz.prototype.loadAnswers = function(e) {
+
+  if (e) {
+    e.preventDefault();
+  }
 
   if (!this.form) {
     console.log("QUIZ ERROR: Tried to load answers, but I don't have a form element.");
@@ -335,53 +342,58 @@ Quiz.prototype.loadAnswers = function() {
   // answers possibly changed, reset the feedback messages
   this.hideFeedback();
 
-  this.questions.each(function(i, q) {
-    q = $(q);
-    t = q.prop('type');
-    var question = q.prop('name');
-    var key = this.name + '.' + q.prop('name');
+  for (var i=0; i<this.questions.length; i++ ) {
+    var q = this.questions[i];
+    var t = q.type;
+    var question = q.name;
+    var key = this.name + '.' + q.name;
     var value = localStorage.getItem(key);
     if (t == 'text') {
       this.qData[question].answer = value;
-      q.val(value);
+      q.value = value;
     } else if (t == 'radio') {
       this.qData[question].answer = value;
-      if (q.val() == value) {
-        q.prop('checked', true);
+      if (q.value == value) {
+        q.checked = true;
       }
     } else if (t == 'checkbox') {
       if (!this.qData[question].answer) {
         this.qData[question].answer = {};
       }
-      checked = localStorage.getItem(key + "[" + q.val() + "]");
-      this.qData[question].answer[q.val()] = checked;
+      checked = localStorage.getItem(key + "[" + q.value + "]");
+      this.qData[question].answer[q.value] = checked;
       if (checked === 'true') {
-        q.prop('checked', true);
+        q.checked = true;
       } else {
-        q.prop('checked', false);
+        q.checked = false;
       }
-    } else if (q[0].tagName == 'SELECT') {
+    } else if (q.tagName == 'SELECT') {
       this.qData[question].answer = value;
-      q.find('option').each(function(i, opt) {
+      var options = q.getElementsByTagName('option');
+      for (var i=0; i<options.length; i++) {
+        var opt = options[i];
         if (opt.value == value) {
           opt.selected = true;
         }
-      }.bind(this));
+      }
     }
-  }.bind(this));
-
-  return false;
+  }
 };
 
 /**
  * reset the quiz - resets form and wipes localstorage for this quiz
- * @return Returns false, thus preventing default button action from happening
+ * @return Returns true if able to reset
  */
-Quiz.prototype.reset = function() {
+Quiz.prototype.reset = function(e) {
+
+  // if event, stop form reset button from doing default, etc.
+  if (e) {
+    e.preventDefault();
+  }
 
   if (!this.form) {
     console.log("QUIZ ERROR: Tried to reset, but I don't have a form element.");
-    return;
+    return false;
   }
 
   // confirm a reset - users hate having to re-type a heap of answers :\
@@ -399,12 +411,12 @@ Quiz.prototype.reset = function() {
     }
   }
 
-  this.form[0].reset();
+  this.form.reset();
 
   // hide all the correct/wrong messages
   this.hideFeedback();
 
-  return false;
+  return true;
 };
 
 /**
@@ -420,11 +432,23 @@ Quiz.prototype.autosave = function(yes) {
 
   if (yes) {
     // add event handlers to save answers whenever answer changed
-    this.form.find('.question').change(this.saveAnswers.bind(this));
-    this.form.find('.question[type=text]').on('keydown', this.saveAnswers.bind(this));
+    for (var i = 0; i < this.questions.length; i++) {
+      var q = this.questions[i];
+      q.addEventListener('change', this.saveAnswers.bind(this));
+      if (q.type == 'text') {
+        q.addEventListener('keydown', this.saveAnswers.bind(this));
+      }
+    }
   } else {
     // remove event handlers, so will not autosave
-    this.form.find('.question').off();
+    for (var i = 0; i < this.questions.length; i++) {
+      var q = this.questions[i];
+      q.removeEventListener('change', this.saveAnswers.bind(this));
+      if (q.type == 'text') {
+        q.removeEventListener('keydown', this.saveAnswers.bind(this));
+      }
+    }
+
   }
 
 };
@@ -432,71 +456,85 @@ Quiz.prototype.autosave = function(yes) {
 
 /**
  * initialize the quiz on a form
- * @param {String|Object} formId - the css selector (or jquery object) for the form element to use (must return one element!)
+ * @param {Object} formId - the dom object for the form element to use
  * @param {String|Object|undefined} canvas - the css selector (or jquery object) for the canvas element to use
  */
-Quiz.prototype.init = function(formId, canvas) {
+Quiz.prototype.init = function(form, usecanvas) {
 
-  this.form = $(formId);
-  this.name = this.form.prop('name');
+  this.form = form;
+  this.name = this.form.name;
   if (!this.form) {
     console.log("QUIZ ERROR: no form element found with selector to init quiz");
     return false; // fail, no form
-  } else if (this.form.length != 1) {
-    console.log("QUIZ ERROR: form selector returned more than one dom element");
-    return false; // fail, no form
   }
 
-
-  this.questions = this.form.find('.question');
+  this.questions = this.form.getElementsByClassName('question');
 
   this.qData = {};
 
   // check answers on user submit
-  // note - functions expected to return false to avoid actually submitting form
-  this.form.find('.quiz-submit').click(this.checkAnswers.bind(this));
+  // note - functions expected to e.preventDefault to avoid actually submitting form, etc.
+  var submits = this.form.getElementsByClassName('quiz-submit');
+  for (var i = 0; i < submits.length; i++) {
+    submits[i].addEventListener('click', this.checkAnswers.bind(this));
+  }
+
+  // save buttons
+  var saves = this.form.getElementsByClassName('quiz-save');
+  for (var i = 0; i < saves.length; i++) {
+    saves[i].addEventListener('click', this.saveAnswers.bind(this));
+  }
+
+  // load buttons
+  var loads = this.form.getElementsByClassName('quiz-load');
+  for (var i = 0; i < loads.length; i++) {
+    loads[i].addEventListener('click', this.loadAnswers.bind(this));
+  }
+
+  // reset buttons
+  var resets = this.form.getElementsByClassName('quiz-reset');
+  for (var i = 0; i < resets.length; i++) {
+    resets[i].addEventListener('click', this.reset.bind(this));
+  }
 
 
-  // save and load buttons
-  this.form.find('.quiz-save').click(this.saveAnswers.bind(this));
-  this.form.find('.quiz-load').click(this.loadAnswers.bind(this));
-  this.form.find('.quiz-reset').click(this.reset.bind(this));
-
-  this.form.find('.quiz-explanation').css('display', 'none');
+  // make sure the feedback elements are hidden to begin with
+  this.hideFeedback();
 
   // init a dictionary of the questions and values (correct and otherwise) for ease of getting later
   var count = 1;
   this.numQuestions = 0;
   for (var i = 0; i < this.questions.length; i++) {
-    q = $(this.questions[i]);
-    t = q.prop('type');
-    var question = q.prop('name');
+    q = this.questions[i];
+    t = q.type;
+    var question = q.name;
 
     // create a feedback element and add it to the question section (if not one already)
-    var feedback = $('<div class="quiz-feedback"></div>');
-    feedback.css('display', 'none');
-    if (q.parent().find('.quiz-feedback').length === 0) {
+    var feedback = document.createElement('div');
+    feedback.classList.add('quiz-feedback');
+    feedback.style.display = 'none';
+    if (q.parentNode.getElementsByClassName('quiz-feedback').length === 0) {
       // must insert after the legend in a fieldset to appease internet explorer...
-      var legend = q.parent().find('legend');
-      if (legend.length === 1) {
-        legend.after(feedback);
+      var first = q.parentNode.firstChild;
+      if (first && first.tagName == "LEGEND") {
+        q.parentNode.insertBefore(feedback, first.nextSibling);
       } else {
-        q.parent().prepend(feedback);
+        q.parentNode.insertBefore(feedback, first);
       }
     }
 
     if (t == 'text') {
       this.qData[question] = {};
-      this.qData[question].correctAnswer = q.data('answer').toString();
+      this.qData[question].correctAnswer = q.dataset.answer;
       this.qData[question].type = 'text';
       this.qData[question].index = count++;
       this.qData[question].element = q;
 
       this.numQuestions++;
     } else if (t == 'radio') {
-      if (q.data('answer') !== undefined) {
+      if (q.dataset.answer) {
         this.qData[question] = {};
-        this.qData[question].correctAnswer = q.data('answer').toString();
+        this.qData[question].correctAnswer = q.dataset.answer;
         this.qData[question].index = count++;
         this.qData[question].type = 'radio';
         this.qData[question].element = q;
@@ -512,15 +550,14 @@ Quiz.prototype.init = function(formId, canvas) {
         this.qData[question].answer = {};
         this.qData[question].correctAnswer = {};
       }
-      if (q.data('answer')) {
-        this.qData[question].correctAnswer[q.val().toString()] = true;
+      if (q.dataset.answer) {
+        this.qData[question].correctAnswer[q.value.toString()] = true;
       } else {
-        this.qData[question].correctAnswer[q.val().toString()] = false;
+        this.qData[question].correctAnswer[q.value.toString()] = false;
       }
-      this.qData[question].element.push(q);
-    } else if (q[0].tagName == 'SELECT') {
+    } else if (q.tagName == 'SELECT') {
       this.qData[question] = {};
-      this.qData[question].correctAnswer = q.data('answer').toString();
+      this.qData[question].correctAnswer = q.dataset.answer;
       this.qData[question].index = count++;
       this.qData[question].type = 'select';
       this.qData[question].element = q;
@@ -529,8 +566,8 @@ Quiz.prototype.init = function(formId, canvas) {
 
   }
 
-  // call setcanvas to attempt to auto-get the canvas
-  this.setCanvas(canvas);
+  // call setcanvas to setup canvas if wanted
+  this.useCanvas(usecanvas);
 
   return true;
 };
@@ -594,7 +631,7 @@ window.onload = function(){
   // thequiz.init(document.getElementById("#quizform"));
   //
   // // specify the canvas to use (or leave blank to auto use available canvas
-  // thequiz.setCanvas();
+  // thequiz.useCanvas();
   //
   // // turn on autosave and load saved answers
   // thequiz.autosave(true);
@@ -603,13 +640,13 @@ window.onload = function(){
 
   // I have set the follow class on all quizzes site-wide I want to use
   //  - also all should autosave and loadAnswers on start to provide a smooth experience
-  var elements = document.getElementsByClassName('my-quizzes');
+  elements = document.getElementsByClassName('my-quizzes');
   for (var i=0; i<elements.length; i++) {
     var quiz = new Quiz(elements[i]);
     quiz.autosave(true);
     quiz.loadAnswers();
   }
 
-}();
+};
 
 
