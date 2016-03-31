@@ -566,10 +566,9 @@ function wholePizza(ctx, colour, x, y, radius) {
  * code to run when page loads
  * - sets up the quizzes and other things where needed
  */
-$(document).ready(function() {
-
+window.onload = function(){
   // // the following is all required to start a quiz (shortest init form)
-  // var thequiz = new Quiz("#quizform");
+  // var thequiz = new Quiz(document.getElementById("#quizform"));
   // // autosaving and loadanswers here is optional
   // thequiz.autosave(true);
   // thequiz.loadAnswers();
@@ -578,7 +577,7 @@ $(document).ready(function() {
   // var thequiz = new Quiz();
   //
   // // init the quiz on the element selector
-  // thequiz.init("#quizform");
+  // thequiz.init(document.getElementById("#quizform"));
   //
   // // specify the canvas to use (or leave blank to auto use available canvas
   // thequiz.setCanvas();
@@ -590,12 +589,13 @@ $(document).ready(function() {
 
   // I have set the follow class on all quizzes site-wide I want to use
   //  - also all should autosave and loadAnswers on start to provide a smooth experience
-  $('.my-quizzes').each(function (i, e) {
-    var quiz = new Quiz($(e));
+  var elements = document.getElementsByClassName('my-quizzes');
+  for (var i=0; i<elements.length; i++) {
+    var quiz = new Quiz(elements[i]);
     quiz.autosave(true);
     quiz.loadAnswers();
-  });
+  }
 
-});
+}();
 
 
