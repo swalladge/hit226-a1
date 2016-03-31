@@ -102,12 +102,7 @@ pre {
  * various element styles in relation to the quizzes
  */
 .quiz-canvas {
-  display: none;
-  // width: 100%;
-  // height: auto;
-  margin: 0;
-  padding: 0;
-  background-color: $color-a2; //transparent;
+  background-color: $color-a2;
 }
 
 fieldset {
