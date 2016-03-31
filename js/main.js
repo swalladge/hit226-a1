@@ -69,7 +69,7 @@ Quiz.prototype.useCanvas = function(yes) {
     this.canvas.style.display = 'none';
     this.canvas.style.margin = 0;
     this.canvas.style.padding = 0;
-    this.canvas.classList.add('quiz-canvas');
+    this.canvas.className += ' quiz-canvas';
     this.form.appendChild(this.canvas);
     this.ctx = canvas.getContext('2d');
     canvas.tabIndex = 0; // set tabindex on canvas to make it focusable. source: http://stackoverflow.com/questions/30247762/how-to-change-focus-to-new-html5-canvas-element
@@ -523,7 +523,7 @@ Quiz.prototype.init = function(form, usecanvas) {
 
     // create a feedback element and add it to the question section (if not one already)
     var feedback = document.createElement('div');
-    feedback.classList.add('quiz-feedback');
+    feedback.className += 'quiz-feedback';
     feedback.style.display = 'none';
     if (q.parentNode.getElementsByClassName('quiz-feedback').length === 0) {
       // must insert after the legend in a fieldset to appease internet explorer...
