@@ -22,12 +22,12 @@ z: 7
       <ul>
         <li>Flexible: automatically finds questions in given form element.</li>
         <li>Easy to setup: A quiz object and a structured form element with html data attributes and classes means almost no coding necessary. Design the quiz in html and init the quiz object on it!</li>
-        <li>Uses a canvas element to display fancy feedback on submitting the quiz.</li>
+        <li>Uses a canvas element to display fancy feedback on submitting the quiz. (fallback if canvas drawing not available in the browser)</li>
         <li>Gives per-question correct/wrong feedback.</li>
-        <li>Able to display explanations or answers if user enters wrong answer to question.</li>
+        <li>Able to display more information or explanations after submitting.</li>
         <li>Can save/load questions from localStorage (supports automatic and manual saving/loading).</li>
         <li>Currently works with text input, radio input, select, and checkbox input form element types.</li>
-        <li>Able to reset the quiz with a button.</li>
+        <li>Able to reset the quiz with a button. (Automatically sets up event listeners on buttons with recognized classes for actions.)</li>
         <li>Supports Internet Explorer back to IE 9, and also IE 8 with some polyfills (found in <a href="{{ site.baseurl}}/js/ie8.js">ie8.js</a>).</li>
       </ul>
     </section>
@@ -51,12 +51,12 @@ z: 7
       </p>
       <p>
         This is a reference quiz implementation utilizing the Quiz class.
-        All features are enabled, all control buttons are available, and there are comments in the html for technical information.
+        All features are enabled, all control buttons are available, and there are comments in the html to explain how it's implemented.
       </p>
       <noscript>
         Warning: it seems javascript isn't available.
         Javascript must be supported in your browser and enabled to take the quiz.
-        You can still read through the questions (question hints/explanations are shown by default as well), but all functionality won't work.
+        You can still read through the questions (question hints/explanations are shown by default as well), but it won't be functional.
       </noscript>
 
     </section>
