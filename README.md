@@ -3,6 +3,10 @@
 
 Copyright © 2016 Samuel Walladge
 
+## Background
+
+This is a mini website created for a uni subject on web development (responsive design and accessible javascript).
+
 ## Assignment 1B Notes
 
 The live site for my submission for assignment 1B can be found at https://uni.swalladge.id.au/hit226/assignment1b/.
@@ -17,7 +21,7 @@ The live site for my submission for assignment 1A can be found at https://uni.sw
 
 ## Source
 
-The full source is managed with git and available online at https://bitbucket.org/swalladge/hit226-a1/src.
+The full source is managed with git and available online at https://github.com/swalladge/hit226-a1.
 
 
 ## Notes
